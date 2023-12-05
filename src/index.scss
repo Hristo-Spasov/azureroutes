@@ -1,0 +1,35 @@
+$text_color: black;
+$base_main_color: #ccdbfd; // B6CCFE,C1D3FE,CCDBFD,abc4ff
+$base_background: #e2eafc;
+$nav_color_text: white;
+$base_weight: 600;
+$header_font_size: 24px;
+$base_font_size: 16px;
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+:root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px;
+  padding: 0px;
+  background-image: url("../src/assets/kevin-woblick-UdUbSPwbv2c-unsplash.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-size: 100% cover; // for media query background-size: 100% cover;
+}
