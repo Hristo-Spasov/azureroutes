@@ -1,21 +1,26 @@
+import Header from "./components/Header/Header";
 import style from "./App.module.scss";
+import Search from "./assets/3844432_magnifier_search_zoom_icon.svg?react";
 
 function App() {
   return (
-    <main>
-      <div className={style.main}>
-        <form role="search" className={style.search_wrapper}>
-          <input
-            placeholder="Search..."
-            type="search"
-            className={style.search}
-          />
-          <button type="submit" className={style.search_button}>
-            search
-          </button>
-        </form>
-      </div>
-    </main>
+    <>
+      <Header />
+      <main className={style.main}>
+        <div className={style.search_container}>
+          <form role="search" className={style.search_wrapper}>
+            <input
+              placeholder="Search..."
+              type="search"
+              className={style.search}
+            />
+            <div className={style.search_btn_wrapper}>
+              <Search width={30} height={30} />
+            </div>
+          </form>
+        </div>
+      </main>
+    </>
   );
 }
 
