@@ -18,6 +18,14 @@ function App() {
               <Search width={30} height={30} />
             </div>
           </form>
+          <div className={style.search_menu_wrapper}>
+            <div className={style.search_menu1}>
+              <button>Arrival</button>
+            </div>
+            <div className={style.search_menu2}>
+              <button>Departure</button>
+            </div>
+          </div>
         </div>
       </main>
     </>
@@ -25,3 +33,10 @@ function App() {
 }
 
 export default App;
+
+// <div className={style.flight_menu}>
+//   <ul>
+//     <li>Arrival</li>
+//     <li>Departure</li>
+//   </ul>
+// </div>;
