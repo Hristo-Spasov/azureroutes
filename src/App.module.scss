@@ -1,9 +1,14 @@
 @import "../src/veriables.scss";
 
 .main {
-  position: absolute;
-  inset: 0;
-  margin: auto;
+  // position: absolute;
+  // inset: 0;
+  // margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10rem;
 }
 
 .search_container {

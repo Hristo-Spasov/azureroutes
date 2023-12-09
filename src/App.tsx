@@ -1,4 +1,5 @@
 import Header from "./components/Header/Header";
+import FlightList from "./components/FlightList/FlightList";
 import style from "./App.module.scss";
 import Search from "./assets/3844432_magnifier_search_zoom_icon.svg?react";
 
@@ -27,16 +28,10 @@ function App() {
             </div>
           </div>
         </div>
+        <FlightList />
       </main>
     </>
   );
 }
 
 export default App;
-
-// <div className={style.flight_menu}>
-//   <ul>
-//     <li>Arrival</li>
-//     <li>Departure</li>
-//   </ul>
-// </div>;
