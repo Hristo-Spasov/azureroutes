@@ -1,5 +1,5 @@
 import style from "./FlightList.module.scss";
-import FlightGeneralInfo from "../FlightGeneralInfo/FLightGeneralInfo";
+import FlightGeneralInfo from "../FlightGeneralInfo/FlightGeneralInfo";
 
 const FlightList = () => {
   return (

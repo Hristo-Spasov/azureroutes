@@ -1,6 +1,15 @@
 import style from "./FlightGeneralInfo.module.scss";
+import FlightsListDetailedData from "../FlightsListDetailedData/FlightsListDetailedData";
 
-const data = [
+interface ElType {
+  icao: string;
+  iata: string;
+  name: string;
+  operator: string;
+  country: string;
+}
+
+const data: ElType[] = [
   {
     icao: "EGGS",
     iata: "STN",
@@ -24,28 +33,13 @@ const data = [
   },
 ];
 
-const FlightGeneralInfo = () => {
+const FlightGeneralInfo = (): JSX.Element => {
   return (
-    <>
-      <ul className={style.container}>
-        {data.map((el) => (
-          <li className={style.information_wrapper}>
-            <div className={style.codes}>
-              <span>icao: {el.icao}</span>
-              <span>iata: {el.iata}</span>
-            </div>
-            <div>
-              <span>
-                name: {el.name} | {el.country}
-              </span>
-            </div>
-            <div>
-              <span>Operator: {el.operator}</span>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </>
+    <ul className={style.container}>
+      {data.map((el, index) => (
+        <FlightsListDetailedData key={index} {...el} />
+      ))}
+    </ul>
   );
 };
 
