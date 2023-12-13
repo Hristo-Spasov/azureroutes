@@ -10,21 +10,27 @@ body {
   margin: 0;
   font-family: $main_font;
   font-weight: $base_weight;
-}
-
-// body {
-//   position: relative;
-// }
-
-:root {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0px;
-  padding: 0px;
   background-image: url("../src/assets/kevin-woblick-UdUbSPwbv2c-unsplash.jpg");
-  background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
-  background-size: 100% cover; // for media query background-size: 100% cover;
+  background-size: 100% cover;
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
 }
+
+// #root {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   margin: 0px;
+//   padding: 0px;
+//   background-image: url("../src/assets/kevin-woblick-UdUbSPwbv2c-unsplash.jpg");
+//   background-repeat: no-repeat;
+//   background-size: cover;
+//   background-position: center center;
+//   background-size: 100% cover; // for media query background-size: 100% cover;
+//   overflow-x: hidden;
+// }

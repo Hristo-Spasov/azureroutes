@@ -1,4 +1,5 @@
 import style from "./FlightList.module.scss";
+import FlightGeneralInfo from "../FlightGeneralInfo/FLightGeneralInfo";
 
 const FlightList = () => {
   return (
@@ -17,13 +18,8 @@ const FlightList = () => {
           </div>
         </div>
         {/* Main List of Flights */}
-        <div>
-          <ul>
-            <li>London</li>
-            <li>Berlin</li>
-            <li>Paris</li>
-            <li>Sofia</li>
-          </ul>
+        <div className={style.main_list_of_flights}>
+          <FlightGeneralInfo />
         </div>
       </section>
     </>
