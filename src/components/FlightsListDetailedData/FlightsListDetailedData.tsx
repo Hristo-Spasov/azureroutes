@@ -3,12 +3,21 @@ import { useState } from "react";
 import DownArrow from "../../assets/down-arrow-svgrepo-com.svg?react";
 import InFlight from "../../assets/airplane-in-flight-thin.svg?react";
 
-type FlightProps = {
+interface ArrivalType {
   icao: string;
   iata: string;
+  airport: string;
+}
+
+interface Airline {
   name: string;
-  operator: string;
-  country: string;
+  iata: string;
+  icao: string;
+}
+
+type FlightProps = {
+  departure: ArrivalType;
+  airline: Airline;
 };
 
 const FlightsListDetailedData = (el: FlightProps) => {
@@ -21,21 +30,22 @@ const FlightsListDetailedData = (el: FlightProps) => {
     <>
       <li className={style.information_wrapper}>
         <div className={style.codes}>
-          <span>icao: {el.icao}</span>
-          <span>iata: {el.iata}</span>
+          <span>icao: {el.departure.icao}</span>
+          <span>iata: {el.departure.iata}</span>
         </div>
         <div>
-          <span>
-            name: {el.name} | {el.country}
-          </span>
+          <span>name: {el.departure.airport}</span>
         </div>
         <div>
-          <span>Operator: {el.operator}</span>
+          <span>Operator: {el.airline.name}</span>
         </div>
         <span className={style.arrow_wrapper} onClick={toggleDropdown}>
           <DownArrow width={12} height={12} />
         </span>
       </li>
+
+      {/* Dropdown Information */}
+
       {toggle && (
         <li className={style.detailed_information}>
           <div className={style.status}>

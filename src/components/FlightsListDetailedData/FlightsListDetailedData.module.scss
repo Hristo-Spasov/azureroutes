@@ -1,10 +1,12 @@
 .information_wrapper {
   width: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 3fr) + 0.7fr;
+  justify-items: center;
+  grid-auto-rows: 3rem;
   align-items: center;
-  justify-content: space-around;
-  gap: 20px;
   padding: 20px 0;
+  border-bottom: 1px solid gray;
 
   .codes {
     display: flex;

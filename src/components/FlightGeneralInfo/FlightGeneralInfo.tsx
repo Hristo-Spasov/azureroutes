@@ -1,7 +1,9 @@
 import style from "./FlightGeneralInfo.module.scss";
 import FlightsListDetailedData from "../FlightsListDetailedData/FlightsListDetailedData";
+import { useContext } from "react";
+import { FetchContext } from "../../context/search-context";
 
-interface ElType {
+interface DataType {
   icao: string;
   iata: string;
   name: string;
@@ -9,7 +11,7 @@ interface ElType {
   country: string;
 }
 
-const data: ElType[] = [
+const data: DataType[] = [
   {
     icao: "EGGS",
     iata: "STN",
@@ -34,9 +36,10 @@ const data: ElType[] = [
 ];
 
 const FlightGeneralInfo = (): JSX.Element => {
+  const { departure, arrival } = useContext(FetchContext);
   return (
     <ul className={style.container}>
-      {data.map((el, index) => (
+      {arrival?.data.map((el: any, index: number) => (
         <FlightsListDetailedData key={index} {...el} />
       ))}
     </ul>
