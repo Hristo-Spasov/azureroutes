@@ -3,10 +3,15 @@ import { useState } from "react";
 import DownArrow from "../../assets/down-arrow-svgrepo-com.svg?react";
 import InFlight from "../../assets/airplane-in-flight-thin.svg?react";
 
-interface ArrivalType {
+interface ArrDepType {
   icao: string;
   iata: string;
   airport: string;
+  timezone: string;
+  scheduled: string;
+  estimated: string;
+  actual: string;
+  delay: string;
 }
 
 interface Airline {
@@ -15,17 +20,36 @@ interface Airline {
   icao: string;
 }
 
+interface FlightType {
+  number: string;
+  iata: string;
+  icao: string;
+}
+
 type FlightProps = {
-  departure: ArrivalType;
+  arrival: ArrDepType;
+  departure: ArrDepType;
   airline: Airline;
+  flight: FlightType;
+  flight_date: string;
+  flight_status: string;
 };
 
 const FlightsListDetailedData = (el: FlightProps) => {
   const [toggle, setToggle] = useState<boolean>(false);
 
+  const formatDepScheduled = new Date(el.departure.scheduled).toLocaleString();
+  const formatDepEstimated = new Date(el.departure.estimated).toLocaleString();
+  const formatDepActual = new Date(el.departure.actual).toLocaleString();
+
+  const formatArrScheduled = new Date(el.arrival.scheduled).toLocaleString();
+  const formatArrEstimated = new Date(el.arrival.estimated).toLocaleString();
+  const formatArrActual = new Date(el.arrival.actual).toLocaleString();
+
   const toggleDropdown = () => {
     setToggle((prev) => !prev);
   };
+
   return (
     <>
       <li className={style.information_wrapper}>
@@ -49,53 +73,70 @@ const FlightsListDetailedData = (el: FlightProps) => {
       {toggle && (
         <li className={style.detailed_information}>
           <div className={style.status}>
-            <span>Date | Timezone</span>
+            <span>
+              {el.flight_date} | {el.departure.timezone}
+            </span>
             <div className={style.flight_number}>
               <span>Flight</span>
-              <span>W9432</span>
+              <span>{el.flight.iata}</span>
             </div>
-            <span>Status</span>
+            <span>{el.flight_status}</span>
           </div>
-
-          <span>Plovdiv,PDV</span>
+          {/* Arrival from airport */}
+          <span>
+            {el.departure.airport},{el.departure.iata}
+          </span>
           <div className={style.dropdown_departure}>
             <div className={style.departure_sub_class}>
-              <span>scheduled</span>
-              <span>2023/12/12 | 13:00 </span>
+              <span>Scheduled</span>
+              <span>{formatDepScheduled}</span>
+            </div>
+            {el.departure.delay == "" ? (
+              <div className={style.departure_sub_class}>
+                <span>Delay</span>
+                <span>{el.departure.delay}</span>
+              </div>
+            ) : (
+              ""
+            )}
+
+            <div className={style.departure_sub_class}>
+              <span>Estimated</span>
+              <span>{formatDepEstimated}</span>
             </div>
             <div className={style.departure_sub_class}>
-              <span>delay</span>
-              <span>60 min</span>
-            </div>
-            <div className={style.departure_sub_class}>
-              <span>estimated</span>
-              <span>2023/12/12 | 14:00 </span>
-            </div>
-            <div className={style.departure_sub_class}>
-              <span>actual</span>
-              <span>2023/12/12 | 14:00 </span>
+              <span>Actual</span>
+              <span>{formatDepActual}</span>
             </div>
           </div>
 
           <InFlight width={50} height={50} />
 
-          <span>Sofia,SOF</span>
+          {/* Departure for airport */}
+          <span>
+            {el.arrival.airport},{el.arrival.iata}
+          </span>
           <div className={style.dropdown_arrival}>
             <div className={style.arrival_sub_class}>
               <span>scheduled</span>
-              <span>2023/12/12 | 13:00 </span>
+              <span>{formatArrScheduled}</span>
             </div>
-            <div className={style.arrival_sub_class}>
-              <span>delay</span>
-              <span>60 min</span>
-            </div>
+            {el.arrival.delay == "" ? (
+              <div className={style.arrival_sub_class}>
+                <span>delay</span>
+                <span>{el.arrival.delay}</span>
+              </div>
+            ) : (
+              ""
+            )}
+
             <div className={style.arrival_sub_class}>
               <span>estimated</span>
-              <span>2023/12/12 | 13:00 </span>
+              <span>{formatArrEstimated}</span>
             </div>
             <div className={style.arrival_sub_class}>
               <span>actual</span>
-              <span>2023/12/12 | 14:00 </span>
+              <span>{formatArrActual}</span>
             </div>
           </div>
         </li>

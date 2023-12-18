@@ -2,6 +2,8 @@ import style from "./FlightList.module.scss";
 import FlightGeneralInfo from "../FlightGeneralInfo/FlightGeneralInfo";
 
 const FlightList = () => {
+  const date = new Date().toLocaleString();
+
   return (
     <>
       <section className={style.flight_list_container}>
@@ -9,7 +11,7 @@ const FlightList = () => {
         <div className={style.list_header}>
           <div className={style.meteo_metrics}>
             <div>
-              <span>01.01.2024 | 12:00 </span>
+              <span>{date}</span>
             </div>
             <div className={style.weather_metrics}>
               <span>IMG</span>

@@ -39,9 +39,6 @@ export const FetchProvider = ({ children }: Props) => {
   };
 
   useEffect(() => {
-    console.log(search);
-  }, [search]);
-  useEffect(() => {
     console.log("Arrival:", arrival);
     console.log("Departure:", departure);
   }, [arrival, departure]);
