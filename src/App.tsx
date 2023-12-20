@@ -4,13 +4,19 @@ import style from "./App.module.scss";
 import Search from "./assets/3844432_magnifier_search_zoom_icon.svg?react";
 import Landing from "./assets/landing-thin-line.svg?react";
 import TakeOff from "./assets/takeoff-thin.svg?react";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { FetchContext } from "./context/search-context";
 
 function App() {
-  const { search, searchHandler, clickHandler } = useContext(FetchContext);
-  const [arrivalActive, setArrivalActive] = useState<boolean>(false);
-  const [departureActive, setDepartureActive] = useState<boolean>(false);
+  const {
+    search,
+    searchHandler,
+    clickHandler,
+    setArrivalActive,
+    setDepartureActive,
+    arrivalActive,
+    departureActive,
+  } = useContext(FetchContext);
 
   const handleArrivalClick = () => {
     setArrivalActive(true);

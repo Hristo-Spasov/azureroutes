@@ -1,8 +1,17 @@
 import style from "./FlightList.module.scss";
 import FlightGeneralInfo from "../FlightGeneralInfo/FlightGeneralInfo";
+import { useEffect, useState } from "react";
 
 const FlightList = () => {
-  const date = new Date().toLocaleString();
+  const [date, setDate] = useState<string>(new Date().toLocaleString());
+
+  useEffect(() => {
+    const intervalID = setInterval(() => {
+      setDate(new Date().toLocaleString());
+    }, 1000);
+
+    return () => clearInterval(intervalID);
+  }, []);
 
   return (
     <>

@@ -9,6 +9,10 @@ interface FetchContextType {
   setDeparture: React.Dispatch<React.SetStateAction<any>>;
   searchHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
   clickHandler: () => void;
+  arrivalActive: boolean;
+  setArrivalActive: React.Dispatch<React.SetStateAction<boolean>>;
+  departureActive: boolean;
+  setDepartureActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const FetchContext = createContext<FetchContextType>({
@@ -20,6 +24,10 @@ export const FetchContext = createContext<FetchContextType>({
   setDeparture: () => {},
   searchHandler: (_e) => {},
   clickHandler: () => {},
+  arrivalActive: false,
+  setArrivalActive: () => {},
+  departureActive: false,
+  setDepartureActive: () => {},
 });
 
 const BASE_URL = "http://api.aviationstack.com/v1/";
@@ -33,6 +41,8 @@ export const FetchProvider = ({ children }: Props) => {
   const [search, setSearch] = useState<string>("");
   const [departure, setDeparture] = useState();
   const [arrival, setArrival] = useState();
+  const [arrivalActive, setArrivalActive] = useState<boolean>(false);
+  const [departureActive, setDepartureActive] = useState<boolean>(false);
 
   const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -59,7 +69,9 @@ export const FetchProvider = ({ children }: Props) => {
       const depData = await depResponse.json();
       const arrData = await arrResponse.json();
 
+      setSearch("");
       setArrival(arrData);
+      setArrivalActive(true);
       setDeparture(depData);
     } catch (e) {
       console.log((e as Error).message);
@@ -75,6 +87,10 @@ export const FetchProvider = ({ children }: Props) => {
     setDeparture,
     searchHandler,
     clickHandler,
+    arrivalActive,
+    setArrivalActive,
+    departureActive,
+    setDepartureActive,
   };
 
   return (

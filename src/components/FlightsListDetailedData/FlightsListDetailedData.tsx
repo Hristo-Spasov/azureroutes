@@ -38,13 +38,27 @@ type FlightProps = {
 const FlightsListDetailedData = (el: FlightProps) => {
   const [toggle, setToggle] = useState<boolean>(false);
 
-  const formatDepScheduled = new Date(el.departure.scheduled).toLocaleString();
-  const formatDepEstimated = new Date(el.departure.estimated).toLocaleString();
-  const formatDepActual = new Date(el.departure.actual).toLocaleString();
+  const dateError = "No information available";
 
-  const formatArrScheduled = new Date(el.arrival.scheduled).toLocaleString();
-  const formatArrEstimated = new Date(el.arrival.estimated).toLocaleString();
-  const formatArrActual = new Date(el.arrival.actual).toLocaleString();
+  const formatDepScheduled = el.departure.scheduled
+    ? new Date(el.departure.scheduled).toLocaleString()
+    : dateError;
+  const formatDepEstimated = el.departure.estimated
+    ? new Date(el.departure.estimated).toLocaleString()
+    : dateError;
+  const formatDepActual = el.departure.actual
+    ? new Date(el.departure.actual).toLocaleString()
+    : dateError;
+
+  const formatArrScheduled = el.arrival.scheduled
+    ? new Date(el.arrival.scheduled).toLocaleString()
+    : dateError;
+  const formatArrEstimated = el.arrival.estimated
+    ? new Date(el.arrival.estimated).toLocaleString()
+    : dateError;
+  const formatArrActual = el.arrival.actual
+    ? new Date(el.arrival.actual).toLocaleString()
+    : dateError;
 
   const toggleDropdown = () => {
     setToggle((prev) => !prev);
@@ -52,7 +66,7 @@ const FlightsListDetailedData = (el: FlightProps) => {
 
   return (
     <>
-      <li className={style.information_wrapper}>
+      <li className={style.information_wrapper} onClick={toggleDropdown}>
         <div className={style.codes}>
           <span>icao: {el.departure.icao}</span>
           <span>iata: {el.departure.iata}</span>
@@ -63,7 +77,7 @@ const FlightsListDetailedData = (el: FlightProps) => {
         <div>
           <span>Operator: {el.airline.name}</span>
         </div>
-        <span className={style.arrow_wrapper} onClick={toggleDropdown}>
+        <span className={style.arrow_wrapper}>
           <DownArrow width={12} height={12} />
         </span>
       </li>
@@ -118,12 +132,12 @@ const FlightsListDetailedData = (el: FlightProps) => {
           </span>
           <div className={style.dropdown_arrival}>
             <div className={style.arrival_sub_class}>
-              <span>scheduled</span>
+              <span>Scheduled</span>
               <span>{formatArrScheduled}</span>
             </div>
             {el.arrival.delay == "" ? (
               <div className={style.arrival_sub_class}>
-                <span>delay</span>
+                <span>Delay</span>
                 <span>{el.arrival.delay}</span>
               </div>
             ) : (
@@ -131,11 +145,11 @@ const FlightsListDetailedData = (el: FlightProps) => {
             )}
 
             <div className={style.arrival_sub_class}>
-              <span>estimated</span>
+              <span>Estimated</span>
               <span>{formatArrEstimated}</span>
             </div>
             <div className={style.arrival_sub_class}>
-              <span>actual</span>
+              <span>Actual</span>
               <span>{formatArrActual}</span>
             </div>
           </div>
