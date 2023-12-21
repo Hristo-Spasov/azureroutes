@@ -1,13 +1,15 @@
 import style from "./FlightList.module.scss";
 import FlightGeneralInfo from "../FlightGeneralInfo/FlightGeneralInfo";
 import { useEffect, useState } from "react";
+// import formatDate from "../../utils/formatDate";
+import dayjs, { Dayjs } from "dayjs";
 
 const FlightList = () => {
-  const [date, setDate] = useState<string>(new Date().toLocaleString());
+  const [date, setDate] = useState<Dayjs | null>(dayjs());
 
   useEffect(() => {
     const intervalID = setInterval(() => {
-      setDate(new Date().toLocaleString());
+      setDate(dayjs());
     }, 1000);
 
     return () => clearInterval(intervalID);
@@ -20,7 +22,7 @@ const FlightList = () => {
         <div className={style.list_header}>
           <div className={style.meteo_metrics}>
             <div>
-              <span>{date}</span>
+              <span>{date && date.format(`DD.MM.YYYY HH:mm:ss`)}</span>
             </div>
             <div className={style.weather_metrics}>
               <span>IMG</span>

@@ -12,20 +12,27 @@ function App() {
     search,
     searchHandler,
     clickHandler,
+    keyHandler,
     setArrivalActive,
     setDepartureActive,
     arrivalActive,
     departureActive,
+    departure,
+    arrival,
   } = useContext(FetchContext);
 
   const handleArrivalClick = () => {
-    setArrivalActive(true);
-    setDepartureActive(false);
+    if (arrival) {
+      setArrivalActive(true);
+      setDepartureActive(false);
+    }
   };
 
   const handleDepartureClick = () => {
-    setDepartureActive(true);
-    setArrivalActive(false);
+    if (departure) {
+      setDepartureActive(true);
+      setArrivalActive(false);
+    }
   };
 
   return (
@@ -39,10 +46,11 @@ function App() {
               type="search"
               className={style.search}
               onChange={searchHandler}
+              onKeyDown={keyHandler}
               value={search}
             />
-            <div className={style.search_btn_wrapper}>
-              <Search width={30} height={30} onClick={clickHandler} />
+            <div className={style.search_btn_wrapper} onClick={clickHandler}>
+              <Search width={30} height={30} />
             </div>
           </form>
           <div className={style.search_menu_wrapper}>

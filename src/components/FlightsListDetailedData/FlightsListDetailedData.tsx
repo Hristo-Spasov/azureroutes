@@ -2,6 +2,7 @@ import style from "./FlightsListDetailedData.module.scss";
 import { useState } from "react";
 import DownArrow from "../../assets/down-arrow-svgrepo-com.svg?react";
 import InFlight from "../../assets/airplane-in-flight-thin.svg?react";
+import dayjs from "dayjs";
 
 interface ArrDepType {
   icao: string;
@@ -41,23 +42,23 @@ const FlightsListDetailedData = (el: FlightProps) => {
   const dateError = "No information available";
 
   const formatDepScheduled = el.departure.scheduled
-    ? new Date(el.departure.scheduled).toLocaleString()
+    ? dayjs(el.departure.scheduled).format(`DD.MM.YYYY HH:mm:ss`)
     : dateError;
   const formatDepEstimated = el.departure.estimated
-    ? new Date(el.departure.estimated).toLocaleString()
+    ? dayjs(el.departure.estimated).format(`DD.MM.YYYY HH:mm:ss`)
     : dateError;
   const formatDepActual = el.departure.actual
-    ? new Date(el.departure.actual).toLocaleString()
+    ? dayjs(el.departure.actual).format(`DD.MM.YYYY HH:mm:ss`)
     : dateError;
 
   const formatArrScheduled = el.arrival.scheduled
-    ? new Date(el.arrival.scheduled).toLocaleString()
+    ? dayjs(el.arrival.scheduled).format(`DD.MM.YYYY HH:mm:ss`)
     : dateError;
   const formatArrEstimated = el.arrival.estimated
-    ? new Date(el.arrival.estimated).toLocaleString()
+    ? dayjs(el.arrival.estimated).format(`DD.MM.YYYY HH:mm:ss`)
     : dateError;
   const formatArrActual = el.arrival.actual
-    ? new Date(el.arrival.actual).toLocaleString()
+    ? dayjs(el.arrival.actual).format(`DD.MM.YYYY HH:mm:ss`)
     : dateError;
 
   const toggleDropdown = () => {
@@ -72,7 +73,7 @@ const FlightsListDetailedData = (el: FlightProps) => {
           <span>iata: {el.departure.iata}</span>
         </div>
         <div>
-          <span>name: {el.departure.airport}</span>
+          <span>Airport: {el.departure.airport}</span>
         </div>
         <div>
           <span>Operator: {el.airline.name}</span>
@@ -88,7 +89,8 @@ const FlightsListDetailedData = (el: FlightProps) => {
         <li className={style.detailed_information}>
           <div className={style.status}>
             <span>
-              {el.flight_date} | {el.departure.timezone}
+              {dayjs(el.flight_date).format(`DD.MM.YYYY`)} |{" "}
+              {el.departure.timezone}
             </span>
             <div className={style.flight_number}>
               <span>Flight</span>
