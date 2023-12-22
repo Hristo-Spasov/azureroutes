@@ -33,7 +33,10 @@ export const FetchContext = createContext<FetchContextType>({
 });
 
 const BASE_URL = "http://api.aviationstack.com/v1/";
-const API_KEY = "689c848518988e8c73b51b51e60124f0";
+const API_KEY = import.meta.env.VITE_AVIATIONSTACK_KEY;
+const headers = {
+  Authorization: `Bearer ${API_KEY}`,
+};
 
 interface Props {
   children: ReactNode;
@@ -85,7 +88,8 @@ export const FetchProvider = ({ children }: Props) => {
       if (search.trim() !== "") {
         try {
           const arrResponse = await fetch(
-            `${BASE_URL}flights?access_key=${API_KEY}&arr_iata=${search}`
+            `${BASE_URL}flights?arr_iata=${search}`,
+            { headers: headers }
           );
           const depResponse = await fetch(
             `${BASE_URL}flights?access_key=${API_KEY}&dep_iata=${search}`
@@ -95,8 +99,8 @@ export const FetchProvider = ({ children }: Props) => {
             throw new Error("Failed to fetch data");
           }
 
-          const depData = await depResponse.json();
           const arrData = await arrResponse.json();
+          const depData = await depResponse.json();
 
           setSearch("");
           setArrival(arrData);
