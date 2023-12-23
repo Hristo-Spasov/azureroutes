@@ -34,9 +34,6 @@ export const FetchContext = createContext<FetchContextType>({
 
 const BASE_URL = "http://api.aviationstack.com/v1/";
 const API_KEY = import.meta.env.VITE_AVIATIONSTACK_KEY;
-const headers = {
-  Authorization: `Bearer ${API_KEY}`,
-};
 
 interface Props {
   children: ReactNode;
@@ -88,8 +85,7 @@ export const FetchProvider = ({ children }: Props) => {
       if (search.trim() !== "") {
         try {
           const arrResponse = await fetch(
-            `${BASE_URL}flights?arr_iata=${search}`,
-            { headers: headers }
+            `${BASE_URL}flights?access_key=${API_KEY}&arr_iata=${search}`
           );
           const depResponse = await fetch(
             `${BASE_URL}flights?access_key=${API_KEY}&dep_iata=${search}`
