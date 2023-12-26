@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from "react";
-import dayjs, { Dayjs } from "dayjs";
+import { useContext, useEffect } from "react";
 import FlightGeneralInfo from "../FlightGeneralInfo/FlightGeneralInfo";
 import { FetchContext } from "../../context/search-context";
-// import { AirportType, WeatherType } from "../../types/weather_types";
+import { ClockContext } from "../../context/clock-context";
 import style from "./FlightList.module.scss";
 import Temp from "../../assets/weather_icons/temp.svg?react";
 import Humidity from "../../assets/weather_icons/humidity.svg?react";
@@ -10,25 +9,15 @@ import Wind from "../../assets/weather_icons/wind.svg?react";
 import useWeather from "../../hooks/useWeather";
 
 const FlightList = () => {
-  const [date, setDate] = useState<Dayjs | null>(dayjs());
   const { weather } = useWeather();
   const { arrival, departure } = useContext(FetchContext);
-
-  // Local date & clock
-  useEffect(() => {
-    const intervalID = setInterval(() => {
-      setDate(dayjs());
-    }, 1000);
-
-    return () => clearInterval(intervalID);
-  }, []);
+  const { date } = useContext(ClockContext);
 
   useEffect(() => {
     if (weather) {
       console.log(weather);
     }
   }, [weather]);
-
   return (
     <>
       {arrival && departure && (

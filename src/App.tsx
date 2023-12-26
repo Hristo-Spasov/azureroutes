@@ -6,6 +6,7 @@ import Landing from "./assets/landing-thin-line.svg?react";
 import TakeOff from "./assets/takeoff-thin.svg?react";
 import { useContext } from "react";
 import { FetchContext } from "./context/search-context";
+import { ClockProvider } from "./context/clock-context";
 
 function App() {
   const {
@@ -78,7 +79,9 @@ function App() {
             </div>
           </div>
         </div>
-        <FlightList />
+        <ClockProvider>
+          <FlightList />
+        </ClockProvider>
       </main>
     </>
   );
