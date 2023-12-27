@@ -9,45 +9,59 @@ const FlightGeneralInfo = React.memo((): JSX.Element => {
     useContext(FetchContext);
 
   const [itemOffset, setItemOffset] = useState(0);
-  const itemsPerPage = 13;
+  const itemsPerPage = 10;
 
   const endOffset = itemOffset + itemsPerPage;
-  console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-  const currentItems = arrival.data.slice(itemOffset, endOffset);
-  const pageCount = Math.ceil(arrival.data.length / itemsPerPage);
 
-  // Invoke when user click to request another page.
+  const pageCountArrival = Math.ceil(arrival.data.length / itemsPerPage);
+  const pageCountDeparture = Math.ceil(departure.data.length / itemsPerPage);
+
+  const pageCount = arrivalActive
+    ? pageCountArrival
+    : departureActive
+    ? pageCountDeparture
+    : 0;
+
   const handlePageClick = (selectedItem: { selected: number }) => {
-    const newOffset =
-      (selectedItem.selected * itemsPerPage) % arrival.data.length;
-    console.log(
-      `User requested page number ${selectedItem.selected}, which is offset ${newOffset}`
-    );
+    const activeData = arrivalActive
+      ? arrival.data.length
+      : departure.data.length;
+
+    const newOffset = (selectedItem.selected * itemsPerPage) % activeData;
+
     setItemOffset(newOffset);
+  };
+
+  const getCurrentItems = (data: any[]) => {
+    return data
+      .slice(itemOffset, endOffset)
+      .map((el, index) => <FlightsListDetailedData key={index} {...el} />);
+  };
+
+  const renderFlights = () => {
+    if (arrivalActive && arrival) {
+      return getCurrentItems(arrival.data);
+    } else if (departureActive && departure) {
+      return getCurrentItems(departure.data);
+    }
+    return null;
   };
 
   return (
     <ul className={style.container}>
-      {arrivalActive && arrival
-        ? currentItems.map((el: any, index: number) => (
-            <FlightsListDetailedData key={index} {...el} />
-          ))
-        : ""}
-
-      {departureActive && departure
-        ? departure.data.map((el: any, index: number) => (
-            <FlightsListDetailedData key={index} {...el} />
-          ))
-        : ""}
-      <ReactPaginate
-        breakLabel="..."
-        nextLabel="next >"
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={5}
-        pageCount={pageCount}
-        previousLabel="< previous"
-        renderOnZeroPageCount={null}
-      />
+      {renderFlights()}
+      {pageCount > 0 && (
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel="next >"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={3}
+          pageCount={pageCount}
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+          className={style.pagination}
+        />
+      )}
     </ul>
   );
 });
