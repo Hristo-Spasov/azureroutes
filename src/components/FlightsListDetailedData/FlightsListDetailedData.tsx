@@ -36,7 +36,7 @@ type FlightProps = {
   flight_status: string;
 };
 
-const FlightsListDetailedData = (el: FlightProps) => {
+const FlightsListDetailedData = (el: FlightProps, className: string) => {
   const [toggle, setToggle] = useState<boolean>(false);
 
   const dateError = "No information available";
@@ -67,7 +67,10 @@ const FlightsListDetailedData = (el: FlightProps) => {
 
   return (
     <>
-      <li className={style.information_wrapper} onClick={toggleDropdown}>
+      <li
+        className={`${className} ${style.information_wrapper} `}
+        onClick={toggleDropdown}
+      >
         <div className={style.codes}>
           <span>icao: {el.departure.icao}</span>
           <span>iata: {el.departure.iata}</span>
@@ -86,7 +89,7 @@ const FlightsListDetailedData = (el: FlightProps) => {
       {/* Dropdown Information */}
 
       {toggle && (
-        <li className={style.detailed_information}>
+        <li className={`${style.detailed_information} ${className}`}>
           <div className={style.status}>
             <span>
               {dayjs(el.flight_date).format(`DD.MM.YYYY`)} |{" "}

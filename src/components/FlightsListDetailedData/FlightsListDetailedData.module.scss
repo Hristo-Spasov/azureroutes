@@ -42,6 +42,7 @@
     align-items: center;
     justify-content: center;
     gap: 1rem;
+    padding: 0 10px;
 
     .flight_number {
       display: flex;
@@ -62,23 +63,16 @@
     padding: 10px 0;
   }
 
-  .dropdown_arrival {
-    .arrival_sub_class {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 5px;
-    }
-  }
-
+  .dropdown_arrival,
   .dropdown_departure {
+    .arrival_sub_class,
     .departure_sub_class {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       gap: 5px;
+      padding: 0 10px;
     }
   }
 }

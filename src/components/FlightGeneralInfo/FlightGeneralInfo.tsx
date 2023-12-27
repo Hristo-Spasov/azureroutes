@@ -32,24 +32,26 @@ const FlightGeneralInfo = React.memo((): JSX.Element => {
     setItemOffset(newOffset);
   };
 
-  const getCurrentItems = (data: any[]) => {
+  const getCurrentItems = (data: any[], className: string) => {
     return data
       .slice(itemOffset, endOffset)
-      .map((el, index) => <FlightsListDetailedData key={index} {...el} />);
+      .map((el, index) => (
+        <FlightsListDetailedData key={index} {...el} className={className} />
+      ));
   };
 
-  const renderFlights = () => {
+  const renderFlights = (className: string) => {
     if (arrivalActive && arrival) {
-      return getCurrentItems(arrival.data);
+      return getCurrentItems(arrival.data, className);
     } else if (departureActive && departure) {
-      return getCurrentItems(departure.data);
+      return getCurrentItems(departure.data, className);
     }
     return null;
   };
 
   return (
     <ul className={style.container}>
-      {renderFlights()}
+      {renderFlights(style.container)}
       {pageCount > 0 && (
         <ReactPaginate
           breakLabel="..."
