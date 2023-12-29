@@ -6,10 +6,36 @@
 
   .pagination {
     display: flex;
-    gap: 20px;
     cursor: pointer;
     align-items: center;
     justify-content: center;
+    width: 100%;
     padding: 10px 0;
+    user-select: none;
+    gap: 10px;
+  }
+
+  .active {
+    color: white;
+  }
+
+  .page_wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .page_wrapper:hover {
+    color: white;
+  }
+
+  .next_btn:hover {
+    color: white;
+  }
+
+  .prev_btn:hover {
+    color: white;
   }
 }

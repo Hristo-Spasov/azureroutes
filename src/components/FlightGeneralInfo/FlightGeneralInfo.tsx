@@ -62,6 +62,11 @@ const FlightGeneralInfo = React.memo((): JSX.Element => {
           previousLabel="< previous"
           renderOnZeroPageCount={null}
           className={style.pagination}
+          activeClassName={style.active}
+          pageClassName={style.page_wrapper}
+          pageLinkClassName={style.page_wrapper}
+          previousClassName={style.prev_btn}
+          nextClassName={style.next_btn}
         />
       )}
     </ul>
