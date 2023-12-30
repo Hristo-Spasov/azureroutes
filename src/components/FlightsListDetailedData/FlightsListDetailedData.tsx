@@ -75,10 +75,10 @@ const FlightsListDetailedData = (el: FlightProps, className: string) => {
           <span>icao: {el.departure.icao}</span>
           <span>iata: {el.departure.iata}</span>
         </div>
-        <div>
+        <div className={style.airport_operator_names}>
           <span>Airport: {el.departure.airport}</span>
         </div>
-        <div>
+        <div className={style.airport_operator_names}>
           <span>Operator: {el.airline.name}</span>
         </div>
         <span className={style.arrow_wrapper}>
@@ -102,9 +102,11 @@ const FlightsListDetailedData = (el: FlightProps, className: string) => {
             <span>{el.flight_status}</span>
           </div>
           {/* Arrival from airport */}
-          <span>
-            {el.departure.airport},{el.departure.iata}
-          </span>
+          <div className={style.airport_name}>
+            <span>
+              {el.departure.airport},{el.departure.iata}
+            </span>
+          </div>
           <div className={style.dropdown_departure}>
             <div className={style.departure_sub_class}>
               <span>Scheduled</span>
@@ -132,9 +134,11 @@ const FlightsListDetailedData = (el: FlightProps, className: string) => {
           <InFlight width={50} height={50} />
 
           {/* Departure for airport */}
-          <span>
-            {el.arrival.airport},{el.arrival.iata}
-          </span>
+          <div className={style.airport_name}>
+            <span>
+              {el.arrival.airport},{el.arrival.iata}
+            </span>
+          </div>
           <div className={style.dropdown_arrival}>
             <div className={style.arrival_sub_class}>
               <span>Scheduled</span>
