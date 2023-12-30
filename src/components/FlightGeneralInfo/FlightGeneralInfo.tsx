@@ -55,11 +55,11 @@ const FlightGeneralInfo = React.memo((): JSX.Element => {
       {pageCount > 0 && (
         <ReactPaginate
           breakLabel="..."
-          nextLabel="next >"
+          nextLabel="Next"
           onPageChange={handlePageClick}
           pageRangeDisplayed={3}
           pageCount={pageCount}
-          previousLabel="< previous"
+          previousLabel="Prev"
           renderOnZeroPageCount={null}
           className={style.pagination}
           activeClassName={style.active}

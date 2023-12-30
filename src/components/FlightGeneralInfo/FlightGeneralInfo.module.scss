@@ -12,7 +12,7 @@
     width: 100%;
     padding: 10px 0;
     user-select: none;
-    gap: 10px;
+    margin-top: 10px;
   }
 
   .active {
@@ -25,6 +25,22 @@
     align-items: center;
     width: 2rem;
     height: 2rem;
+  }
+
+  .next_btn,
+  .prev_btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 4rem;
+      height: 4rem;
+    }
   }
 
   .page_wrapper:hover {
