@@ -3,29 +3,7 @@ import { useState } from "react";
 import DownArrow from "../../assets/down-arrow-svgrepo-com.svg?react";
 import InFlight from "../../assets/airplane-in-flight-thin.svg?react";
 import dayjs from "dayjs";
-
-interface ArrDepType {
-  icao: string;
-  iata: string;
-  airport: string;
-  timezone: string;
-  scheduled: string;
-  estimated: string;
-  actual: string;
-  delay: string;
-}
-
-interface Airline {
-  name: string;
-  iata: string;
-  icao: string;
-}
-
-interface FlightType {
-  number: string;
-  iata: string;
-  icao: string;
-}
+import { Airline, ArrDepType, FlightType } from "../../types/flight_types";
 
 type FlightProps = {
   arrival: ArrDepType;

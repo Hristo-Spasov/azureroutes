@@ -1,12 +1,19 @@
 import { useState, createContext, ReactNode, useEffect } from "react";
+import { ArrDepType } from "../types/flight_types";
 
-interface FetchContextType {
+interface ApiResponse<T> {
+  data: T[];
+}
+
+interface FetchContextType<T> {
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
-  arrival: any;
-  setArrival: React.Dispatch<React.SetStateAction<any>>;
-  departure: any;
-  setDeparture: React.Dispatch<React.SetStateAction<any>>;
+  arrival: ApiResponse<T> | undefined;
+  setArrival: React.Dispatch<React.SetStateAction<ApiResponse<T> | undefined>>;
+  departure: ApiResponse<T> | undefined;
+  setDeparture: React.Dispatch<
+    React.SetStateAction<ApiResponse<T> | undefined>
+  >;
   searchHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
   clickHandler: () => void;
   keyHandler: (e: React.KeyboardEvent<HTMLInputElement>) => void;
@@ -16,7 +23,7 @@ interface FetchContextType {
   setDepartureActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const FetchContext = createContext<FetchContextType>({
+export const FetchContext = createContext<FetchContextType<ArrDepType>>({
   search: "",
   setSearch: () => {},
   arrival: undefined,
@@ -41,8 +48,10 @@ interface Props {
 
 export const FetchProvider = ({ children }: Props) => {
   const [search, setSearch] = useState<string>("");
-  const [departure, setDeparture] = useState();
-  const [arrival, setArrival] = useState();
+  const [departure, setDeparture] = useState<
+    ApiResponse<ArrDepType> | undefined
+  >();
+  const [arrival, setArrival] = useState<ApiResponse<ArrDepType> | undefined>();
   const [arrivalActive, setArrivalActive] = useState<boolean>(false);
   const [departureActive, setDepartureActive] = useState<boolean>(false);
 

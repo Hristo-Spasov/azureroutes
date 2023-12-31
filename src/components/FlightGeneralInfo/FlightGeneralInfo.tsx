@@ -13,6 +13,10 @@ const FlightGeneralInfo = React.memo((): JSX.Element => {
 
   const endOffset = itemOffset + itemsPerPage;
 
+  if (!arrival || !departure) {
+    return <div>Loading...</div>;
+  }
+
   const pageCountArrival = Math.ceil(arrival.data.length / itemsPerPage);
   const pageCountDeparture = Math.ceil(departure.data.length / itemsPerPage);
 
