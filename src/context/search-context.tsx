@@ -64,13 +64,15 @@ export const FetchProvider = ({ children }: Props) => {
     console.log("Departure:", departure);
   }, [arrival, departure]);
 
+  const searchFormatted = search.replace(/[^\w ]/g, ""); //Removing special symbols if any in the search params.
+
   const clickHandler = async () => {
     try {
       const arrResponse = await fetch(
-        `${BASE_URL}flights?access_key=${API_KEY}&arr_iata=${search}`
+        `${BASE_URL}flights?access_key=${API_KEY}&arr_iata=${searchFormatted}`
       );
       const depResponse = await fetch(
-        `${BASE_URL}flights?access_key=${API_KEY}&dep_iata=${search}`
+        `${BASE_URL}flights?access_key=${API_KEY}&dep_iata=${searchFormatted}`
       );
 
       if (!depResponse.ok || !arrResponse.ok) {
@@ -82,6 +84,7 @@ export const FetchProvider = ({ children }: Props) => {
 
       setSearch("");
       setArrival(arrData);
+      setDepartureActive(false);
       setArrivalActive(true);
       setDeparture(depData);
     } catch (e) {
@@ -94,10 +97,10 @@ export const FetchProvider = ({ children }: Props) => {
       if (search.trim() !== "") {
         try {
           const arrResponse = await fetch(
-            `${BASE_URL}flights?access_key=${API_KEY}&arr_iata=${search}`
+            `${BASE_URL}flights?access_key=${API_KEY}&arr_iata=${searchFormatted}`
           );
           const depResponse = await fetch(
-            `${BASE_URL}flights?access_key=${API_KEY}&dep_iata=${search}`
+            `${BASE_URL}flights?access_key=${API_KEY}&dep_iata=${searchFormatted}`
           );
 
           if (!depResponse.ok || !arrResponse.ok) {
@@ -109,6 +112,7 @@ export const FetchProvider = ({ children }: Props) => {
 
           setSearch("");
           setArrival(arrData);
+          setDepartureActive(false);
           setArrivalActive(true);
           setDeparture(depData);
         } catch (e) {
