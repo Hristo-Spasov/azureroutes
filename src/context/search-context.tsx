@@ -1,5 +1,6 @@
 import { useState, createContext, ReactNode, useEffect } from "react";
 import { ArrDepType } from "../types/flight_types";
+import fetchData from "../utils/fetchData";
 
 interface ApiResponse<T> {
   data: T[];
@@ -48,9 +49,7 @@ interface Props {
 
 export const FetchProvider = ({ children }: Props) => {
   const [search, setSearch] = useState<string>("");
-  const [departure, setDeparture] = useState<
-    ApiResponse<ArrDepType> | undefined
-  >();
+  const [departure, setDeparture] = useState<ApiResponse<ArrDepType>>();
   const [arrival, setArrival] = useState<ApiResponse<ArrDepType> | undefined>();
   const [arrivalActive, setArrivalActive] = useState<boolean>(false);
   const [departureActive, setDepartureActive] = useState<boolean>(false);
@@ -64,60 +63,51 @@ export const FetchProvider = ({ children }: Props) => {
     console.log("Departure:", departure);
   }, [arrival, departure]);
 
-  const searchFormatted = search.replace(/[^\w ]/g, ""); //Removing special symbols if any in the search params.
+  const searchFormatted = search.trim().replace(/[^\w ]/g, ""); //Removing special symbols if any in the search params.
 
   const clickHandler = async () => {
-    try {
-      const arrResponse = await fetch(
-        `${BASE_URL}flights?access_key=${API_KEY}&arr_iata=${searchFormatted}`
-      );
-      const depResponse = await fetch(
-        `${BASE_URL}flights?access_key=${API_KEY}&dep_iata=${searchFormatted}`
-      );
+    if (searchFormatted === "") {
+      //! TODO: Visualization of Bad Requests
+      console.log(`Bad Request`);
+      return;
+    }
 
-      if (!depResponse.ok || !arrResponse.ok) {
-        throw new Error("Failed to fetch data");
-      }
-
-      const depData = await depResponse.json();
-      const arrData = await arrResponse.json();
+    if (search.trim() !== "") {
+      const arrData = await fetchData<ApiResponse<ArrDepType>>({
+        url: `${BASE_URL}flights?access_key=${API_KEY}&arr_iata=${searchFormatted}`,
+      });
+      const depData = await fetchData<ApiResponse<ArrDepType>>({
+        url: `${BASE_URL}flights?access_key=${API_KEY}&dep_iata=${searchFormatted}`,
+      });
 
       setSearch("");
       setArrival(arrData);
       setDepartureActive(false);
       setArrivalActive(true);
       setDeparture(depData);
-    } catch (e) {
-      console.log((e as Error).message);
     }
   };
   const keyHandler = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
+      if (searchFormatted === "") {
+        //! TODO: Visualization of Bad Requests
+        console.log(`Bad Request`);
+        return;
+      }
       if (search.trim() !== "") {
-        try {
-          const arrResponse = await fetch(
-            `${BASE_URL}flights?access_key=${API_KEY}&arr_iata=${searchFormatted}`
-          );
-          const depResponse = await fetch(
-            `${BASE_URL}flights?access_key=${API_KEY}&dep_iata=${searchFormatted}`
-          );
+        const arrData = await fetchData<ApiResponse<ArrDepType>>({
+          url: `${BASE_URL}flights?access_key=${API_KEY}&arr_iata=${searchFormatted}`,
+        });
+        const depData = await fetchData<ApiResponse<ArrDepType>>({
+          url: `${BASE_URL}flights?access_key=${API_KEY}&dep_iata=${searchFormatted}`,
+        });
 
-          if (!depResponse.ok || !arrResponse.ok) {
-            throw new Error("Failed to fetch data");
-          }
-
-          const arrData = await arrResponse.json();
-          const depData = await depResponse.json();
-
-          setSearch("");
-          setArrival(arrData);
-          setDepartureActive(false);
-          setArrivalActive(true);
-          setDeparture(depData);
-        } catch (e) {
-          console.log((e as Error).message);
-        }
+        setSearch("");
+        setArrival(arrData);
+        setDepartureActive(false);
+        setArrivalActive(true);
+        setDeparture(depData);
       }
     }
   };

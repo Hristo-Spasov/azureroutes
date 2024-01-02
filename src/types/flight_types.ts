@@ -1,4 +1,8 @@
+interface DepartureType {
+  iata: string;
+}
 export interface ArrDepType {
+  departure: DepartureType;
   icao: string;
   iata: string;
   airport: string;
