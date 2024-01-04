@@ -1,10 +1,10 @@
 import { useState, useEffect, useContext } from "react";
 import { AirportType, WeatherType } from "../types/weather_types";
-import { FetchContext } from "../context/search-context";
+import { FetchContext } from "../context/fetch-context";
 import fetchData from "../utils/fetchData";
 
 const useWeather = () => {
-  const { departure } = useContext(FetchContext);
+  const { departureData } = useContext(FetchContext);
   const [airport, setAirport] = useState<AirportType>();
   const [weather, setWeather] = useState<WeatherType>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -20,10 +20,10 @@ const useWeather = () => {
   // Airport location fetching
   useEffect(() => {
     const airportFetch = async () => {
-      if (departure) {
+      if (departureData) {
         try {
           const airportData = await fetchData<AirportType>({
-            url: `https://aerodatabox.p.rapidapi.com/airports/iata/${departure.data[0].departure.iata}`,
+            url: `https://aerodatabox.p.rapidapi.com/airports/iata/${departureData.data[0].departure.iata}`,
             options,
           });
 
@@ -36,7 +36,7 @@ const useWeather = () => {
       }
     };
     airportFetch();
-  }, [departure]);
+  }, [departureData]);
 
   //   Weather Fetching
   useEffect(() => {

@@ -1,25 +1,28 @@
 import style from "./FlightGeneralInfo.module.scss";
 import FlightsListDetailedData from "../FlightsListDetailedData/FlightsListDetailedData";
 import React, { useContext, useEffect, useState } from "react";
-import { FetchContext } from "../../context/search-context";
+import { FetchContext } from "../../context/fetch-context";
 import ReactPaginate from "react-paginate";
 
 const FlightGeneralInfo = React.memo((): JSX.Element => {
-  const { departure, arrival, arrivalActive, departureActive } =
+  const { departureData, arrivalData, arrivalActive, departureActive } =
     useContext(FetchContext);
-  const [selectedPage, setSelectedPage] = useState(0);
 
+  const [selectedPage, setSelectedPage] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
+
   const itemsPerPage = 10;
 
   const endOffset = itemOffset + itemsPerPage;
 
-  if (!arrival || !departure) {
+  if (!arrivalData || !departureData) {
     return <div>Loading...</div>;
   }
 
-  const pageCountArrival = Math.ceil(arrival.data.length / itemsPerPage);
-  const pageCountDeparture = Math.ceil(departure.data.length / itemsPerPage);
+  const pageCountArrival = Math.ceil(arrivalData.data.length / itemsPerPage);
+  const pageCountDeparture = Math.ceil(
+    departureData.data.length / itemsPerPage
+  );
 
   const pageCount = arrivalActive
     ? pageCountArrival
@@ -29,8 +32,8 @@ const FlightGeneralInfo = React.memo((): JSX.Element => {
 
   const handlePageClick = (selectedItem: { selected: number }) => {
     const activeData = arrivalActive
-      ? arrival.data.length
-      : departure.data.length;
+      ? arrivalData.data.length
+      : departureData.data.length;
     const newOffset = (selectedItem.selected * itemsPerPage) % activeData;
     setItemOffset(newOffset);
     setSelectedPage(selectedItem.selected);
@@ -38,30 +41,33 @@ const FlightGeneralInfo = React.memo((): JSX.Element => {
 
   useEffect(() => {
     setItemOffset(0);
-
     setSelectedPage(0);
-  }, [arrivalActive, departureActive, arrival, departure]); //Resetting the page back to 1
+  }, [arrivalActive, departureActive, arrivalData, departureData]); //Resetting the page back to 1
 
-  const getCurrentItems = (data: any[], className: string) => {
+  const getCurrentItems = (data: any[], selectedPage: number) => {
     return data
       .slice(itemOffset, endOffset)
       .map((el, index) => (
-        <FlightsListDetailedData key={index} {...el} className={className} />
+        <FlightsListDetailedData
+          key={index}
+          selectedPage={selectedPage}
+          el={el}
+        />
       ));
   };
 
-  const renderFlights = (className: string) => {
-    if (arrivalActive && arrival) {
-      return getCurrentItems(arrival.data, className);
-    } else if (departureActive && departure) {
-      return getCurrentItems(departure.data, className);
+  const renderFlights = (selectedPage: number) => {
+    if (arrivalActive && arrivalData) {
+      return getCurrentItems(arrivalData.data, selectedPage);
+    } else if (departureActive && departureData) {
+      return getCurrentItems(departureData.data, selectedPage);
     }
     return null;
   };
 
   return (
     <ul className={style.container}>
-      {renderFlights(style.container)}
+      {renderFlights(selectedPage)}
       {pageCount > 0 && (
         <ReactPaginate
           breakLabel="..."

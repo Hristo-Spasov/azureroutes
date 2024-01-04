@@ -14,7 +14,7 @@ const fetchData = async <T>({
     const response = await fetch(url, options);
 
     if (!response.ok) {
-      throw new Error("Failed to fetch data");
+      throw new Error(`Failed to fetch data ${response.status} `);
     }
 
     const data = await response.json();

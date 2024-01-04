@@ -1,9 +1,10 @@
 import style from "./FlightsListDetailedData.module.scss";
-import { useState } from "react";
 import DownArrow from "../../assets/down-arrow-svgrepo-com.svg?react";
 import InFlight from "../../assets/airplane-in-flight-thin.svg?react";
 import dayjs from "dayjs";
 import { Airline, ArrDepType, FlightType } from "../../types/flight_types";
+import { useContext, useEffect, useState } from "react";
+import { FetchContext } from "../../context/fetch-context";
 
 type FlightProps = {
   arrival: ArrDepType;
@@ -14,50 +15,67 @@ type FlightProps = {
   flight_status: string;
 };
 
-const FlightsListDetailedData = (el: FlightProps, className: string) => {
+interface FlightsListDetailedDataProps {
+  el: FlightProps;
+  selectedPage: number;
+}
+
+const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
+  const { arrival, departure, airline, flight, flight_date, flight_status } =
+    props.el;
+  const { selectedPage } = props;
   const [toggle, setToggle] = useState<boolean>(false);
+  const { arrivalActive, departureActive, arrivalData, departureData } =
+    useContext(FetchContext);
 
   const dateError = "No information available";
 
-  const formatDepScheduled = el.departure.scheduled
-    ? dayjs(el.departure.scheduled).format(`DD.MM.YYYY HH:mm:ss`)
+  const formatDepScheduled = departure.scheduled
+    ? dayjs(departure.scheduled).format(`DD.MM.YYYY HH:mm:ss`)
     : dateError;
-  const formatDepEstimated = el.departure.estimated
-    ? dayjs(el.departure.estimated).format(`DD.MM.YYYY HH:mm:ss`)
+  const formatDepEstimated = departure.estimated
+    ? dayjs(departure.estimated).format(`DD.MM.YYYY HH:mm:ss`)
     : dateError;
-  const formatDepActual = el.departure.actual
-    ? dayjs(el.departure.actual).format(`DD.MM.YYYY HH:mm:ss`)
+  const formatDepActual = departure.actual
+    ? dayjs(departure.actual).format(`DD.MM.YYYY HH:mm:ss`)
     : dateError;
 
-  const formatArrScheduled = el.arrival.scheduled
-    ? dayjs(el.arrival.scheduled).format(`DD.MM.YYYY HH:mm:ss`)
+  const formatArrScheduled = arrival.scheduled
+    ? dayjs(arrival.scheduled).format(`DD.MM.YYYY HH:mm:ss`)
     : dateError;
-  const formatArrEstimated = el.arrival.estimated
-    ? dayjs(el.arrival.estimated).format(`DD.MM.YYYY HH:mm:ss`)
+  const formatArrEstimated = arrival.estimated
+    ? dayjs(arrival.estimated).format(`DD.MM.YYYY HH:mm:ss`)
     : dateError;
-  const formatArrActual = el.arrival.actual
-    ? dayjs(el.arrival.actual).format(`DD.MM.YYYY HH:mm:ss`)
+  const formatArrActual = arrival.actual
+    ? dayjs(arrival.actual).format(`DD.MM.YYYY HH:mm:ss`)
     : dateError;
 
   const toggleDropdown = () => {
     setToggle((prev) => !prev);
   };
 
+  useEffect(() => {
+    setToggle(false);
+  }, [
+    arrivalActive,
+    departureActive,
+    arrivalData,
+    departureData,
+    selectedPage,
+  ]);
+
   return (
     <>
-      <li
-        className={`${className} ${style.information_wrapper} `}
-        onClick={toggleDropdown}
-      >
+      <li className={` ${style.information_wrapper} `} onClick={toggleDropdown}>
         <div className={style.codes}>
-          <span>icao: {el.departure.icao}</span>
-          <span>iata: {el.departure.iata}</span>
+          <span>icao: {departure.icao}</span>
+          <span>iata: {departure.iata}</span>
         </div>
         <div className={style.airport_operator_names}>
-          <span>Airport: {el.departure.airport}</span>
+          <span>Airport: {departure.airport}</span>
         </div>
         <div className={style.airport_operator_names}>
-          <span>Operator: {el.airline.name}</span>
+          <span>Operator: {airline.name}</span>
         </div>
         <span className={style.arrow_wrapper}>
           <DownArrow width={12} height={12} />
@@ -67,22 +85,21 @@ const FlightsListDetailedData = (el: FlightProps, className: string) => {
       {/* Dropdown Information */}
 
       {toggle && (
-        <li className={`${style.detailed_information} ${className}`}>
+        <li className={`${style.detailed_information}`}>
           <div className={style.status}>
             <span>
-              {dayjs(el.flight_date).format(`DD.MM.YYYY`)} |{" "}
-              {el.departure.timezone}
+              {dayjs(flight_date).format(`DD.MM.YYYY`)} | {departure.timezone}
             </span>
             <div className={style.flight_number}>
               <span>Flight</span>
-              <span>{el.flight.iata}</span>
+              <span>{flight.iata}</span>
             </div>
-            <span>{el.flight_status}</span>
+            <span>{flight_status}</span>
           </div>
           {/* Arrival from airport */}
           <div className={style.airport_name}>
             <span>
-              {el.departure.airport},{el.departure.iata}
+              {departure.airport},{departure.iata}
             </span>
           </div>
           <div className={style.dropdown_departure}>
@@ -90,10 +107,10 @@ const FlightsListDetailedData = (el: FlightProps, className: string) => {
               <span>Scheduled</span>
               <span>{formatDepScheduled}</span>
             </div>
-            {el.departure.delay == "" ? (
+            {departure.delay == "" ? (
               <div className={style.departure_sub_class}>
                 <span>Delay</span>
-                <span>{el.departure.delay}</span>
+                <span>{departure.delay}</span>
               </div>
             ) : (
               ""
@@ -114,7 +131,7 @@ const FlightsListDetailedData = (el: FlightProps, className: string) => {
           {/* Departure for airport */}
           <div className={style.airport_name}>
             <span>
-              {el.arrival.airport},{el.arrival.iata}
+              {arrival.airport},{arrival.iata}
             </span>
           </div>
           <div className={style.dropdown_arrival}>
@@ -122,10 +139,10 @@ const FlightsListDetailedData = (el: FlightProps, className: string) => {
               <span>Scheduled</span>
               <span>{formatArrScheduled}</span>
             </div>
-            {el.arrival.delay == "" ? (
+            {arrival.delay == "" ? (
               <div className={style.arrival_sub_class}>
                 <span>Delay</span>
-                <span>{el.arrival.delay}</span>
+                <span>{arrival.delay}</span>
               </div>
             ) : (
               ""

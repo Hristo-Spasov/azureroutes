@@ -9,10 +9,12 @@ interface ApiResponse<T> {
 interface FetchContextType<T> {
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
-  arrival: ApiResponse<T> | undefined;
-  setArrival: React.Dispatch<React.SetStateAction<ApiResponse<T> | undefined>>;
-  departure: ApiResponse<T> | undefined;
-  setDeparture: React.Dispatch<
+  arrivalData: ApiResponse<T> | undefined;
+  setArrivalData: React.Dispatch<
+    React.SetStateAction<ApiResponse<T> | undefined>
+  >;
+  departureData: ApiResponse<T> | undefined;
+  setDepartureData: React.Dispatch<
     React.SetStateAction<ApiResponse<T> | undefined>
   >;
   searchHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -27,10 +29,10 @@ interface FetchContextType<T> {
 export const FetchContext = createContext<FetchContextType<ArrDepType>>({
   search: "",
   setSearch: () => {},
-  arrival: undefined,
-  setArrival: () => {},
-  departure: undefined,
-  setDeparture: () => {},
+  arrivalData: undefined,
+  setArrivalData: () => {},
+  departureData: undefined,
+  setDepartureData: () => {},
   searchHandler: (_e) => {},
   clickHandler: () => {},
   keyHandler: (_e) => {},
@@ -49,8 +51,10 @@ interface Props {
 
 export const FetchProvider = ({ children }: Props) => {
   const [search, setSearch] = useState<string>("");
-  const [departure, setDeparture] = useState<ApiResponse<ArrDepType>>();
-  const [arrival, setArrival] = useState<ApiResponse<ArrDepType> | undefined>();
+  const [departureData, setDepartureData] = useState<ApiResponse<ArrDepType>>();
+  const [arrivalData, setArrivalData] = useState<
+    ApiResponse<ArrDepType> | undefined
+  >();
   const [arrivalActive, setArrivalActive] = useState<boolean>(false);
   const [departureActive, setDepartureActive] = useState<boolean>(false);
 
@@ -59,9 +63,9 @@ export const FetchProvider = ({ children }: Props) => {
   };
 
   useEffect(() => {
-    console.log("Arrival:", arrival);
-    console.log("Departure:", departure);
-  }, [arrival, departure]);
+    console.log("Arrival:", arrivalData);
+    console.log("Departure:", departureData);
+  }, [arrivalData, departureData]);
 
   const searchFormatted = search.trim().replace(/[^\w ]/g, ""); //Removing special symbols if any in the search params.
 
@@ -81,10 +85,10 @@ export const FetchProvider = ({ children }: Props) => {
       });
 
       setSearch("");
-      setArrival(arrData);
+      setArrivalData(arrData);
       setDepartureActive(false);
       setArrivalActive(true);
-      setDeparture(depData);
+      setDepartureData(depData);
     }
   };
   const keyHandler = async (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -104,10 +108,10 @@ export const FetchProvider = ({ children }: Props) => {
         });
 
         setSearch("");
-        setArrival(arrData);
+        setArrivalData(arrData);
         setDepartureActive(false);
         setArrivalActive(true);
-        setDeparture(depData);
+        setDepartureData(depData);
       }
     }
   };
@@ -115,10 +119,10 @@ export const FetchProvider = ({ children }: Props) => {
   const value = {
     search,
     setSearch,
-    arrival,
-    setArrival,
-    departure,
-    setDeparture,
+    arrivalData,
+    setArrivalData,
+    departureData,
+    setDepartureData,
     searchHandler,
     clickHandler,
     keyHandler,

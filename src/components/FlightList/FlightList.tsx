@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import FlightGeneralInfo from "../FlightGeneralInfo/FlightGeneralInfo";
-import { FetchContext } from "../../context/search-context";
+import { FetchContext } from "../../context/fetch-context";
 import { ClockContext } from "../../context/clock-context";
 import style from "./FlightList.module.scss";
 import Temp from "../../assets/weather_icons/temp.svg?react";
@@ -10,7 +10,7 @@ import useWeather from "../../hooks/useWeather";
 
 const FlightList = () => {
   const { weather } = useWeather();
-  const { arrival, departure } = useContext(FetchContext);
+  const { arrivalData, departureData } = useContext(FetchContext);
   const { date } = useContext(ClockContext);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const FlightList = () => {
   }, [weather]);
   return (
     <>
-      {arrival && departure && (
+      {arrivalData && departureData && (
         <section className={style.flight_list_container}>
           {/* Meteo info about the Airport */}
           <div className={style.list_header}>
