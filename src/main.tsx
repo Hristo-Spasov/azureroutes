@@ -3,11 +3,16 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.scss";
 import { FetchProvider } from "./context/fetch-context.tsx";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <FetchProvider>
-      <App />
-    </FetchProvider>
+    <QueryClientProvider client={queryClient}>
+      <FetchProvider>
+        <App />
+      </FetchProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );
