@@ -13,11 +13,13 @@ const FlightList = () => {
   const { arrivalData, departureData } = useContext(FetchContext);
   const { date } = useContext(ClockContext);
 
+  //To Remove in the Future
   useEffect(() => {
     if (weather) {
       console.log(weather);
     }
   }, [weather]);
+
   return (
     <>
       {arrivalData && departureData && (

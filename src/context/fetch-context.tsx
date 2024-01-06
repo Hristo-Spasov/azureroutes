@@ -64,6 +64,7 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     setSearch(e.target.value);
   };
 
+  //!To remove in the future
   useEffect(() => {
     console.log("Arrival:", arrivalData);
     console.log("Departure:", departureData);
