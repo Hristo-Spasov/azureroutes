@@ -20,7 +20,7 @@ const useWeather = () => {
   });
 
   if (airportDataError) {
-    throw new Error("Error fetching airportData");
+    console.error("Error fetching airport data", airportDataError);
   }
 
   const { isLoading: weatherIsLoading, isError: weatherIsError } = useQuery({
@@ -34,7 +34,7 @@ const useWeather = () => {
   });
 
   if (weatherIsError) {
-    throw new Error("Error fetching weather data!");
+    console.error("Error fetching weather data", weatherIsError);
   }
 
   return {

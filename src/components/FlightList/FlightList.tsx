@@ -62,6 +62,12 @@ const FlightList = () => {
           </div>
         </section>
       )}
+      {arrivalData?.data.length === 0 && (
+        <h2>
+          There is no such airport or the data about the airport is not
+          available
+        </h2>
+      )}
     </>
   );
 };

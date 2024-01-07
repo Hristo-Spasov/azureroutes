@@ -34,7 +34,7 @@ const options = {
 };
 
 export const airportFetch = async (departureData: ApiResponse<ArrDepType>) => {
-  if (departureData) {
+  if (departureData && departureData.data.length !== 0) {
     const data = await fetchData<AirportType>({
       url: `https://aerodatabox.p.rapidapi.com/airports/iata/${departureData.data[0].departure.iata}`,
       options,
