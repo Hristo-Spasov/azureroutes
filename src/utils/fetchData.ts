@@ -1,3 +1,5 @@
+import axios, { AxiosError, AxiosResponse } from "axios";
+
 interface FetchDataProps {
   url: string;
   options?: {
@@ -11,17 +13,19 @@ const fetchData = async <T>({
   options,
 }: FetchDataProps): Promise<T | undefined> => {
   try {
-    const response = await fetch(url, options);
+    const response: AxiosResponse<T> = await axios.get<T>(url, options);
+    const responeseData: T = response.data;
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch data ${response.status} `);
+    return responeseData;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const axiosError: AxiosError = error;
+      console.log("error message: ", error.message);
+      throw axiosError;
+    } else {
+      console.log("unexpected error: ", error);
+      throw new Error("An unexpected error occurred");
     }
-
-    const data = await response.json();
-    return data;
-  } catch (e) {
-    console.log((e as Error).message);
-    throw e;
   }
 };
 
