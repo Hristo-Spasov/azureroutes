@@ -1,66 +1,47 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { AirportType, WeatherType } from "../types/weather_types";
 import { FetchContext } from "../context/fetch-context";
-import fetchData from "../utils/fetchData";
+import { useQuery } from "react-query";
+import { airportFetch, weatherFetch } from "../utils/fetchHelpers";
 
 const useWeather = () => {
   const { departureData } = useContext(FetchContext);
   const [airport, setAirport] = useState<AirportType>();
   const [weather, setWeather] = useState<WeatherType>();
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null);
 
-  const options = {
-    method: "GET",
-    headers: {
-      "X-RapidAPI-Key": import.meta.env.VITE_RAPID_API,
-      "X-RapidAPI-Host": "aerodatabox.p.rapidapi.com",
+  const { isError: airportDataError } = useQuery({
+    queryKey: ["airportData", departureData],
+    queryFn: () => airportFetch(departureData!),
+    enabled: !!departureData,
+    cacheTime: 0,
+    onSuccess: (data) => {
+      setAirport(data);
     },
+  });
+
+  if (airportDataError) {
+    console.error("Error fetching airport data", airportDataError);
+  }
+
+  const { isLoading: weatherIsLoading, isError: weatherIsError } = useQuery({
+    queryKey: ["weatherData", airport],
+    queryFn: () => weatherFetch(airport!),
+    cacheTime: 0,
+    enabled: !!airport,
+    onSuccess: (data) => {
+      setWeather(data);
+    },
+  });
+
+  if (weatherIsError) {
+    console.error("Error fetching weather data", weatherIsError);
+  }
+
+  return {
+    weather,
+    weatherIsLoading,
+    weatherIsError,
   };
-  // Airport location fetching
-  useEffect(() => {
-    const airportFetch = async () => {
-      if (departureData) {
-        try {
-          const airportData = await fetchData<AirportType>({
-            url: `https://aerodatabox.p.rapidapi.com/airports/iata/${departureData.data[0].departure.iata}`,
-            options,
-          });
-
-          setAirport(airportData);
-        } catch (error) {
-          setError(error as Error);
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-    airportFetch();
-  }, [departureData]);
-
-  //   Weather Fetching
-  useEffect(() => {
-    const weatherFetch = async () => {
-      if (airport) {
-        try {
-          const weatherData = await fetchData<WeatherType>({
-            url: `http://api.weatherapi.com/v1/current.json?key=${
-              import.meta.env.VITE_WEATHER_API
-            }&q=${airport?.location.lat},${airport?.location.lon}`,
-          });
-
-          setWeather(weatherData);
-        } catch (error) {
-          setError(error as Error);
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-    weatherFetch();
-  }, [airport]);
-
-  return { weather, loading, error };
 };
 
 export default useWeather;

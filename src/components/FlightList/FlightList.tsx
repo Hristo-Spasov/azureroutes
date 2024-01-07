@@ -13,11 +13,13 @@ const FlightList = () => {
   const { arrivalData, departureData } = useContext(FetchContext);
   const { date } = useContext(ClockContext);
 
+  //To Remove in the Future
   useEffect(() => {
     if (weather) {
       console.log(weather);
     }
   }, [weather]);
+
   return (
     <>
       {arrivalData && departureData && (
@@ -59,6 +61,12 @@ const FlightList = () => {
             <FlightGeneralInfo />
           </div>
         </section>
+      )}
+      {arrivalData?.data.length === 0 && (
+        <h2>
+          There is no such airport or the data about the airport is not
+          available
+        </h2>
       )}
     </>
   );
