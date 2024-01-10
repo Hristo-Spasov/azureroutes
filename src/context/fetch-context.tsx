@@ -29,6 +29,8 @@ interface FetchContextType<T> {
   setArrivalActive: React.Dispatch<React.SetStateAction<boolean>>;
   departureActive: boolean;
   setDepartureActive: React.Dispatch<React.SetStateAction<boolean>>;
+  arrivalDataLoading: boolean;
+  departureDataLoading: boolean;
 }
 
 export const FetchContext = createContext<FetchContextType<ArrDepType>>({
@@ -45,6 +47,8 @@ export const FetchContext = createContext<FetchContextType<ArrDepType>>({
   setArrivalActive: () => {},
   departureActive: false,
   setDepartureActive: () => {},
+  arrivalDataLoading: false,
+  departureDataLoading: false,
 });
 
 interface FetchProviderProps {
@@ -72,23 +76,21 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
 
   const searchFormatted = search.trim().replace(/[^\w ]/g, ""); //Removing special symbols if any in the search params.
 
-  const { refetch: arrFetch } = useQuery({
+  const { refetch: arrFetch, isLoading: arrivalDataLoading } = useQuery({
     queryKey: ["arrivalData", API_KEY, searchFormatted],
     queryFn: () => fetchArrivalData(searchFormatted),
     cacheTime: 0,
     enabled: false,
     onSuccess: (data) => setArrivalData(data),
   });
-  const { refetch: depFetch } = useQuery({
+  const { refetch: depFetch, isLoading: departureDataLoading } = useQuery({
     queryKey: ["departureData", API_KEY, searchFormatted],
     queryFn: () => fetchDepartureData(searchFormatted),
     cacheTime: 0,
     enabled: false,
-    onSuccess: (data) => {
-      setDepartureData(data);
-      console.log("State", departureData);
-    },
+    onSuccess: (data) => setDepartureData(data),
   });
+
   const clickHandler = async () => {
     if (searchFormatted === "") {
       //! TODO: Visualization of Bad Requests
@@ -136,6 +138,8 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     setArrivalActive,
     departureActive,
     setDepartureActive,
+    arrivalDataLoading,
+    departureDataLoading,
   };
 
   return (

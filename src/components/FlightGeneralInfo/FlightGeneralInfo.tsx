@@ -3,6 +3,7 @@ import FlightsListDetailedData from "../FlightsListDetailedData/FlightsListDetai
 import React, { useContext, useEffect, useState } from "react";
 import { FetchContext } from "../../context/fetch-context";
 import ReactPaginate from "react-paginate";
+import Spinner from "../Spinner/Spinner";
 
 const FlightGeneralInfo = React.memo((): JSX.Element => {
   const { departureData, arrivalData, arrivalActive, departureActive } =
@@ -16,7 +17,7 @@ const FlightGeneralInfo = React.memo((): JSX.Element => {
   const endOffset = itemOffset + itemsPerPage;
 
   if (!arrivalData || !departureData) {
-    return <div>Loading...</div>;
+    return <Spinner />; //TODO: Re-think and visualize something relevant
   }
 
   const pageCountArrival = Math.ceil(arrivalData.data.length / itemsPerPage);
