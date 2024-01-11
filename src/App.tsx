@@ -20,6 +20,8 @@ function App() {
     departureActive,
     departureData,
     arrivalData,
+    arrivalDataLoading,
+    departureDataLoading,
   } = useContext(FetchContext);
 
   const handleArrivalClick = () => {
@@ -36,6 +38,10 @@ function App() {
     }
   };
 
+  const disableDiv: React.CSSProperties = {
+    pointerEvents: arrivalDataLoading || departureDataLoading ? "none" : "auto",
+  };
+
   return (
     <>
       <Header />
@@ -49,6 +55,7 @@ function App() {
               onChange={searchHandler}
               onKeyDown={keyHandler}
               value={search}
+              disabled={arrivalDataLoading || departureDataLoading}
             />
             <div className={style.search_btn_wrapper} onClick={clickHandler}>
               <Search width={30} height={30} />
@@ -61,6 +68,7 @@ function App() {
                 arrivalActive ? style.search_menu1_active : style.search_menu1
               }
               onClick={handleArrivalClick}
+              style={disableDiv}
             >
               <button>
                 <Landing width={50} height={50} />
@@ -72,6 +80,7 @@ function App() {
                 departureActive ? style.search_menu2_active : style.search_menu2
               }
               onClick={handleDepartureClick}
+              style={disableDiv}
             >
               <button>
                 <TakeOff width={50} height={50} /> Departure

@@ -14,6 +14,8 @@ const FlightList = () => {
   const {
     arrivalData,
     departureData,
+    arrivalActive,
+    departureActive,
     arrivalDataLoading,
     departureDataLoading,
   } = useContext(FetchContext);
@@ -74,11 +76,14 @@ const FlightList = () => {
               </div>
             </section>
           )}
-          {arrivalData?.data.length === 0 && (
+          {(arrivalData?.data.length === 0 && arrivalActive) ||
+          (departureData?.data.length === 0 && departureActive) ? (
             <h2>
               There is no such airport or the data about the airport is not
-              available
+              currently available
             </h2>
+          ) : (
+            ""
           )}
         </>
       )}

@@ -97,11 +97,12 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
       console.log(`Bad Request`);
       return;
     }
-
+    setArrivalActive(false);
+    setDepartureActive(false);
     await Promise.all([arrFetch(), depFetch()]);
+
     if (search.trim() !== "") {
       setSearch("");
-      setDepartureActive(false);
       setArrivalActive(true);
     }
   };
@@ -114,11 +115,12 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
         console.log(`Bad Request`);
         return;
       }
+      setArrivalActive(false);
+      setDepartureActive(false);
       await Promise.all([arrFetch(), depFetch()]);
 
       if (search.trim() !== "") {
         setSearch("");
-        setDepartureActive(false);
         setArrivalActive(true);
       }
     }
