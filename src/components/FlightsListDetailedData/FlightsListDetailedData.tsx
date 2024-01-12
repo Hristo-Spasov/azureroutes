@@ -1,21 +1,12 @@
 import style from "./FlightsListDetailedData.module.scss";
 import DownArrow from "../../assets/down-arrow-svgrepo-com.svg?react";
-import { Airline, ArrDepType, FlightType } from "../../types/flight_types";
+import { FlightDataType } from "../../types/flight_types";
 import { useContext, useEffect, useState } from "react";
 import { FetchContext } from "../../context/fetch-context";
 import Dropdown from "../Dropdown/Dropdown";
 
-type FlightProps = {
-  arrival: ArrDepType;
-  departure: ArrDepType;
-  airline: Airline;
-  flight: FlightType;
-  flight_date: string;
-  flight_status: string;
-};
-
 interface FlightsListDetailedDataProps {
-  el: FlightProps;
+  el: FlightDataType;
   selectedPage: number;
 }
 

@@ -1,5 +1,5 @@
 import { useState, createContext, ReactNode, useEffect } from "react";
-import { ArrDepType } from "../types/flight_types";
+import { FlightDataType } from "../types/flight_types";
 import { useQuery } from "react-query";
 import {
   API_KEY,
@@ -34,7 +34,7 @@ interface FetchContextType<T> {
   departureDataLoading: boolean;
 }
 
-export const FetchContext = createContext<FetchContextType<ArrDepType>>({
+export const FetchContext = createContext<FetchContextType<FlightDataType>>({
   search: "",
   setSearch: () => {},
   arrivalData: undefined,
@@ -58,9 +58,10 @@ interface FetchProviderProps {
 
 export const FetchProvider = ({ children }: FetchProviderProps) => {
   const [search, setSearch] = useState<string>("");
-  const [departureData, setDepartureData] = useState<ApiResponse<ArrDepType>>();
+  const [departureData, setDepartureData] =
+    useState<ApiResponse<FlightDataType>>();
   const [arrivalData, setArrivalData] = useState<
-    ApiResponse<ArrDepType> | undefined
+    ApiResponse<FlightDataType> | undefined
   >();
   const [arrivalActive, setArrivalActive] = useState<boolean>(false);
   const [departureActive, setDepartureActive] = useState<boolean>(false);
@@ -100,13 +101,16 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
 
   const clickHandler = async () => {
     if (handlerConditions) {
-      toast.error("Search airport using iata or icao code", {
-        id: "bad request",
-        position: "top-center",
-        style: {
-          marginTop: "5rem",
-        },
-      });
+      toast.error(
+        "Search airport using iata (3 characters) or icao (4 characters) code",
+        {
+          id: "bad request",
+          position: "top-center",
+          style: {
+            marginTop: "5rem",
+          },
+        }
+      );
       return;
     }
     setArrivalActive(false);
@@ -123,13 +127,16 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     if (e.key === "Enter") {
       e.preventDefault();
       if (handlerConditions) {
-        toast.error("Search airport using iata or icao code", {
-          id: "bad request",
-          position: "top-center",
-          style: {
-            marginTop: "5rem",
-          },
-        });
+        toast.error(
+          "Search airport using iata (3 characters) or icao (4 characters) code",
+          {
+            id: "bad request",
+            position: "top-center",
+            style: {
+              marginTop: "5rem",
+            },
+          }
+        );
         return;
       }
       setArrivalActive(false);

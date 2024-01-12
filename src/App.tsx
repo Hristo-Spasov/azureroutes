@@ -45,9 +45,11 @@ function App() {
 
   return (
     <>
+      {/* Alerts */}
       <div>
         <Toaster position="top-right" reverseOrder={false} />
       </div>
+      {/* Main Page */}
       <Header />
       <main className={style.main}>
         <div className={style.search_container}>
@@ -58,7 +60,7 @@ function App() {
               className={style.search}
               onChange={searchHandler}
               onKeyDown={keyHandler}
-              value={search}
+              value={search.toUpperCase()}
               disabled={arrivalDataLoading || departureDataLoading}
             />
             <div className={style.search_btn_wrapper} onClick={clickHandler}>
@@ -66,7 +68,7 @@ function App() {
             </div>
           </form>
           <div className={style.search_menu_wrapper}>
-            {/* Buttons */}
+            {/* Arrival Button */}
             <div
               className={
                 arrivalActive ? style.search_menu1_active : style.search_menu1
@@ -79,6 +81,7 @@ function App() {
                 Arrival
               </button>
             </div>
+            {/* Departure button */}
             <div
               className={
                 departureActive ? style.search_menu2_active : style.search_menu2
@@ -92,6 +95,7 @@ function App() {
             </div>
           </div>
         </div>
+        {/* Clock */}
         <ClockProvider>
           <FlightList />
         </ClockProvider>

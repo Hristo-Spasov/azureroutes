@@ -1,3 +1,12 @@
+export type FlightDataType = {
+  flight_date: string;
+  flight_status: string;
+  arrival: ArrDepType;
+  departure: ArrDepType;
+  airline: Airline;
+  flight: FlightType;
+};
+
 interface DepartureType {
   iata: string;
 }

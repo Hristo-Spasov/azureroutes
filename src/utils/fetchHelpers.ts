@@ -1,4 +1,4 @@
-import { ArrDepType } from "../types/flight_types";
+import { FlightDataType } from "../types/flight_types";
 import { AirportType, WeatherType } from "../types/weather_types";
 import fetchData from "./fetchData";
 
@@ -16,7 +16,7 @@ export const fetchArrivalData = async (searchFormatted: string) => {
       : searchFormatted.length === 4
       ? "arr_icao"
       : "";
-  const data = await fetchData<ApiResponse<ArrDepType>>({
+  const data = await fetchData<ApiResponse<FlightDataType>>({
     url: `${BASE_URL}flights?access_key=${API_KEY}&${codeCheck}=${searchFormatted}`,
   });
   return data;
@@ -29,7 +29,7 @@ export const fetchDepartureData = async (searchFormatted: string) => {
       : searchFormatted.length === 4
       ? "dep_icao"
       : "";
-  const data = await fetchData<ApiResponse<ArrDepType>>({
+  const data = await fetchData<ApiResponse<FlightDataType>>({
     url: `${BASE_URL}flights?access_key=${API_KEY}&${codeCheck}=${searchFormatted}`,
   });
   return data;
@@ -45,7 +45,9 @@ const options = {
   },
 };
 
-export const airportFetch = async (departureData: ApiResponse<ArrDepType>) => {
+export const airportFetch = async (
+  departureData: ApiResponse<FlightDataType>
+) => {
   if (departureData && departureData.data.length !== 0) {
     const data = await fetchData<AirportType>({
       url: `https://aerodatabox.p.rapidapi.com/airports/iata/${departureData.data[0].departure.iata}`,

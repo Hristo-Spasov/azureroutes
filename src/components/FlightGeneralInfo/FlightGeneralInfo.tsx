@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { FetchContext } from "../../context/fetch-context";
 import ReactPaginate from "react-paginate";
 import toast from "react-hot-toast";
+import { FlightDataType } from "../../types/flight_types";
 
 const FlightGeneralInfo = React.memo((): JSX.Element => {
   const { departureData, arrivalData, arrivalActive, departureActive } =
@@ -46,7 +47,7 @@ const FlightGeneralInfo = React.memo((): JSX.Element => {
     setSelectedPage(0);
   }, [arrivalActive, departureActive, arrivalData, departureData]); //Resetting the page back to 1
 
-  const getCurrentItems = (data: any[], selectedPage: number) => {
+  const getCurrentItems = (data: FlightDataType[], selectedPage: number) => {
     return data
       .slice(itemOffset, endOffset)
       .map((el, index) => (
