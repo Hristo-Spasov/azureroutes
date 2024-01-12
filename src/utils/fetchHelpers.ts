@@ -10,15 +10,27 @@ const BASE_URL = "http://api.aviationstack.com/v1/";
 export const API_KEY = import.meta.env.VITE_AVIATIONSTACK_KEY;
 
 export const fetchArrivalData = async (searchFormatted: string) => {
+  const codeCheck =
+    searchFormatted.length === 3
+      ? "arr_iata"
+      : searchFormatted.length === 4
+      ? "arr_icao"
+      : "";
   const data = await fetchData<ApiResponse<ArrDepType>>({
-    url: `${BASE_URL}flights?access_key=${API_KEY}&arr_iata=${searchFormatted}`,
+    url: `${BASE_URL}flights?access_key=${API_KEY}&${codeCheck}=${searchFormatted}`,
   });
   return data;
 };
 
 export const fetchDepartureData = async (searchFormatted: string) => {
+  const codeCheck =
+    searchFormatted.length === 3
+      ? "dep_iata"
+      : searchFormatted.length === 4
+      ? "dep_icao"
+      : "";
   const data = await fetchData<ApiResponse<ArrDepType>>({
-    url: `${BASE_URL}flights?access_key=${API_KEY}&dep_iata=${searchFormatted}`,
+    url: `${BASE_URL}flights?access_key=${API_KEY}&${codeCheck}=${searchFormatted}`,
   });
   return data;
 };

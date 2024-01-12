@@ -77,6 +77,7 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
 
   const searchFormatted = search.trim().replace(/[^\w ]/g, ""); //Removing special symbols if any in the search params.
 
+  ///  React Query
   const { refetch: arrFetch, isLoading: arrivalDataLoading } = useQuery({
     queryKey: ["arrivalData", API_KEY, searchFormatted],
     queryFn: () => fetchArrivalData(searchFormatted),
@@ -92,13 +93,18 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     onSuccess: (data) => setDepartureData(data),
   });
 
+  /// Handlers
+  const handlerConditions =
+    searchFormatted === "" ||
+    (searchFormatted.length !== 3 && searchFormatted.length !== 4);
+
   const clickHandler = async () => {
-    if (searchFormatted === "" || searchFormatted.length < 3) {
-      toast.error("Search airport using iata code", {
+    if (handlerConditions) {
+      toast.error("Search airport using iata or icao code", {
         id: "bad request",
         position: "top-center",
         style: {
-          marginTop: "12.5rem",
+          marginTop: "5rem",
         },
       });
       return;
@@ -116,12 +122,12 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
   const keyHandler = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if (searchFormatted === "" || searchFormatted.length < 3) {
-        toast.error("Search airport using iata code", {
+      if (handlerConditions) {
+        toast.error("Search airport using iata or icao code", {
           id: "bad request",
           position: "top-center",
           style: {
-            marginTop: "12.5rem",
+            marginTop: "5rem",
           },
         });
         return;

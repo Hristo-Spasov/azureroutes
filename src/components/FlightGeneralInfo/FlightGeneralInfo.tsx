@@ -17,7 +17,7 @@ const FlightGeneralInfo = React.memo((): JSX.Element => {
   const endOffset = itemOffset + itemsPerPage;
 
   if (!arrivalData || !departureData) {
-    toast.error("Data is not avaible");
+    toast.error("Data is not available");
     return <></>;
   }
 
