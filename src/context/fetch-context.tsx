@@ -6,6 +6,7 @@ import {
   fetchArrivalData,
   fetchDepartureData,
 } from "../utils/fetchHelpers";
+import toast from "react-hot-toast";
 
 interface ApiResponse<T> {
   data: T[];
@@ -92,9 +93,14 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
   });
 
   const clickHandler = async () => {
-    if (searchFormatted === "") {
-      //! TODO: Visualization of Bad Requests
-      console.log(`Bad Request`);
+    if (searchFormatted === "" || searchFormatted.length < 3) {
+      toast.error("Search airport using iata code", {
+        id: "bad request",
+        position: "top-center",
+        style: {
+          marginTop: "12.5rem",
+        },
+      });
       return;
     }
     setArrivalActive(false);
@@ -110,9 +116,14 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
   const keyHandler = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if (searchFormatted === "") {
-        //! TODO: Visualization of Bad Requests
-        console.log(`Bad Request`);
+      if (searchFormatted === "" || searchFormatted.length < 3) {
+        toast.error("Search airport using iata code", {
+          id: "bad request",
+          position: "top-center",
+          style: {
+            marginTop: "12.5rem",
+          },
+        });
         return;
       }
       setArrivalActive(false);

@@ -3,7 +3,7 @@ import FlightsListDetailedData from "../FlightsListDetailedData/FlightsListDetai
 import React, { useContext, useEffect, useState } from "react";
 import { FetchContext } from "../../context/fetch-context";
 import ReactPaginate from "react-paginate";
-import Spinner from "../Spinner/Spinner";
+import toast from "react-hot-toast";
 
 const FlightGeneralInfo = React.memo((): JSX.Element => {
   const { departureData, arrivalData, arrivalActive, departureActive } =
@@ -17,7 +17,8 @@ const FlightGeneralInfo = React.memo((): JSX.Element => {
   const endOffset = itemOffset + itemsPerPage;
 
   if (!arrivalData || !departureData) {
-    return <Spinner />; //TODO: Re-think and visualize something relevant
+    toast.error("Data is not avaible");
+    return <></>;
   }
 
   const pageCountArrival = Math.ceil(arrivalData.data.length / itemsPerPage);
