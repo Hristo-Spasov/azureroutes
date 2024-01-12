@@ -116,7 +116,7 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
   const keyHandler = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if (searchFormatted === "") {
+      if (searchFormatted === "" || searchFormatted.length < 3) {
         toast.error("Search airport using iata code", {
           id: "bad request",
           position: "top-center",
