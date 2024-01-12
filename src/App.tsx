@@ -7,6 +7,7 @@ import TakeOff from "./assets/takeoff-thin.svg?react";
 import { useContext } from "react";
 import { FetchContext } from "./context/fetch-context";
 import { ClockProvider } from "./context/clock-context";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const {
@@ -44,6 +45,9 @@ function App() {
 
   return (
     <>
+      <div>
+        <Toaster position="top-right" reverseOrder={false} />
+      </div>
       <Header />
       <main className={style.main}>
         <div className={style.search_container}>
