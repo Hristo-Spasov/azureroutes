@@ -21,12 +21,17 @@ const FlightList = () => {
   } = useContext(FetchContext);
   const { date } = useContext(ClockContext);
 
-  //To Remove in the Future
+  //TODO Remove in the Future
   useEffect(() => {
     if (weather) {
       console.log(weather);
     }
   }, [weather]);
+
+  const weatherIsAvailable = departureData?.data.length! > 0;
+  const arrivalIsNotAvailable = arrivalData?.data.length === 0 && arrivalActive;
+  const departuerIsNotAvailable =
+    departureData?.data.length === 0 && departureActive;
 
   return (
     <>
@@ -42,7 +47,9 @@ const FlightList = () => {
                   <div>
                     <span>{date && date.format(`DD.MM.YYYY HH:mm:ss`)}</span>
                   </div>
-                  {weather && (
+
+                  {/* Weather Widget */}
+                  {weather && weatherIsAvailable && (
                     <div className={style.weather_container}>
                       <img
                         src={weather.current.condition.icon}
@@ -76,8 +83,7 @@ const FlightList = () => {
               </div>
             </section>
           )}
-          {(arrivalData?.data.length === 0 && arrivalActive) ||
-          (departureData?.data.length === 0 && departureActive) ? (
+          {arrivalIsNotAvailable || departuerIsNotAvailable ? (
             <h2>
               There is no such airport or the data about the airport is not
               currently available
