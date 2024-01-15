@@ -16,8 +16,17 @@
   width: 100%;
   height: 100%;
 
-  .search_wrapper {
-    position: relative;
+  .radio_container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .form.rounded {
+    border-radius: 16px;
+  }
+  .form {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -26,7 +35,6 @@
     width: 39.85dvw;
     min-width: 250px;
     height: 15dvh;
-    overflow: hidden;
     // background-color: rgba($color: #000000, $alpha: 0.6);
 
     background: rgba(72, 72, 72, 0.2);
@@ -36,42 +44,52 @@
     -webkit-backdrop-filter: blur(5px);
     border: 1px solid rgba(72, 72, 72, 0.3);
 
-    .search {
-      width: 80%;
-      min-height: 2rem;
-      border-radius: 8px;
-      box-shadow: none;
-      padding-left: 10px;
-      border: none;
-      outline: none;
-    }
+    .search_wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 39.85dvw;
+      height: 50%;
+      min-width: 250px;
+      overflow: hidden;
 
-    .search_btn_wrapper {
-      position: absolute;
-      background-color: white;
-      border-radius: 50%;
-      width: 3rem;
-      height: 3rem;
-      transition: transform 0.3s ease-in-out;
-      inset: 0 0 0 75%;
-      margin: auto;
-      cursor: pointer;
-
-      svg {
-        position: absolute;
-        transition: transform 0.3s ease-in-out;
-        fill: black;
-        cursor: pointer;
-        inset: 0;
-        margin: auto;
+      .search {
+        width: 80%;
+        min-height: 2rem;
+        border-radius: 8px;
+        box-shadow: none;
+        padding-left: 10px;
+        border: none;
+        outline: none;
       }
-    }
+      .search_btn_wrapper {
+        position: absolute;
+        background-color: white;
+        border-radius: 50%;
+        width: 3rem;
+        height: 3rem;
+        transition: transform 0.3s ease-in-out;
+        inset: 0 0 0 75%;
+        margin: auto;
+        cursor: pointer;
 
-    .search_btn_wrapper:hover {
-      transform: scale(1.1);
-      background-color: black;
-      svg {
-        fill: white;
+        svg {
+          position: absolute;
+          transition: transform 0.3s ease-in-out;
+          fill: black;
+          cursor: pointer;
+          inset: 0;
+          margin: auto;
+        }
+      }
+
+      .search_btn_wrapper:hover {
+        transform: scale(1.1);
+        background-color: black;
+        svg {
+          fill: white;
+        }
       }
     }
   }

@@ -59,7 +59,7 @@ export const airportFetch = async (
 
 export const weatherFetch = async (airport: AirportType) => {
   const data = await fetchData<WeatherType>({
-    url: `http://api.weatherapi.com/v1/current.json?key=${
+    url: `https://api.weatherapi.com/v1/current.json?key=${
       import.meta.env.VITE_WEATHER_API
     }&q=${airport?.location.lat},${airport?.location.lon}`,
   });

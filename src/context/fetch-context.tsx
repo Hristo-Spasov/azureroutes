@@ -68,6 +68,7 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
 
   const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
+    console.log("search handler");
   };
 
   //!To remove in the future
