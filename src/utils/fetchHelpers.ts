@@ -35,6 +35,13 @@ export const fetchDepartureData = async (searchFormatted: string) => {
   return data;
 };
 
+export const fetchFlightData = async (searchFormatted: string) => {
+  const data = await fetchData<ApiResponse<FlightDataType>>({
+    url: `${BASE_URL}flights?access_key=${API_KEY}&flight_iata=${searchFormatted}`,
+  });
+  return data;
+};
+
 /// Weather fetching functions
 
 const options = {

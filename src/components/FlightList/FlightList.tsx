@@ -6,6 +6,8 @@ import style from "./FlightList.module.scss";
 import useWeather from "../../hooks/useWeather";
 import Spinner from "../Spinner/Spinner";
 import WeatherWidget from "../WeatherWidget/WeatherWidget";
+import FlightInformation from "../FlightInformation/FlightInformation";
+import { FlightFetchContext } from "../../context/flight-context";
 
 const FlightList = () => {
   const { weather } = useWeather();
@@ -18,6 +20,7 @@ const FlightList = () => {
     departureDataLoading,
   } = useContext(FetchContext);
   const { date } = useContext(ClockContext);
+  const { flightData, flightDataLoading } = useContext(FlightFetchContext);
 
   //TODO Remove in the Future
   useEffect(() => {
@@ -34,10 +37,14 @@ const FlightList = () => {
 
   return (
     <>
-      {arrivalDataLoading || departureDataLoading ? (
+      {arrivalDataLoading || departureDataLoading || flightDataLoading ? (
         <Spinner />
       ) : (
         <>
+          {flightData &&
+            flightData.data.map((items, index) => (
+              <FlightInformation key={index} {...items} />
+            ))}
           {arrivalData && departureData && (
             <section className={style.flight_list_container}>
               {/* Meteo info about the Airport */}
