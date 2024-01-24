@@ -50,7 +50,8 @@ export const FlightProvider = ({ children }: FlightFetchProviderProps) => {
   });
 
   /// Handlers
-  const handlerConditions = searchFormatted === ""; //TODO:Re-think the logic to apply for flights searches
+  const handlerConditions =
+    searchFormatted === "" || searchFormatted.length < 3;
 
   const flightClickHandler = async () => {
     if (handlerConditions) {

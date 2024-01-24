@@ -9,7 +9,17 @@ import WeatherWidget from "../WeatherWidget/WeatherWidget";
 import FlightInformation from "../FlightInformation/FlightInformation";
 import { FlightFetchContext } from "../../context/flight-context";
 
-const FlightList = () => {
+interface FlightListProps {
+  searchOption: string;
+  flightChecked: string;
+  airportChecked: string;
+}
+
+const FlightList = ({
+  searchOption,
+  flightChecked,
+  airportChecked,
+}: FlightListProps) => {
   const { weather } = useWeather();
   const {
     arrivalData,
@@ -34,6 +44,13 @@ const FlightList = () => {
   const arrivalIsNotAvailable = arrivalData?.data.length === 0 && arrivalActive;
   const departuerIsNotAvailable =
     departureData?.data.length === 0 && departureActive;
+  const flightDataIsNotAvailable = flightData?.data.length === 0 && flightData;
+
+  const flightSearchButtonCondition =
+    flightData && searchOption === flightChecked;
+
+  const airportSearchButtonCondition =
+    arrivalData && departureData && searchOption === airportChecked;
 
   return (
     <>
@@ -41,11 +58,11 @@ const FlightList = () => {
         <Spinner />
       ) : (
         <>
-          {flightData &&
+          {flightSearchButtonCondition &&
             flightData.data.map((items, index) => (
               <FlightInformation key={index} {...items} />
             ))}
-          {arrivalData && departureData && (
+          {airportSearchButtonCondition && (
             <section className={style.flight_list_container}>
               {/* Meteo info about the Airport */}
               <div className={style.list_header}>
@@ -63,9 +80,20 @@ const FlightList = () => {
               </div>
             </section>
           )}
-          {arrivalIsNotAvailable || departuerIsNotAvailable ? (
+          {/* Render massege when no aiport data can be found */}
+          {(arrivalIsNotAvailable || departuerIsNotAvailable) &&
+          searchOption === airportChecked ? (
             <h2>
               There is no such airport or the data about the airport is not
+              currently available
+            </h2>
+          ) : (
+            ""
+          )}
+          {/* Render massege when no flight data can be found  */}
+          {flightDataIsNotAvailable && searchOption === flightChecked ? (
+            <h2>
+              There is no such flight number or the data about the flight is not
               currently available
             </h2>
           ) : (

@@ -162,7 +162,11 @@ function App() {
 
         {/* Clock */}
         <ClockProvider>
-          <FlightList />
+          <FlightList
+            searchOption={searchOption}
+            airportChecked={airportChecked}
+            flightChecked={flightChecked}
+          />
         </ClockProvider>
       </main>
     </>
