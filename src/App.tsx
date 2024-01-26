@@ -8,6 +8,7 @@ import { useContext, useState } from "react";
 import { FetchContext } from "./context/fetch-context";
 import { ClockProvider } from "./context/clock-context";
 import { Toaster } from "react-hot-toast";
+import { FlightFetchContext } from "./context/flight-context";
 
 function App() {
   const airportChecked = "search_airport";
@@ -26,6 +27,9 @@ function App() {
     arrivalDataLoading,
     departureDataLoading,
   } = useContext(FetchContext);
+
+  const { flightClickHandler, flightKeyHandler } =
+    useContext(FlightFetchContext);
 
   const [searchOption, setSearchOption] = useState(airportChecked);
 
@@ -102,11 +106,22 @@ function App() {
                 type="search"
                 className={style.search}
                 onChange={searchHandler}
-                onKeyDown={keyHandler}
+                onKeyDown={
+                  searchOption === airportChecked
+                    ? keyHandler
+                    : flightKeyHandler
+                }
                 value={search.toUpperCase()}
                 disabled={arrivalDataLoading || departureDataLoading}
               />
-              <div className={style.search_btn_wrapper} onClick={clickHandler}>
+              <div
+                className={style.search_btn_wrapper}
+                onClick={
+                  searchOption === airportChecked
+                    ? clickHandler
+                    : flightClickHandler
+                }
+              >
                 <Search width={30} height={30} />
               </div>
             </div>
@@ -147,7 +162,11 @@ function App() {
 
         {/* Clock */}
         <ClockProvider>
-          <FlightList />
+          <FlightList
+            searchOption={searchOption}
+            airportChecked={airportChecked}
+            flightChecked={flightChecked}
+          />
         </ClockProvider>
       </main>
     </>

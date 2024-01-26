@@ -16,13 +16,6 @@
   width: 100%;
   height: 100%;
 
-  .radio_container {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    gap: 1rem;
-  }
-
   .form.rounded {
     border-radius: 16px;
   }
@@ -44,6 +37,11 @@
     -webkit-backdrop-filter: blur(5px);
     border: 1px solid rgba(72, 72, 72, 0.3);
 
+    .radio_container {
+      display: flex;
+      gap: 3.5rem;
+      user-select: none;
+    }
     .search_wrapper {
       position: relative;
       display: flex;
