@@ -9,6 +9,7 @@ import { FetchContext } from "./context/fetch-context";
 import { ClockProvider } from "./context/clock-context";
 import { Toaster } from "react-hot-toast";
 import { FlightFetchContext } from "./context/flight-context";
+import hero from "./assets/hero.png";
 
 function App() {
   const airportChecked = "search_airport";
@@ -61,9 +62,10 @@ function App() {
       <div>
         <Toaster position="top-right" reverseOrder={false} />
       </div>
-      {/* Main Page */}
       <Header />
+      {/* Main Page */}
       <main className={style.main}>
+        <img src={hero} alt="hero" className={style.hero_image} />
         <div className={style.search_container}>
           <form
             role="search"

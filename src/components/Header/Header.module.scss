@@ -5,15 +5,11 @@
   justify-content: space-around;
   align-items: center;
   padding: 5px;
+  width: 100%;
 
-  background: rgba(72, 72, 72, 0.2);
-  border-radius: 0px 0px 16px 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(72, 72, 72, 0.3);
+  background: $accent_color;
 
-  h2 {
+  h1 {
     color: white;
     letter-spacing: 1px;
     font-style: italic;
@@ -21,15 +17,7 @@
   }
 
   img {
-    width: 100px;
-    height: 100px;
-  }
-
-  ul {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    list-style-type: none;
+    width: 80px;
+    height: 80px;
   }
 }
