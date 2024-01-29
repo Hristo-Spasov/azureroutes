@@ -1,10 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
 @import "./veriables.scss";
 
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
 body {
   padding: 0;
   margin: 0;
   min-width: 0;
+  background-color: $base_background;
   font-family: $main_font;
   font-weight: $base_weight;
   height: 1000px; // TODO remove in the future

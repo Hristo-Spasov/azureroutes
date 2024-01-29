@@ -1,15 +1,15 @@
 import Header from "./components/Header/Header";
 import FlightList from "./components/FlightList/FlightList";
 import style from "./App.module.scss";
-import Search from "./assets/3844432_magnifier_search_zoom_icon.svg?react";
+import Search from "./assets/airplane-in-flight-fill.svg?react";
 import Landing from "./assets/landing-thin-line.svg?react";
 import TakeOff from "./assets/takeoff-thin.svg?react";
+import hero from "./assets/hero.png";
 import { useContext, useState } from "react";
 import { FetchContext } from "./context/fetch-context";
 import { ClockProvider } from "./context/clock-context";
 import { Toaster } from "react-hot-toast";
 import { FlightFetchContext } from "./context/flight-context";
-import hero from "./assets/hero.png";
 
 function App() {
   const airportChecked = "search_airport";
@@ -67,12 +67,7 @@ function App() {
       <main className={style.main}>
         <img src={hero} alt="hero" className={style.hero_image} />
         <div className={style.search_container}>
-          <form
-            role="search"
-            className={`${style.form} ${
-              searchOption === flightChecked ? style.rounded : ""
-            }`}
-          >
+          <form role="search" className={style.form}>
             {/* Radio buttons */}
             <div className={style.radio_container}>
               <label htmlFor={airportChecked}>
@@ -102,20 +97,22 @@ function App() {
             </div>
 
             {/* Search bar */}
-            <div className={style.search_wrapper}>
-              <input
-                placeholder="Search..."
-                type="search"
-                className={style.search}
-                onChange={searchHandler}
-                onKeyDown={
-                  searchOption === airportChecked
-                    ? keyHandler
-                    : flightKeyHandler
-                }
-                value={search.toUpperCase()}
-                disabled={arrivalDataLoading || departureDataLoading}
-              />
+            <div className={style.search_and_search_btn_container}>
+              <div className={style.search_wrapper}>
+                <input
+                  placeholder="Search..."
+                  type="search"
+                  className={style.search}
+                  onChange={searchHandler}
+                  onKeyDown={
+                    searchOption === airportChecked
+                      ? keyHandler
+                      : flightKeyHandler
+                  }
+                  value={search.toUpperCase()}
+                  disabled={arrivalDataLoading || departureDataLoading}
+                />
+              </div>
               <div
                 className={style.search_btn_wrapper}
                 onClick={
@@ -124,7 +121,7 @@ function App() {
                     : flightClickHandler
                 }
               >
-                <Search width={30} height={30} />
+                <Search width={40} height={40} />
               </div>
             </div>
           </form>

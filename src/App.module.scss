@@ -5,7 +5,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // margin-top: 10rem;
   position: relative;
 
   .hero_image {
@@ -25,69 +24,109 @@
     position: absolute;
     top: 50%;
 
-    .form.rounded {
-      border-radius: 16px;
-    }
     .form {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      justify-content: center;
+      gap: 20px;
       align-items: center;
       width: 50dvw;
-      min-width: 300px;
-      height: 15dvh;
+      min-width: 600px;
+      height: 12dvh;
+      padding: 10px;
       border-radius: 80px;
       background-color: white;
-      border: 1px solid red;
+      position: relative;
 
       .radio_container {
         display: flex;
         gap: 3.5rem;
         user-select: none;
+
+        label {
+          display: flex;
+          gap: 10px;
+          align-items: center;
+          justify-content: center;
+
+          input {
+            margin: 0;
+            width: 12px;
+            height: 12px;
+            appearance: none;
+            -webkit-appearance: none;
+            border-radius: 100%;
+            background: white;
+            // border: 2px solid #fff;   << inner gap
+            /* The outline will be the outer circle */
+            outline: 1px solid $accent_color;
+          }
+
+          input:checked {
+            outline: 0;
+            background: $accent_color;
+            transition: all 0.2s ease-in-out;
+          }
+
+          input:hover {
+            border: 2px solid #fff;
+            background: $accent_color;
+            opacity: 0.7;
+          }
+
+          input:checked:hover {
+            border: 0;
+            opacity: 1;
+            transform: scale(1.2);
+          }
+        }
       }
-      .search_wrapper {
+
+      .search_and_search_btn_container {
         position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 39.85dvw;
-        min-width: 250px;
-        padding: 1px;
-        border-radius: 50px;
-        overflow: hidden;
-        background: hsla(221, 93%, 22%, 1);
 
-        background: radial-gradient(
-          circle,
-          hsla(221, 100%, 91%, 1) 30%,
-          hsla(221, 93%, 22%, 1) 100%
-        );
-
-        .search {
-          width: 100%;
-          min-height: 2rem;
-          box-shadow: none;
-          padding-left: 10px;
-          outline: none;
-          border: none;
+        .search_wrapper {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 35dvw;
+          min-width: 400px;
+          padding: 1px;
           border-radius: 50px;
+          overflow: hidden;
+          background: hsla(221, 93%, 22%, 1);
+
+          background: radial-gradient(
+            circle,
+            hsla(221, 100%, 91%, 1) 30%,
+            hsla(221, 93%, 22%, 1) 100%
+          );
+
+          .search {
+            width: 100%;
+            min-height: 2rem;
+            box-shadow: none;
+            padding-left: 10px;
+            outline: none;
+            border: none;
+            border-radius: 50px;
+          }
         }
         .search_btn_wrapper {
           position: absolute;
-          background-color: white;
-          border-radius: 50%;
-          width: 3rem;
-          height: 3rem;
+          background-color: $accent_color;
+          border-radius: 100%;
+          width: 4rem;
+          height: 4rem;
           transition: transform 0.3s ease-in-out;
-          inset: 0 0 0 75%;
+          inset: 0 0 0 90%;
           margin: auto;
           cursor: pointer;
+          z-index: 20;
 
           svg {
             position: absolute;
             transition: transform 0.3s ease-in-out;
-            fill: black;
+            fill: white;
             cursor: pointer;
             inset: 0;
             margin: auto;
@@ -96,9 +135,8 @@
 
         .search_btn_wrapper:hover {
           transform: scale(1.1);
-          background-color: black;
           svg {
-            fill: white;
+            fill: black;
           }
         }
       }
