@@ -2,8 +2,9 @@ import Header from "./components/Header/Header";
 import FlightList from "./components/FlightList/FlightList";
 import style from "./App.module.scss";
 import Search from "./assets/airplane-in-flight-fill.svg?react";
-import Landing from "./assets/landing-thin-line.svg?react";
-import TakeOff from "./assets/takeoff-thin.svg?react";
+import Landing from "./assets/airplane-landing-fill.svg?react";
+import TakeOff from "./assets/airplane-takeoff-fill.svg?react";
+import Clouds from "./assets/clouds-2-parts.svg?react";
 import hero from "./assets/hero.png";
 import { useContext, useState } from "react";
 import { FetchContext } from "./context/fetch-context";
@@ -56,6 +57,11 @@ function App() {
     pointerEvents: arrivalDataLoading || departureDataLoading ? "none" : "auto",
   };
 
+  const placeHolder: string =
+    searchOption === airportChecked
+      ? "Search for airport using IATA or ICAO code e.g. MAN"
+      : "Search for a flight using flight number e.g. FR1837";
+
   return (
     <>
       {/* Alerts */}
@@ -66,7 +72,11 @@ function App() {
       {/* Main Page */}
       <main className={style.main}>
         <img src={hero} alt="hero" className={style.hero_image} />
-        <div className={style.search_container}>
+
+        <div className={`${style.search_container}`}>
+          <div className={style.clouds_container}>
+            <Clouds />
+          </div>
           <form role="search" className={style.form}>
             {/* Radio buttons */}
             <div className={style.radio_container}>
@@ -100,7 +110,7 @@ function App() {
             <div className={style.search_and_search_btn_container}>
               <div className={style.search_wrapper}>
                 <input
-                  placeholder="Search..."
+                  placeholder={placeHolder}
                   type="search"
                   className={style.search}
                   onChange={searchHandler}
@@ -125,38 +135,40 @@ function App() {
               </div>
             </div>
           </form>
-
-          {searchOption === airportChecked && (
-            <div className={style.search_menu_wrapper}>
-              {/* Arrival Button */}
-              <div
-                className={
-                  arrivalActive ? style.search_menu1_active : style.search_menu1
-                }
-                onClick={handleArrivalClick}
-                style={disableDiv}
-              >
-                <button>
-                  <Landing width={50} height={50} />
-                  Arrival
-                </button>
-              </div>
-              {/* Departure button */}
-              <div
-                className={
-                  departureActive
-                    ? style.search_menu2_active
-                    : style.search_menu2
-                }
-                onClick={handleDepartureClick}
-                style={disableDiv}
-              >
-                <button>
-                  <TakeOff width={50} height={50} /> Departure
-                </button>
-              </div>
+          <div
+            className={`  ${
+              searchOption === airportChecked
+                ? style.search_menu_wrapper
+                : style.buttons_hidden
+            } `}
+          >
+            {/* Arrival Button */}
+            <div
+              className={
+                arrivalActive ? style.search_menu1_active : style.search_menu1
+              }
+              onClick={handleArrivalClick}
+              style={disableDiv}
+            >
+              <button>
+                <Landing width={30} height={30} />
+                Arrival
+              </button>
             </div>
-          )}
+            {/* Departure button */}
+            <div
+              className={
+                departureActive ? style.search_menu2_active : style.search_menu2
+              }
+              onClick={handleDepartureClick}
+              style={disableDiv}
+            >
+              <button>
+                Departure
+                <TakeOff width={30} height={30} />
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Clock */}
