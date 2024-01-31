@@ -70,107 +70,110 @@ function App() {
       </div>
       <Header />
       {/* Main Page */}
-      <main className={style.main}>
+      <main className={style.main_section}>
         <img src={hero} alt="hero" className={style.hero_image} />
 
-        <div className={`${style.search_container}`}>
-          <div className={style.clouds_container}>
-            <Clouds />
-          </div>
-          <form role="search" className={style.form}>
-            {/* Radio buttons */}
-            <div className={style.radio_container}>
-              <label htmlFor={airportChecked}>
-                <input
-                  type="radio"
-                  name="search_option"
-                  id={airportChecked}
-                  value={airportChecked}
-                  checked={searchOption === airportChecked}
-                  onChange={searchOptionHandler}
-                />
-                Search for Airport
-              </label>
-
-              <label htmlFor={flightChecked}>
-                {" "}
-                <input
-                  type="radio"
-                  name="search_option"
-                  id={flightChecked}
-                  value={flightChecked}
-                  checked={searchOption === flightChecked}
-                  onChange={searchOptionHandler}
-                />
-                Search for Flight
-              </label>
+        <section className={style.sub_section}>
+          <div className={`${style.search_container}`}>
+            <div className={style.clouds_container}>
+              <Clouds />
             </div>
+            <form role="search" className={style.form}>
+              {/* Radio buttons */}
+              <div className={style.radio_container}>
+                <label htmlFor={airportChecked}>
+                  <input
+                    type="radio"
+                    name="search_option"
+                    id={airportChecked}
+                    value={airportChecked}
+                    checked={searchOption === airportChecked}
+                    onChange={searchOptionHandler}
+                  />
+                  Search for Airport
+                </label>
 
-            {/* Search bar */}
-            <div className={style.search_and_search_btn_container}>
-              <div className={style.search_wrapper}>
-                <input
-                  placeholder={placeHolder}
-                  type="search"
-                  className={style.search}
-                  onChange={searchHandler}
-                  onKeyDown={
+                <label htmlFor={flightChecked}>
+                  {" "}
+                  <input
+                    type="radio"
+                    name="search_option"
+                    id={flightChecked}
+                    value={flightChecked}
+                    checked={searchOption === flightChecked}
+                    onChange={searchOptionHandler}
+                  />
+                  Search for Flight
+                </label>
+              </div>
+
+              {/* Search bar */}
+              <div className={style.search_bar_container}>
+                <div className={style.search_input_wrapper}>
+                  <input
+                    placeholder={placeHolder}
+                    type="search"
+                    className={style.search_bar}
+                    onChange={searchHandler}
+                    onKeyDown={
+                      searchOption === airportChecked
+                        ? keyHandler
+                        : flightKeyHandler
+                    }
+                    value={search.toUpperCase()}
+                    disabled={arrivalDataLoading || departureDataLoading}
+                  />
+                </div>
+                <div
+                  className={style.search_btn_wrapper}
+                  onClick={
                     searchOption === airportChecked
-                      ? keyHandler
-                      : flightKeyHandler
+                      ? clickHandler
+                      : flightClickHandler
                   }
-                  value={search.toUpperCase()}
-                  disabled={arrivalDataLoading || departureDataLoading}
-                />
+                >
+                  <Search width={40} height={40} />
+                </div>
               </div>
+            </form>
+            <div
+              className={`  ${
+                searchOption === airportChecked
+                  ? style.arr_dep_container
+                  : style.buttons_hidden
+              } `}
+            >
+              {/* Arrival Button */}
               <div
-                className={style.search_btn_wrapper}
-                onClick={
-                  searchOption === airportChecked
-                    ? clickHandler
-                    : flightClickHandler
+                className={
+                  arrivalActive ? style.arrival_btn_active : style.arrival_btn
                 }
+                onClick={handleArrivalClick}
+                style={disableDiv}
               >
-                <Search width={40} height={40} />
+                <button>
+                  <Landing width={30} height={30} />
+                  Arrival
+                </button>
               </div>
-            </div>
-          </form>
-          <div
-            className={`  ${
-              searchOption === airportChecked
-                ? style.search_menu_wrapper
-                : style.buttons_hidden
-            } `}
-          >
-            {/* Arrival Button */}
-            <div
-              className={
-                arrivalActive ? style.search_menu1_active : style.search_menu1
-              }
-              onClick={handleArrivalClick}
-              style={disableDiv}
-            >
-              <button>
-                <Landing width={30} height={30} />
-                Arrival
-              </button>
-            </div>
-            {/* Departure button */}
-            <div
-              className={
-                departureActive ? style.search_menu2_active : style.search_menu2
-              }
-              onClick={handleDepartureClick}
-              style={disableDiv}
-            >
-              <button>
-                Departure
-                <TakeOff width={30} height={30} />
-              </button>
+              {/* Departure button */}
+              <div
+                className={
+                  departureActive
+                    ? style.departure_btn_active
+                    : style.departure_btn
+                }
+                onClick={handleDepartureClick}
+                style={disableDiv}
+              >
+                <button>
+                  Departure
+                  <TakeOff width={30} height={30} />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-
+        </section>
         {/* Clock */}
         <ClockProvider>
           <FlightList

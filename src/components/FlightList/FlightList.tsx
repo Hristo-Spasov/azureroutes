@@ -42,7 +42,7 @@ const FlightList = ({
   // Render Conditions
   const weatherIsAvailable = departureData?.data.length! > 0;
   const arrivalIsNotAvailable = arrivalData?.data.length === 0 && arrivalActive;
-  const departuerIsNotAvailable =
+  const departureIsNotAvailable =
     departureData?.data.length === 0 && departureActive;
   const flightDataIsNotAvailable = flightData?.data.length === 0 && flightData;
 
@@ -81,20 +81,24 @@ const FlightList = ({
             </section>
           )}
           {/* Render massege when no aiport data can be found */}
-          {(arrivalIsNotAvailable || departuerIsNotAvailable) &&
+          {(arrivalIsNotAvailable || departureIsNotAvailable) &&
             searchOption === airportChecked && (
-              <h2>
-                There is no such airport or the data about the airport is not
-                currently available
-              </h2>
+              <div className={style.error}>
+                <h3>
+                  There is no such airport or the data about the airport is not
+                  currently available
+                </h3>
+              </div>
             )}
 
           {/* Render massege when no flight data can be found  */}
           {flightDataIsNotAvailable && searchOption === flightChecked && (
-            <h2>
-              There is no such flight number or the data about the flight is not
-              currently available
-            </h2>
+            <div className={style.error}>
+              <h3>
+                There is no such flight number or the data about the flight is
+                not currently available
+              </h3>
+            </div>
           )}
         </>
       )}
