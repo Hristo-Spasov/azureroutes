@@ -69,7 +69,7 @@ const FlightGeneralInfo = React.memo((): JSX.Element => {
   };
 
   return (
-    <ul className={style.container}>
+    <ul className={style.list_container}>
       {renderFlights(selectedPage)}
       {pageCount > 0 && (
         <ReactPaginate

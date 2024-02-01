@@ -35,18 +35,35 @@ const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
 
   return (
     <>
-      <li className={style.information_wrapper} onClick={toggleDropdown}>
-        <div className={style.codes}>
-          <span>icao: {departure.icao}</span>
-          <span>iata: {departure.iata}</span>
+      <li
+        className={`${style.information_wrapper} ${toggle ? style.active : ""}`}
+        onClick={toggleDropdown}
+      >
+        <div className={style.codes_container}>
+          <div className={style.inner_wrapper}>
+            <span>ICAO</span>
+            <span className={style.codes}>{departure.icao}</span>
+          </div>
+          <div className={style.inner_wrapper}>
+            <span>IATA</span>
+            <span className={style.codes}>{departure.iata}</span>
+          </div>
         </div>
-        <div className={style.airport_operator_names}>
-          <span>Airport: {departure.airport}</span>
+        <div className={style.airport_operator_container}>
+          <span>Airport</span>
+          <span className={style.airport_operator_names}>
+            {departure.airport}
+          </span>
         </div>
-        <div className={style.airport_operator_names}>
-          <span>Operator: {airline.name}</span>
+        <div className={style.airport_operator_container}>
+          <span>Airline</span>
+          <span className={style.airport_operator_names}>{airline.name}</span>
         </div>
-        <span className={style.arrow_wrapper}>
+        <span
+          className={`${style.arrow_wrapper} ${
+            toggle ? style.arrow_active : ""
+          }`}
+        >
           <DownArrow width={12} height={12} />
         </span>
       </li>

@@ -63,21 +63,23 @@ const FlightList = ({
               <FlightInformation key={index} {...items} />
             ))}
           {airportSearchButtonCondition && (
-            <section className={style.flight_list_container}>
-              {/* Meteo info about the Airport */}
-              <div className={style.list_header}>
-                <div className={style.weather_widged}>
-                  <div>
-                    <span>{date && date.format(`DD.MM.YYYY HH:mm:ss`)}</span>
+            <section className={style.cards_container}>
+              <article className={style.flight_list_container}>
+                {/* Meteo info about the Airport */}
+                <div className={style.list_header}>
+                  <div className={style.weather_widged}>
+                    <div>
+                      <span>{date && date.format(`DD.MM.YYYY HH:mm:ss`)}</span>
+                    </div>
+                    {/* Weather Widget */}
+                    {weather && weatherIsAvailable && <WeatherWidget />}
                   </div>
-                  {/* Weather Widget */}
-                  {weather && weatherIsAvailable && <WeatherWidget />}
                 </div>
-              </div>
+              </article>
               {/* Main List of Flights */}
-              <div className={style.main_list_of_flights}>
+              <article className={style.main_list_of_flights}>
                 <FlightGeneralInfo />
-              </div>
+              </article>
             </section>
           )}
           {/* Render massege when no aiport data can be found */}

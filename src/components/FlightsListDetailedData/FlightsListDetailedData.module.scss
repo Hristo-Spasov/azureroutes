@@ -1,25 +1,73 @@
+@import "../../veriables.scss";
+
 .information_wrapper {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(3, 3fr) + 0.7fr;
+  grid-template-columns: repeat(3, 3fr);
   justify-items: center;
   grid-auto-rows: 3rem;
   align-items: center;
-  padding: 20px 0;
-  border-bottom: 1px solid gray;
+  padding: 30px 0;
   cursor: pointer;
+  background-color: white;
+  border-radius: 80px;
+  position: relative;
+  transition: transform 400ms ease-in-out;
+  transform: scale(1);
 
-  .codes {
-    display: flex;
-    gap: 10px;
+  &.active {
+    background-color: $base_main_color;
+    color: white;
+    border-radius: 80px 80px 0 0;
+
+    .airport_operator_container > .airport_operator_names {
+      color: white;
+    }
+
+    .codes_container > .inner_wrapper > .codes {
+      color: white;
+    }
   }
 
-  .airport_operator_names {
-    // min-width: 250px;
+  &:hover {
+    transition: transform 400ms ease-in-out;
+    transform: scale(1.1);
+    outline: 2px solid $base_main_color;
 
-    span {
+    &.active {
+      outline: none;
+    }
+  }
+
+  .codes_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+
+    .inner_wrapper {
+      display: flex;
+      flex-direction: column;
+      letter-spacing: 0.5px;
+
+      .codes {
+        font-weight: 400;
+        color: $base_main_color;
+      }
+    }
+  }
+
+  .airport_operator_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .airport_operator_names {
       white-space: normal;
       word-wrap: break-word;
+      font-weight: 400;
+      color: $base_main_color;
     }
   }
 
@@ -31,5 +79,34 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transition: transform 200ms ease, border-radius 200ms ease;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 80px;
+
+    &:hover {
+      // outline: 2px solid $base_main_color;
+      transition: transform 200ms ease, border-radius 200ms ease;
+      border-radius: 0 0 80px 80px;
+      transform: translate(-50%, -30%);
+    }
+    svg {
+      fill: $base_main_color;
+    }
+
+    &.arrow_active {
+      background-color: $base_main_color;
+
+      &:hover {
+        outline: none;
+      }
+
+      svg {
+        fill: white;
+      }
+    }
   }
 }
