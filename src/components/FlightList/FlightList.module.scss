@@ -3,6 +3,8 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 3rem;
 
   .flight_list_container {
@@ -10,8 +12,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    min-width: 600px;
+    width: 50dvw;
+    max-width: 50dvw;
+    min-width: 31rem;
     background: white;
     border-radius: 80px;
     overflow: hidden;

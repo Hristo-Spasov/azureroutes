@@ -34,7 +34,7 @@ const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
   ]);
 
   return (
-    <>
+    <div className={style.list_element_container}>
       <li
         className={`${style.information_wrapper} ${toggle ? style.active : ""}`}
         onClick={toggleDropdown}
@@ -67,7 +67,6 @@ const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
           <DownArrow width={12} height={12} />
         </span>
       </li>
-
       {/* Dropdown Information */}
 
       {toggle && (
@@ -79,7 +78,7 @@ const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
           flight={flight}
         />
       )}
-    </>
+    </div>
   );
 };
 

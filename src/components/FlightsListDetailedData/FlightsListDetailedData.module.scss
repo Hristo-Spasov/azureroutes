@@ -1,111 +1,115 @@
 @import "../../veriables.scss";
 
-.information_wrapper {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 3fr);
-  justify-items: center;
-  grid-auto-rows: 3rem;
-  align-items: center;
-  padding: 30px 0;
-  cursor: pointer;
-  background-color: white;
-  border-radius: 80px;
-  position: relative;
-  transition: transform 400ms ease-in-out;
-  transform: scale(1);
-
-  &.active {
-    background-color: $base_main_color;
-    color: white;
-    border-radius: 80px 80px 0 0;
-
-    .airport_operator_container > .airport_operator_names {
-      color: white;
-    }
-
-    .codes_container > .inner_wrapper > .codes {
-      color: white;
-    }
-  }
-
-  &:hover {
+.list_element_container {
+  .information_wrapper {
+    width: 50dvw;
+    max-width: 50dvw;
+    min-width: 50rem;
+    display: grid;
+    grid-template-columns: repeat(3, 3fr);
+    justify-items: center;
+    grid-auto-rows: 3rem;
+    align-items: center;
+    padding: 30px 2rem;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 80px;
+    position: relative;
     transition: transform 400ms ease-in-out;
-    transform: scale(1.1);
-    outline: 2px solid $base_main_color;
+    transform: scale(1);
 
     &.active {
-      outline: none;
+      background-color: $base_main_color;
+      color: white;
+      border-radius: 80px 80px 0 0;
+
+      .airport_operator_container > .airport_operator_names {
+        color: white;
+      }
+
+      .codes_container > .inner_wrapper > .codes {
+        color: white;
+      }
     }
-  }
 
-  .codes_container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
+    &:hover {
+      transition: transform 400ms ease-in-out;
+      transform: scale(1.1);
+      outline: 2px solid $base_main_color;
 
-    .inner_wrapper {
+      &.active {
+        outline: none;
+      }
+    }
+
+    .codes_container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+
+      .inner_wrapper {
+        display: flex;
+        flex-direction: column;
+        letter-spacing: 0.5px;
+
+        .codes {
+          font-weight: 400;
+          color: $base_main_color;
+        }
+      }
+    }
+
+    .airport_operator_container {
       display: flex;
       flex-direction: column;
-      letter-spacing: 0.5px;
+      justify-content: center;
+      align-items: center;
 
-      .codes {
+      .airport_operator_names {
+        white-space: nowrap;
+        word-wrap: break-word;
         font-weight: 400;
         color: $base_main_color;
       }
     }
-  }
 
-  .airport_operator_container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    .airport_operator_names {
-      white-space: normal;
-      word-wrap: break-word;
-      font-weight: 400;
-      color: $base_main_color;
-    }
-  }
-
-  .arrow_wrapper {
-    cursor: pointer;
-    width: 2rem;
-    height: 2rem;
-    background-color: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transition: transform 200ms ease, border-radius 200ms ease;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    border-radius: 80px;
-
-    &:hover {
-      // outline: 2px solid $base_main_color;
+    .arrow_wrapper {
+      cursor: pointer;
+      width: 2rem;
+      height: 2rem;
+      background-color: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 100%;
+      left: 50%;
       transition: transform 200ms ease, border-radius 200ms ease;
-      border-radius: 0 0 80px 80px;
-      transform: translate(-50%, -30%);
-    }
-    svg {
-      fill: $base_main_color;
-    }
-
-    &.arrow_active {
-      background-color: $base_main_color;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border-radius: 80px;
 
       &:hover {
-        outline: none;
+        // outline: 2px solid $base_main_color;
+        transition: transform 200ms ease, border-radius 200ms ease;
+        border-radius: 0 0 80px 80px;
+        transform: translate(-50%, -30%);
+      }
+      svg {
+        fill: $base_main_color;
       }
 
-      svg {
-        fill: white;
+      &.arrow_active {
+        background-color: $base_main_color;
+
+        &:hover {
+          outline: none;
+        }
+
+        svg {
+          fill: white;
+        }
       }
     }
   }
