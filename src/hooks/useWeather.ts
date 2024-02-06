@@ -3,6 +3,7 @@ import { AirportType, WeatherType } from "../types/weather_types";
 import { FetchContext } from "../context/fetch-context";
 import { useQuery } from "react-query";
 import { airportFetch, weatherFetch } from "../utils/fetchHelpers";
+import toast from "react-hot-toast";
 
 const useWeather = () => {
   const { departureData } = useContext(FetchContext);
@@ -13,6 +14,8 @@ const useWeather = () => {
     queryKey: ["airportData", departureData],
     queryFn: () => airportFetch(departureData!),
     enabled: !!departureData,
+    onError: (error: Error) =>
+      toast.error(`Something went wrong: ${error.message}`),
     cacheTime: 0,
     onSuccess: (data) => {
       setAirport(data);
@@ -28,6 +31,8 @@ const useWeather = () => {
     queryFn: () => weatherFetch(airport!),
     cacheTime: 0,
     enabled: !!airport,
+    onError: (error: Error) =>
+      toast.error(`Something went wrong: ${error.message}`),
     onSuccess: (data) => {
       setWeather(data);
     },

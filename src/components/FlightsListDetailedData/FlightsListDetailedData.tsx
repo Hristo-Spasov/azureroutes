@@ -57,7 +57,9 @@ const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
         </div>
         <div className={style.airport_operator_container}>
           <span>Airline</span>
-          <span className={style.airport_operator_names}>{airline.name}</span>
+          <span className={style.airport_operator_names}>
+            {airline.name === "empty" ? "Private" : airline.name}
+          </span>
         </div>
         <span
           className={`${style.arrow_wrapper} ${

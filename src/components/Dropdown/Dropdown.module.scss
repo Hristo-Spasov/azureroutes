@@ -1,3 +1,5 @@
+@import "../src/veriables.scss";
+
 .detailed_information {
   display: flex;
   align-items: center;
@@ -11,6 +13,7 @@
   background-color: white;
   border-radius: 0 0 80px 80px;
   padding: 3rem 0;
+
   .status {
     display: flex;
     flex-direction: column;
@@ -24,6 +27,25 @@
       justify-content: center;
       align-items: center;
       gap: 5px;
+    }
+
+    .flight_status,
+    .flight_status_active,
+    .flight_status_landed,
+    .flight_status_problem {
+      text-transform: capitalize;
+    }
+
+    .flight_status_active {
+      color: green;
+    }
+
+    .flight_status_landed {
+      color: orange;
+    }
+
+    .flight_status_problem {
+      color: $error_color;
     }
   }
 
@@ -72,6 +94,14 @@
         align-items: center;
         gap: 5px;
         padding: 0 10px;
+
+        .decoration_text {
+          color: $base_main_color;
+        }
+
+        .delay_text {
+          color: $error_color;
+        }
       }
     }
   }

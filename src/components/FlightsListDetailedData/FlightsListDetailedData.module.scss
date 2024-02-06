@@ -1,6 +1,14 @@
 @import "../../veriables.scss";
 
 .list_element_container {
+  transition: transform 400ms ease-in-out;
+  transform: scale(1);
+
+  &:hover {
+    transition: transform 400ms ease-in-out;
+    transform: scale(1.05);
+  }
+
   .information_wrapper {
     width: 50dvw;
     max-width: 50dvw;
@@ -17,6 +25,7 @@
     position: relative;
     transition: transform 400ms ease-in-out;
     transform: scale(1);
+    z-index: 5;
 
     &.active {
       background-color: $base_main_color;
@@ -29,6 +38,11 @@
 
       .codes_container > .inner_wrapper > .codes {
         color: white;
+      }
+
+      &:hover {
+        transition: none;
+        transform: none;
       }
     }
 
