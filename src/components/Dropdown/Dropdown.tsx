@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import InFlight from "../../assets/InFlight.svg?react";
 import style from "./Dropdown.module.scss";
 import { ArrDepType, FlightType } from "../../types/flight_types";
+import { motion } from "framer-motion";
 
 interface DropdownProps {
   arrival: ArrDepType;
@@ -53,7 +54,23 @@ const Dropdown = (props: DropdownProps) => {
 
   return (
     <>
-      <li className={` ${style.detailed_information}`}>
+      <motion.li
+        key={`dropdown`}
+        initial={{ scaleY: 0, transformOrigin: "100% 0%", opacity: 0 }}
+        animate={{ scaleY: 1, transformOrigin: "100% 0%", opacity: 1 }}
+        exit={{
+          scaleY: 0,
+          transformOrigin: "100% 0%",
+          opacity: 0,
+          transition: { duration: 0.5, ease: [0.55, 0.085, 0.68, 0.53] },
+        }}
+        transition={{
+          duration: 0.5,
+          ease: [0.25, 0.46, 0.45, 0.94],
+          delay: 0.2,
+        }}
+        className={` ${style.detailed_information}`}
+      >
         <div className={style.status}>
           <span>
             {dayjs(flight_date).format(`DD.MM.YYYY`)} | {departure.timezone}
@@ -151,7 +168,7 @@ const Dropdown = (props: DropdownProps) => {
             </div>
           </div>
         </div>
-      </li>
+      </motion.li>
     </>
   );
 };
