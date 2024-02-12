@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 interface FlightsListDetailedDataProps {
   el: FlightDataType;
-  selectedPage: number;
+  selectedPage?: number;
 }
 
 const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {

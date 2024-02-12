@@ -7,6 +7,10 @@
   align-items: center;
   gap: 3rem;
 
+  &.airport_active {
+    margin-top: 80px;
+  }
+
   .flight_list_container {
     display: flex;
     flex-direction: column;

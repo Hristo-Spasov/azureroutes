@@ -6,7 +6,6 @@ import style from "./FlightList.module.scss";
 import useWeather from "../../hooks/useWeather";
 import Spinner from "../Spinner/Spinner";
 import WeatherWidget from "../WeatherWidget/WeatherWidget";
-import FlightInformation from "../FlightInformation/FlightInformation";
 import { FlightFetchContext } from "../../context/flight-context";
 
 interface FlightListProps {
@@ -44,13 +43,15 @@ const FlightList = ({
   const arrivalIsNotAvailable = arrivalData?.data.length === 0 && arrivalActive;
   const departureIsNotAvailable =
     departureData?.data.length === 0 && departureActive;
-  const flightDataIsNotAvailable = flightData?.data.length === 0 && flightData;
+  const flightDataIsNotAvailable = flightData?.data.length === 0;
 
   const flightSearchButtonCondition =
-    flightData && searchOption === flightChecked;
+    flightData !== undefined && searchOption === flightChecked;
 
   const airportSearchButtonCondition =
-    arrivalData && departureData && searchOption === airportChecked;
+    arrivalData !== undefined &&
+    departureData !== undefined &&
+    searchOption === airportChecked;
 
   return (
     <>
@@ -58,12 +59,12 @@ const FlightList = ({
         <Spinner />
       ) : (
         <>
-          {flightSearchButtonCondition &&
-            flightData.data.map((items, index) => (
-              <FlightInformation key={index} {...items} />
-            ))}
-          {airportSearchButtonCondition && (
-            <section className={style.cards_container}>
+          <section
+            className={`${style.cards_container} ${
+              airportSearchButtonCondition ? style.airport_active : ""
+            }`}
+          >
+            {airportSearchButtonCondition && (
               <article className={style.flight_list_container}>
                 {/* Meteo info about the Airport */}
                 <div className={style.list_header}>
@@ -76,12 +77,16 @@ const FlightList = ({
                   </div>
                 </div>
               </article>
-              {/* Main List of Flights */}
-              <article className={style.main_list_of_flights}>
-                <FlightGeneralInfo />
-              </article>
-            </section>
-          )}
+            )}
+            {/* Main List of Flights */}
+
+            <article className={style.main_list_of_flights}>
+              <FlightGeneralInfo
+                flightSearchButtonCondition={flightSearchButtonCondition}
+                airportSearchButtonCondition={airportSearchButtonCondition}
+              />
+            </article>
+          </section>
           {/* Render massege when no aiport data can be found */}
           {(arrivalIsNotAvailable || departureIsNotAvailable) &&
             searchOption === airportChecked && (

@@ -1,4 +1,10 @@
-import { useState, createContext, ReactNode, useContext } from "react";
+import {
+  useState,
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+} from "react";
 import { FlightDataType } from "../types/flight_types";
 import { useQuery } from "react-query";
 import { API_KEY, fetchFlightData } from "../utils/fetchHelpers";
@@ -36,6 +42,11 @@ interface FlightFetchProviderProps {
 export const FlightProvider = ({ children }: FlightFetchProviderProps) => {
   const { search, setSearch } = useContext(FetchContext);
   const [flightData, setFlightData] = useState<ApiResponse<FlightDataType>>();
+
+  //!To remove in the future
+  useEffect(() => {
+    console.log("flightData:", flightData);
+  }, [flightData]);
 
   const searchFormatted = search.trim().replace(/[^\w ]/g, ""); //Removing special symbols if any in the search params.
 
