@@ -39,18 +39,20 @@ const FlightList = ({
   }, [weather]);
 
   // Render Conditions
-  const weatherIsAvailable = departureData?.data.length! > 0;
-  const arrivalIsNotAvailable = arrivalData?.data.length === 0 && arrivalActive;
+  const weatherIsAvailable = (departureData?.data.length || 0) > 0;
+
+  const arrivalIsNotAvailable = arrivalActive && arrivalData?.data.length === 0;
+
   const departureIsNotAvailable =
-    departureData?.data.length === 0 && departureActive;
+    departureActive && departureData?.data.length === 0;
+
   const flightDataIsNotAvailable = flightData?.data.length === 0;
 
-  const flightSearchButtonCondition =
-    flightData !== undefined && searchOption === flightChecked;
+  const flightSearchButtonCondition = searchOption === flightChecked;
 
   const airportSearchButtonCondition =
-    arrivalData !== undefined &&
-    departureData !== undefined &&
+    ((arrivalData !== undefined && arrivalActive) ||
+      (departureData !== undefined && departureActive)) &&
     searchOption === airportChecked;
 
   return (

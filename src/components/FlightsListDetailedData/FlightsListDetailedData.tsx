@@ -41,6 +41,7 @@ const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
     initial: {
       backgroundColor: "#ffffff",
       borderRadius: "80px 80px 80px 80px",
+      color: "#000000",
       opacity: 1,
       transition: {
         duration: 0.5,
@@ -53,7 +54,7 @@ const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
       color: "#ffffff",
     },
     hover_active: {
-      outline: "none",
+      outline: "rgba(31, 61, 96, 0)",
       scale: 1,
       transition: {
         duration: 0.2,
@@ -61,7 +62,7 @@ const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
       },
     },
     hover_inactive: {
-      outline: "2px solid #1f3d60",
+      outline: "2px solid rgba(31, 61, 96, 1)",
       transition: {
         duration: 0.1,
         ease: "easeInOut",
@@ -70,9 +71,19 @@ const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
     codeInitial: {
       color: "#1f3d60",
       // Set the initial color of the spans
+      transition: {
+        duration: 0.2,
+        ease: "easeInOut",
+        delay: 0.3,
+      },
     },
     codeActive: {
-      color: "#ffffff", // Set the active color of the spans
+      color: "#ffffff",
+      transition: {
+        duration: 0.2,
+        ease: "easeInOut",
+        delay: 0.3,
+      }, // Set the active color of the spans
     },
     arrowInitial: {
       top: "100%",
@@ -128,7 +139,7 @@ const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
       >
         <div className={style.codes_container}>
           <div className={style.inner_wrapper}>
-            <span>ICAO</span>
+            <motion.span>ICAO</motion.span>
             <motion.span
               variants={variants}
               animate={toggle ? "codeActive" : "codeInitial"}
@@ -138,7 +149,7 @@ const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
             </motion.span>
           </div>
           <div className={style.inner_wrapper}>
-            <span>IATA</span>
+            <motion.span>IATA</motion.span>
             <motion.span
               variants={variants}
               animate={toggle ? "codeActive" : "codeInitial"}
@@ -149,7 +160,7 @@ const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
           </div>
         </div>
         <div className={style.airport_operator_container}>
-          <span>Airport</span>
+          <motion.span>Airport</motion.span>
           <motion.span
             variants={variants}
             animate={toggle ? "codeActive" : "codeInitial"}
@@ -159,7 +170,7 @@ const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
           </motion.span>
         </div>
         <div className={style.airport_operator_container}>
-          <span>Airline</span>
+          <motion.span>Airline</motion.span>
           <motion.span
             variants={variants}
             animate={toggle ? "codeActive" : "codeInitial"}
