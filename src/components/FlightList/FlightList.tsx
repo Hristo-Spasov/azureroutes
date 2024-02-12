@@ -6,7 +6,6 @@ import style from "./FlightList.module.scss";
 import useWeather from "../../hooks/useWeather";
 import Spinner from "../Spinner/Spinner";
 import WeatherWidget from "../WeatherWidget/WeatherWidget";
-// import FlightInformation from "../FlightInformation/FlightInformation";
 import { FlightFetchContext } from "../../context/flight-context";
 
 interface FlightListProps {
@@ -44,7 +43,7 @@ const FlightList = ({
   const arrivalIsNotAvailable = arrivalData?.data.length === 0 && arrivalActive;
   const departureIsNotAvailable =
     departureData?.data.length === 0 && departureActive;
-  const flightDataIsNotAvailable = !flightData || flightData?.data.length === 0;
+  const flightDataIsNotAvailable = flightData?.data.length === 0;
 
   const flightSearchButtonCondition =
     flightData !== undefined && searchOption === flightChecked;
@@ -60,7 +59,11 @@ const FlightList = ({
         <Spinner />
       ) : (
         <>
-          <section className={style.cards_container}>
+          <section
+            className={`${style.cards_container} ${
+              airportSearchButtonCondition ? style.airport_active : ""
+            }`}
+          >
             {airportSearchButtonCondition && (
               <article className={style.flight_list_container}>
                 {/* Meteo info about the Airport */}

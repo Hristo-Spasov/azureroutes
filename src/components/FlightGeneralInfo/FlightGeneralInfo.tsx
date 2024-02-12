@@ -27,25 +27,26 @@ const FlightGeneralInfo = React.memo(
 
     const endOffset = itemOffset + itemsPerPage;
 
-    if (!arrivalData || !departureData || !flightData) {
-      return <></>;
+    let pageCount = 0;
+
+    if (arrivalActive && arrivalData) {
+      pageCount = Math.ceil(arrivalData.data.length / itemsPerPage);
+    } else if (departureActive && departureData) {
+      pageCount = Math.ceil(departureData.data.length / itemsPerPage);
     }
 
-    const pageCountArrival = Math.ceil(arrivalData.data.length / itemsPerPage);
-    const pageCountDeparture = Math.ceil(
-      departureData.data.length / itemsPerPage
-    );
-
-    const pageCount = arrivalActive
-      ? pageCountArrival
-      : departureActive
-      ? pageCountDeparture
-      : 0;
-
     const handlePageClick = (selectedItem: { selected: number }) => {
+      // Get arrivalData length or default to 0
+      const arrivalDataLength = arrivalData?.data?.length ?? 0;
+
+      // Get departureData length or default to 0
+      const departureDataLength = departureData?.data?.length ?? 0;
+
+      // Determine activeData based on arrivalActive
       const activeData = arrivalActive
-        ? arrivalData.data.length
-        : departureData.data.length;
+        ? arrivalDataLength
+        : departureDataLength;
+
       const newOffset = (selectedItem.selected * itemsPerPage) % activeData;
       setItemOffset(newOffset);
       setSelectedPage(selectedItem.selected);
@@ -68,55 +69,45 @@ const FlightGeneralInfo = React.memo(
         ));
     };
 
-    // const renderFlights = (selectedPage: number) => {
-    //   if (arrivalActive && arrivalData) {
-    //     return getCurrentItems(arrivalData.data, selectedPage);
-    //   } else if (departureActive && departureData) {
-    //     return getCurrentItems(departureData.data, selectedPage);
-    //   }
-    // };
-
     const renderFlights = (selectedPage: number) => {
       if (arrivalActive && arrivalData) {
         return getCurrentItems(arrivalData.data, selectedPage);
       } else if (departureActive && departureData) {
         return getCurrentItems(departureData.data, selectedPage);
-      } else if (flightSearchButtonCondition && flightData) {
-        return flightData.data.map((el, index) => (
-          <FlightsListDetailedData key={index} el={el} />
-        ));
-      } else {
-        return null; // Handle other conditions or no data
       }
     };
+
     return (
       <ul className={style.list_container}>
-        {/* {airportSearchButtonCondition && renderFlights(selectedPage)}
         {flightSearchButtonCondition &&
           flightData &&
           flightData?.data?.map((el, index) => (
             <FlightsListDetailedData key={index} el={el} />
-          ))} */}
-        {airportSearchButtonCondition && renderFlights(selectedPage)}
-        {flightSearchButtonCondition && renderFlights(selectedPage)}
+          ))}
 
-        {pageCount > 0 && !flightSearchButtonCondition && (
-          <ReactPaginate
-            breakLabel="..."
-            nextLabel="Next"
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={3}
-            pageCount={pageCount}
-            previousLabel="Prev"
-            renderOnZeroPageCount={null}
-            className={style.pagination}
-            activeClassName={style.active}
-            pageClassName={style.page_wrapper}
-            pageLinkClassName={style.page_wrapper}
-            previousClassName={style.prev_btn}
-            nextClassName={style.next_btn}
-            forcePage={selectedPage}
-          />
+        {airportSearchButtonCondition && (
+          <>
+            {renderFlights(selectedPage)}
+
+            {pageCount > 0 && (
+              <ReactPaginate
+                breakLabel="..."
+                nextLabel="Next"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={3}
+                pageCount={pageCount}
+                previousLabel="Prev"
+                renderOnZeroPageCount={null}
+                className={style.pagination}
+                activeClassName={style.active}
+                pageClassName={style.page_wrapper}
+                pageLinkClassName={style.page_wrapper}
+                previousClassName={style.prev_btn}
+                nextClassName={style.next_btn}
+                forcePage={selectedPage}
+              />
+            )}
+          </>
         )}
       </ul>
     );
