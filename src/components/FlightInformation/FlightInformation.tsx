@@ -1,5 +1,5 @@
 import style from "./FlightInformation.module.scss";
-import InFlight from "../../assets/airplane-in-flight-thin.svg?react";
+import InFlight from "../../assets/InFlight.svg?react";
 import dayjs from "dayjs";
 import { FlightDataType } from "../../types/flight_types";
 
@@ -41,6 +41,9 @@ const FlightInformation = (props: FlightDataType) => {
           </div>
           <span>{flight_status}</span>
         </div>
+        <div className={style.svg_container}>
+          <InFlight />
+        </div>
         {/* Arrival from airport */}
         <div className={style.airport_name}>
           <span>
@@ -71,8 +74,6 @@ const FlightInformation = (props: FlightDataType) => {
             <span>{formatDepActual}</span>
           </div>
         </div>
-
-        <InFlight width={50} height={50} />
 
         {/* Departure for airport */}
         <div className={style.airport_name}>

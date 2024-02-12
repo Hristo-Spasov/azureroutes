@@ -6,7 +6,7 @@ import Landing from "./assets/airplane-landing-fill.svg?react";
 import TakeOff from "./assets/airplane-takeoff-fill.svg?react";
 import Clouds from "./assets/clouds-2-parts.svg?react";
 import hero from "./assets/hero.png";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FetchContext } from "./context/fetch-context";
 import { ClockProvider } from "./context/clock-context";
 import { Toaster } from "react-hot-toast";
@@ -17,6 +17,7 @@ function App() {
   const flightChecked = "search_flight";
   const {
     search,
+    setSearch,
     searchHandler,
     clickHandler,
     keyHandler,
@@ -56,6 +57,10 @@ function App() {
   const disableDiv: React.CSSProperties = {
     pointerEvents: arrivalDataLoading || departureDataLoading ? "none" : "auto",
   };
+
+  useEffect(() => {
+    setSearch("");
+  }, [searchOption]);
 
   const placeHolder: string =
     searchOption === airportChecked
