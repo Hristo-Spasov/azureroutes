@@ -37,8 +37,8 @@ const Dropdown = (props: DropdownProps) => {
     ? dayjs(arrival.actual).format(`DD.MM.YYYY HH:mm:ss`)
     : dateError;
 
-  const statusCheck = (string: string) => {
-    switch (string) {
+  const statusCheck = (status: string) => {
+    switch (status) {
       case "active":
         return style.flight_status_active;
       case "landed":

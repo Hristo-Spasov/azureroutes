@@ -1,3 +1,5 @@
+@import "../../veriables.scss";
+
 .loader {
   position: relative;
   width: 120px;
@@ -34,7 +36,7 @@
   left: 50%;
   top: 50%;
   box-sizing: border-box;
-  border: 7px solid #ff3d00;
+  border: 7px solid $base_main_color;
   border-radius: 50%;
   animation: rotate 1s linear infinite;
 }

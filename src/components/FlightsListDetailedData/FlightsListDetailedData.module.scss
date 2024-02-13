@@ -1,14 +1,6 @@
 @import "../../veriables.scss";
 
 .list_element_container {
-  // transition: transform 400ms ease-in-out;
-  // transform: scale(1);
-
-  // &:hover {
-  //   transition: transform 400ms ease-in-out;
-  //   transform: scale(1.05);
-  // }
-
   .information_wrapper {
     width: 50dvw;
     max-width: 50dvw;
@@ -24,38 +16,7 @@
     color: white;
     border-radius: 80px;
     position: relative;
-    // transition: transform 500ms ease-in-out;
-    // transform: scale(1);
     z-index: 5;
-
-    // &.active {
-    //   background-color: $base_main_color;
-    //   color: white;
-    //   border-radius: 80px 80px 0 0;
-
-    // .airport_operator_container > .airport_operator_names {
-    //   color: white;
-    // }
-
-    // .codes_container > .inner_wrapper > .codes {
-    //   color: white;
-    // }
-
-    //   &:hover {
-    //     transition: none;
-    //     transform: none;
-    //   }
-    // }
-
-    // &:hover {
-    //   transition: transform 500ms ease-in-out;
-    //   transform: scale(1.1);
-    //   outline: 2px solid $base_main_color;
-
-    //   &.active {
-    //     outline: none;
-    //   }
-    // }
 
     .codes_container {
       display: flex;
@@ -98,19 +59,7 @@
       justify-content: center;
       align-items: center;
       position: absolute;
-      // top: 100%;
-      // left: 50%;
-      // transition: transform 200ms ease, border-radius 200ms ease;
-      // transform: translate(-50%, -50%);
-      // background-color: white;
-      // border-radius: 80px;
 
-      // &:hover {
-      // // outline: 2px solid $base_main_color;
-      // transition: transform 200ms ease, border-radius 200ms ease;
-      // border-radius: 0 0 80px 80px;
-      // transform: translate(-50%, -30%);
-      // }
       svg {
         fill: $base_main_color;
       }
