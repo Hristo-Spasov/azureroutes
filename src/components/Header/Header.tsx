@@ -5,12 +5,8 @@ const Header = (): JSX.Element => {
   return (
     <header className={style.header}>
       <img src={logo} alt="skywise_logo" />
-      <h2>SkyWise</h2>
-      <ul>
-        <li>menu</li>
-        <li>menu2</li>
-        <li>menu3</li>
-      </ul>
+      <h1>SkyWise</h1>
+      <span></span> {/* TODO navbar in the future */}
     </header>
   );
 };

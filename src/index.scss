@@ -1,20 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
 @import "./veriables.scss";
 
-html,
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
 body {
-  width: 100%;
-  max-width: 100%;
-  height: 2000px;
   padding: 0;
   margin: 0;
+  min-width: 0;
+  background-color: $base_background;
   font-family: $main_font;
   font-weight: $base_weight;
-  background-image: url("../src/assets/kevin-woblick-UdUbSPwbv2c-unsplash.jpg");
-  background-size: cover;
-  background-position: center center;
-  background-size: 100% cover;
-  background-repeat: no-repeat;
+  height: 1000px; // TODO remove in the future
 
   ul {
     list-style-type: none;

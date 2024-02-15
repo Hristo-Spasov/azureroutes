@@ -60,9 +60,7 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
   const [search, setSearch] = useState<string>("");
   const [departureData, setDepartureData] =
     useState<ApiResponse<FlightDataType>>();
-  const [arrivalData, setArrivalData] = useState<
-    ApiResponse<FlightDataType> | undefined
-  >();
+  const [arrivalData, setArrivalData] = useState<ApiResponse<FlightDataType>>();
   const [arrivalActive, setArrivalActive] = useState<boolean>(false);
   const [departureActive, setDepartureActive] = useState<boolean>(false);
 

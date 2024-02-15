@@ -1,3 +1,5 @@
+@import "../../veriables.scss";
+
 .loader {
   position: relative;
   width: 120px;
@@ -9,9 +11,8 @@
   background-position: center 127px, 94px 102px, 16px 18px, center 114px;
   background-size: 60px 60px, 10px 10px, 10px 10px, 4px 14px;
   background-repeat: no-repeat;
-  z-index: 999;
+  z-index: 10;
   perspective: 500px;
-  margin-top: 7rem;
 }
 .loader::before {
   content: "";
@@ -35,7 +36,7 @@
   left: 50%;
   top: 50%;
   box-sizing: border-box;
-  border: 7px solid #ff3d00;
+  border: 7px solid $base_main_color;
   border-radius: 50%;
   animation: rotate 1s linear infinite;
 }

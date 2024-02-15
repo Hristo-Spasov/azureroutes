@@ -1,187 +1,361 @@
 @import "../src/veriables.scss";
 
-.main {
+.main_section {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10rem;
-}
-
-.search_container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: 100%;
-  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 
-  .form.rounded {
-    border-radius: 16px;
+  .hero_image {
+    width: 100%;
+    height: 40dvh;
+    object-fit: cover;
+    border-radius: 0 0 50px 50px;
   }
-  .form {
+
+  .sub_section {
+    position: relative;
+    width: 100%;
     display: flex;
+    height: 150px;
     flex-direction: column;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
-    width: 39.85dvw;
-    min-width: 250px;
-    height: 15dvh;
-    // background-color: rgba($color: #000000, $alpha: 0.6);
 
-    background: rgba(72, 72, 72, 0.2);
-    border-radius: 16px 16px 0 0;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(72, 72, 72, 0.3);
-
-    .radio_container {
-      display: flex;
-      gap: 3.5rem;
-      user-select: none;
-    }
-    .search_wrapper {
-      position: relative;
+    .clouds_container {
+      position: absolute;
+      width: 100%;
+      min-width: 1400px;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 39.85dvw;
-      height: 50%;
-      min-width: 250px;
-      overflow: hidden;
+      z-index: -5;
+      user-select: none;
+    }
 
-      .search {
-        width: 80%;
-        min-height: 2rem;
-        border-radius: 8px;
-        box-shadow: none;
-        padding-left: 10px;
-        border: none;
-        outline: none;
-      }
-      .search_btn_wrapper {
-        position: absolute;
+    .search_container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2.5rem;
+      align-items: center;
+      width: 100%;
+      position: absolute;
+      left: 50%;
+      top: 15%;
+      transform: translate(-50%, -50%);
+
+      .form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+        width: 50dvw;
+        min-width: 600px;
+        height: 12dvh;
+        padding: 10px;
+        border-radius: 80px;
         background-color: white;
-        border-radius: 50%;
-        width: 3rem;
-        height: 3rem;
-        transition: transform 0.3s ease-in-out;
-        inset: 0 0 0 75%;
-        margin: auto;
-        cursor: pointer;
+        position: relative;
 
-        svg {
-          position: absolute;
-          transition: transform 0.3s ease-in-out;
-          fill: black;
-          cursor: pointer;
-          inset: 0;
-          margin: auto;
+        .radio_container {
+          display: flex;
+          gap: 3.5rem;
+          user-select: none;
+
+          label {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+
+            input {
+              margin: 0;
+              width: 12px;
+              height: 12px;
+              appearance: none;
+              -webkit-appearance: none;
+              border-radius: 100%;
+              background: white;
+              // border: 2px solid #fff;   << inner gap
+              /* The outline will be the outer circle */
+              outline: 2px solid $base_main_color;
+            }
+
+            input:checked {
+              outline: 0;
+              background: $base_main_color;
+              transition: all 0.2s ease-in-out;
+            }
+
+            input:hover {
+              border: 2px solid #fff;
+              background: $base_main_color;
+              opacity: 0.7;
+            }
+
+            input:checked:hover {
+              border: 0;
+              opacity: 1;
+              transform: scale(1.2);
+            }
+          }
+        }
+
+        .search_bar_container {
+          position: relative;
+
+          .search_input_wrapper {
+            display: flex;
+            width: 35dvw;
+            min-width: 400px;
+            padding: 1px;
+            border-radius: 50px;
+            overflow: hidden;
+            background: rgb(16, 38, 68);
+            background: linear-gradient(
+              90deg,
+              rgba(16, 38, 68, 1),
+              rgba(255, 255, 255, 1) 100%
+            );
+            padding: 2.5px;
+            border: 0;
+
+            .search_bar {
+              width: 100%;
+              min-height: 2rem;
+              box-shadow: none;
+              padding-left: 10px;
+              outline: none;
+              border: none;
+              border-radius: 50px;
+            }
+          }
+          .search_btn_wrapper {
+            position: absolute;
+            background-color: $base_main_color;
+            border-radius: 100%;
+            width: 4rem;
+            height: 4rem;
+            transition: transform 0.3s ease-in-out;
+            inset: 0 0 0 93%;
+            margin: auto;
+            cursor: pointer;
+            z-index: 5;
+
+            svg {
+              position: absolute;
+              transition: transform 0.3s ease-in-out;
+              fill: white;
+              cursor: pointer;
+              inset: 0;
+              margin: auto;
+            }
+          }
+
+          .search_btn_wrapper:hover {
+            border: 2px solid $base_main_color;
+            background-color: white;
+            transform: scale(1.1);
+            svg {
+              fill: $base_main_color;
+            }
+          }
         }
       }
 
-      .search_btn_wrapper:hover {
-        transform: scale(1.1);
-        background-color: black;
+      .arr_dep_container,
+      .buttons_hidden {
+        display: flex;
+        width: 40dvw;
+        min-width: 300px;
+      }
+      .arr_dep_container {
+        -webkit-animation: arr_dep_container 1s ease-in-out;
+        animation: arr_dep_container 1s ease-in-out;
+      }
+
+      .buttons_hidden {
+        -webkit-animation: buttons_hidden 0.5s
+          cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+        animation: buttons_hidden 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53)
+          both;
+      }
+
+      .arrival_btn,
+      .departure_btn,
+      .arrival_btn_active,
+      .departure_btn_active {
+        display: flex;
+        width: 50%;
+        border-radius: 80px 0 0 80px;
+        overflow: hidden;
+        background: $base_main_color;
+        border-right: 2px solid #0d223d;
+
+        button {
+          display: flex;
+          align-items: center;
+          justify-content: space-evenly;
+          font-size: $base_font_size;
+          font-weight: $base_weight;
+          color: white;
+          letter-spacing: 1px;
+          width: 100%;
+          padding: 5px;
+          background-color: transparent;
+          border: transparent;
+          cursor: pointer;
+        }
+
         svg {
           fill: white;
         }
       }
+
+      .departure_btn {
+        border-radius: 0 80px 80px 0;
+        border: none;
+      }
+
+      .arrival_btn:hover,
+      .departure_btn:hover {
+        color: black;
+        background-color: white;
+        outline: 1px solid $base_main_color;
+        cursor: pointer;
+
+        button {
+          color: $base_main_color;
+          background-color: white;
+        }
+
+        svg {
+          fill: $base_main_color;
+        }
+      }
+
+      .arrival_btn_active,
+      .departure_btn_active {
+        button {
+          color: black;
+          background-color: white;
+          outline: 1px solid $base_main_color;
+          cursor: pointer;
+          width: 100%;
+          button {
+            color: $base_main_color;
+            background-color: white;
+          }
+
+          svg {
+            fill: $base_main_color;
+          }
+        }
+      }
+
+      .departure_btn_active {
+        border-radius: 0 80px 80px 0;
+        border: none;
+      }
     }
   }
+}
 
-  .search_menu_wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40dvw;
-    min-width: 250px;
+/* ----------------------------------------------
+ * Generated by Animista on 2024-1-30 18:38:59
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation slide-in-top
+ * ----------------------------------------
+ */
+@-webkit-keyframes arr_dep_container {
+  0% {
+    -webkit-transform: translateY(-50px);
+    transform: translateY(-50px);
+    opacity: 0;
   }
-
-  .search_menu1,
-  .search_menu2 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
-    padding: 10px;
-    border-radius: 0 0 0 16px;
-    overflow: hidden;
-
-    background: rgba(72, 72, 72, 0.2);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(72, 72, 72, 0.3);
-
-    button {
-      display: flex;
-      align-items: center;
-      justify-content: space-evenly;
-      font-size: $base_font_size;
-      font-weight: $base_weight;
-      letter-spacing: 1px;
-      width: 100%;
-      padding: 5px;
-      background-color: transparent;
-      border: 0;
-      cursor: pointer;
-    }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
   }
-
-  .search_menu2 {
-    border-radius: 0 0 16px 0;
+}
+@keyframes arr_dep_container {
+  0% {
+    -webkit-transform: translateY(-50px);
+    transform: translateY(-50px);
+    opacity: 0;
   }
-
-  .search_menu1:hover,
-  .search_menu2:hover {
-    color: black;
-    background-color: white;
-    cursor: pointer;
-
-    button {
-      color: black;
-      background-color: white;
-    }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
   }
+}
 
-  .search_menu1_active,
-  .search_menu2_active {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
-    padding: 10px;
-    border-radius: 0 0 0 16px;
-    overflow: hidden;
-    color: black;
-    background-color: white;
+/* ----------------------------------------------
+ * Generated by Animista on 2024-1-30 18:44:0
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
 
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(72, 72, 72, 0.3);
-
-    button {
-      display: flex;
-      align-items: center;
-      justify-content: space-evenly;
-      font-size: $base_font_size;
-      font-weight: $base_weight;
-      letter-spacing: 1px;
-      width: 100%;
-      padding: 5px;
-      background-color: transparent;
-      border: 0;
-      cursor: pointer;
-      color: black;
-      background-color: white;
-    }
+/**
+ * ----------------------------------------
+ * animation slide-out-top
+ * ----------------------------------------
+ */
+@-webkit-keyframes buttons_hidden {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
   }
-
-  .search_menu2_active {
-    border-radius: 0 0 16px 0;
+  100% {
+    -webkit-transform: translateY(-50px);
+    transform: translateY(-50px);
+    opacity: 0;
   }
+}
+@keyframes buttons_hidden {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translateY(-50px);
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+}
+
+/* Media Queries */
+
+/* Tablets */
+@media only screen and (min-width: 768px) and (max-width: 979px) {
+}
+
+/* Typical Mobile */
+
+@media only screen and (min-width: 320px) and (max-width: 479px) {
+}
+
+/* Mobile Landscape */
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+}
+
+/* Small desktop */
+
+@media only screen and (min-width: 980px) and (max-width: 1024px) {
 }

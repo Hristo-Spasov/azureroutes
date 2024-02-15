@@ -1,4 +1,11 @@
-.container {
+@import "../../veriables.scss";
+
+.list_container {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  height: 100%;
+  width: 100%;
   .pagination {
     display: flex;
     cursor: pointer;
@@ -8,10 +15,7 @@
     padding: 10px 0;
     user-select: none;
     margin-top: 10px;
-  }
-
-  .active {
-    color: white;
+    gap: 0.5rem;
   }
 
   .page_wrapper {
@@ -20,6 +24,28 @@
     align-items: center;
     width: 2rem;
     height: 2rem;
+
+    &:hover {
+      color: $base_main_color;
+      outline: none;
+      border-radius: 80px;
+      background-color: rgba($color: white, $alpha: 0.2);
+    }
+
+    &.active {
+      color: $base_main_color;
+      border-radius: 80px;
+      background-color: white;
+      outline: 2px solid $base_main_color;
+
+      &:hover {
+        outline: none;
+      }
+
+      a:hover {
+        color: black;
+      }
+    }
   }
 
   .next_btn,
@@ -36,10 +62,6 @@
       width: 4rem;
       height: 4rem;
     }
-  }
-
-  .page_wrapper:hover {
-    color: white;
   }
 
   .next_btn:hover {

@@ -1,35 +1,80 @@
-.information_wrapper {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 3fr) + 0.7fr;
-  justify-items: center;
-  grid-auto-rows: 3rem;
-  align-items: center;
-  padding: 20px 0;
-  border-bottom: 1px solid gray;
-  cursor: pointer;
+@import "../../veriables.scss";
 
-  .codes {
-    display: flex;
-    gap: 10px;
-  }
-
-  .airport_operator_names {
-    // min-width: 250px;
-
-    span {
-      white-space: normal;
-      word-wrap: break-word;
-    }
-  }
-
-  .arrow_wrapper {
-    cursor: pointer;
-    width: 2rem;
-    height: 2rem;
-    background-color: transparent;
-    display: flex;
-    justify-content: center;
+.list_element_container {
+  .information_wrapper {
+    width: 50dvw;
+    max-width: 50dvw;
+    min-width: 50rem;
+    display: grid;
+    grid-template-columns: repeat(3, 3fr);
+    justify-items: center;
+    grid-auto-rows: 3rem;
     align-items: center;
+    padding: 30px 2rem;
+    cursor: pointer;
+    background-color: white;
+    color: white;
+    border-radius: 80px;
+    position: relative;
+    z-index: 5;
+
+    .codes_container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+
+      .inner_wrapper {
+        display: flex;
+        flex-direction: column;
+        letter-spacing: 0.5px;
+
+        .codes {
+          font-weight: 400;
+          color: white;
+        }
+      }
+    }
+
+    .airport_operator_container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .airport_operator_names {
+        white-space: break-spaces;
+        text-align: center;
+        word-wrap: break-word;
+        font-weight: 400;
+      }
+    }
+
+    .arrow_wrapper {
+      cursor: pointer;
+      width: 2rem;
+      height: 2rem;
+      background-color: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+
+      svg {
+        fill: $base_main_color;
+      }
+
+      &.arrow_active {
+        background-color: $base_main_color;
+
+        &:hover {
+          outline: none;
+        }
+
+        svg {
+          fill: white;
+        }
+      }
+    }
   }
 }

@@ -4,10 +4,12 @@ import { FlightDataType } from "../../types/flight_types";
 import { useContext, useEffect, useState } from "react";
 import { FetchContext } from "../../context/fetch-context";
 import Dropdown from "../Dropdown/Dropdown";
+import { AnimatePresence, motion } from "framer-motion";
+import variants from "./framer_variants";
 
 interface FlightsListDetailedDataProps {
   el: FlightDataType;
-  selectedPage: number;
+  selectedPage?: number;
 }
 
 const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
@@ -34,35 +36,89 @@ const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
   ]);
 
   return (
-    <>
-      <li className={style.information_wrapper} onClick={toggleDropdown}>
-        <div className={style.codes}>
-          <span>icao: {departure.icao}</span>
-          <span>iata: {departure.iata}</span>
+    <motion.div
+      variants={variants}
+      animate={"parent_container"}
+      whileHover={{ scale: 1.05 }}
+      // transition={{ duration: 0.3 }}
+      className={style.list_element_container}
+    >
+      <motion.li
+        animate={toggle ? "active" : "initial"}
+        variants={variants}
+        whileHover={toggle ? "hover_active" : "hover_inactive"}
+        // transition={{ duration: 0.5, ease: "easeInOut" }}
+        className={`${style.information_wrapper}`}
+        onClick={toggleDropdown}
+      >
+        <div className={style.codes_container}>
+          <div className={style.inner_wrapper}>
+            <motion.span>ICAO</motion.span>
+            <motion.span
+              variants={variants}
+              animate={toggle ? "codeActive" : "codeInitial"}
+              className={style.codes}
+            >
+              {departure.icao}
+            </motion.span>
+          </div>
+          <div className={style.inner_wrapper}>
+            <motion.span>IATA</motion.span>
+            <motion.span
+              variants={variants}
+              animate={toggle ? "codeActive" : "codeInitial"}
+              className={style.codes}
+            >
+              {departure.iata}
+            </motion.span>
+          </div>
         </div>
-        <div className={style.airport_operator_names}>
-          <span>Airport: {departure.airport}</span>
+        <div className={style.airport_operator_container}>
+          <motion.span>Airport</motion.span>
+          <motion.span
+            variants={variants}
+            animate={toggle ? "codeActive" : "codeInitial"}
+            className={style.airport_operator_names}
+          >
+            {departure.airport}
+          </motion.span>
         </div>
-        <div className={style.airport_operator_names}>
-          <span>Operator: {airline.name}</span>
+        <div className={style.airport_operator_container}>
+          <motion.span>Airline</motion.span>
+          <motion.span
+            variants={variants}
+            animate={toggle ? "codeActive" : "codeInitial"}
+            className={style.airport_operator_names}
+          >
+            {airline.name === "empty" ? "Private" : airline.name}
+          </motion.span>
         </div>
-        <span className={style.arrow_wrapper}>
+
+        <motion.span
+          variants={variants}
+          animate={toggle ? "arrowActive" : "arrowInitial"}
+          whileHover={toggle ? "arrowHoverActive" : "arrowHoverInactive"}
+          transition={{ duration: 0.3, ease: "easeInOut", delay: 0.1 }}
+          className={`${style.arrow_wrapper} ${
+            toggle ? style.arrow_active : ""
+          } `}
+        >
           <DownArrow width={12} height={12} />
-        </span>
-      </li>
-
+        </motion.span>
+      </motion.li>
       {/* Dropdown Information */}
-
-      {toggle && (
-        <Dropdown
-          arrival={arrival}
-          departure={departure}
-          flight_date={flight_date}
-          flight_status={flight_status}
-          flight={flight}
-        />
-      )}
-    </>
+      <AnimatePresence>
+        {toggle && (
+          <Dropdown
+            arrival={arrival}
+            departure={departure}
+            flight_date={flight_date}
+            flight_status={flight_status}
+            flight={flight}
+          />
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 };
 
