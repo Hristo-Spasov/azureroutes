@@ -1,3 +1,5 @@
+@import "include-media";
+
 .cards_container {
   width: 80%;
   height: 100%;
@@ -22,6 +24,11 @@
     background: white;
     border-radius: 80px;
     overflow: hidden;
+
+    @include media(">=small desktop", "<=1280px") {
+      width: 60dvw;
+      max-width: unset;
+    }
 
     .list_header {
       display: flex;
