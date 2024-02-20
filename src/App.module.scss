@@ -26,7 +26,6 @@
     .clouds_container {
       position: absolute;
       width: 100%;
-      min-width: 1400px;
       top: 0;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -36,9 +35,16 @@
       z-index: -5;
       user-select: none;
 
+      @include media(">=1280px") {
+        min-width: 1400px;
+      }
+
       @include media(">=small desktop", "<=1280px") {
         top: -10%;
-        min-width: unset;
+      }
+
+      @include media(">tablet", "<=820px") {
+        top: 10px;
       }
     }
 
