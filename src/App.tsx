@@ -35,6 +35,7 @@ function App() {
     useContext(FlightFetchContext);
 
   const [searchOption, setSearchOption] = useState(airportChecked);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   const handleArrivalClick = () => {
     if (arrivalData) {
@@ -58,6 +59,18 @@ function App() {
     pointerEvents: arrivalDataLoading || departureDataLoading ? "none" : "auto",
   };
 
+  //Break points for mobile
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 600);
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   useEffect(() => {
     setSearch("");
   }, [searchOption]);
@@ -80,9 +93,11 @@ function App() {
 
         <section className={style.sub_section}>
           <div className={`${style.search_container}`}>
-            <div className={style.clouds_container}>
-              <Clouds />
-            </div>
+            {!isMobile && (
+              <div className={style.clouds_container}>
+                <Clouds />
+              </div>
+            )}
             <form role="search" className={style.form}>
               {/* Radio buttons */}
               <div className={style.radio_container}>
@@ -129,16 +144,18 @@ function App() {
                     disabled={arrivalDataLoading || departureDataLoading}
                   />
                 </div>
-                <div
-                  className={style.search_btn_wrapper}
-                  onClick={
-                    searchOption === airportChecked
-                      ? clickHandler
-                      : flightClickHandler
-                  }
-                >
-                  <Search width={40} height={40} />
-                </div>
+                {!isMobile && (
+                  <div
+                    className={style.search_btn_wrapper}
+                    onClick={
+                      searchOption === airportChecked
+                        ? clickHandler
+                        : flightClickHandler
+                    }
+                  >
+                    <Search width={40} height={40} />
+                  </div>
+                )}
               </div>
             </form>
             <div

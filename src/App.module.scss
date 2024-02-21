@@ -79,16 +79,35 @@
           gap: 15px;
         }
 
+        @include media(">=phone", "<=600px") {
+          min-width: unset;
+          width: 100dvw;
+          height: 120px;
+          justify-content: center;
+          border-radius: 0px;
+          gap: 20px;
+        }
+
         .radio_container {
           display: flex;
           gap: 3.5rem;
           user-select: none;
+          @include media(">=phone", "<=600px") {
+            align-items: center;
+            justify-content: space-evenly;
+            width: 100%;
+            gap: 1rem;
+          }
 
           label {
             display: flex;
             gap: 10px;
             align-items: center;
             justify-content: center;
+
+            @include media(">=phone", "<=600px") {
+              font-size: 14px;
+            }
 
             input {
               margin: 0;
@@ -101,12 +120,22 @@
               // border: 2px solid #fff;   << inner gap
               /* The outline will be the outer circle */
               outline: 2px solid veriables.$base_main_color;
+
+              @include media(">=phone", "<=600px") {
+                width: 10px;
+                height: 10px;
+              }
             }
 
             input:checked {
               outline: 0;
               background: veriables.$base_main_color;
               transition: all 0.2s ease-in-out;
+
+              @include media(">=phone", "<=600px") {
+                width: 10px;
+                height: 10px;
+              }
             }
 
             input:hover {
@@ -142,6 +171,18 @@
             padding: 2.5px;
             border: 0;
 
+            @include media(">=phone", "<=600px") {
+              min-width: unset;
+              width: 95dvw;
+              border-radius: 80px;
+              background: rgb(16, 38, 68);
+              background: linear-gradient(
+                180deg,
+                rgba(16, 38, 68, 1),
+                rgba(255, 255, 255, 1) 150%
+              );
+            }
+
             .search_bar {
               width: 100%;
               min-height: 2rem;
@@ -150,6 +191,10 @@
               outline: none;
               border: none;
               border-radius: 50px;
+
+              @include media(">=phone", "<=600px") {
+                border-radius: 80px;
+              }
             }
           }
           .search_btn_wrapper {
