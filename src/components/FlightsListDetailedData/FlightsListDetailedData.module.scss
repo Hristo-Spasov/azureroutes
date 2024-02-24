@@ -1,6 +1,10 @@
 @import "../../veriables.scss";
+@import "include-media";
 
 .list_element_container {
+  @include media(">=tablet", "<=820px") {
+    width: 80dvw;
+  }
   .information_wrapper {
     width: 50dvw;
     max-width: 50dvw;
@@ -17,6 +21,12 @@
     border-radius: 80px;
     position: relative;
     z-index: 5;
+
+    @include media(">=tablet", "<=820px") {
+      width: 80dvw;
+      max-width: unset;
+      min-width: unset;
+    }
 
     .codes_container {
       display: flex;
