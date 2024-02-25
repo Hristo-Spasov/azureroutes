@@ -209,7 +209,7 @@
             cursor: pointer;
             z-index: 5;
 
-            @include media(">=small desktop", "<=1280px") {
+            @include media(">=tablet", "<=1280px") {
               width: 3.5rem;
               height: 3.5rem;
             }

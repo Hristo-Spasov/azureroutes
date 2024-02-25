@@ -1,5 +1,5 @@
 @import "../src/veriables.scss";
-
+@import "include-media";
 .detailed_information {
   display: flex;
   align-items: center;
@@ -13,6 +13,12 @@
   background-color: white;
   border-radius: 0 0 80px 80px;
   padding: 3rem 0;
+
+  @include media(">=tablet", "<=820px") {
+    width: 80dvw;
+    max-width: unset;
+    min-width: unset;
+  }
 
   .status {
     display: flex;

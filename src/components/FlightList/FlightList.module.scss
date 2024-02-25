@@ -29,6 +29,12 @@
       width: 60dvw;
       max-width: unset;
     }
+    @include media(">=phone", "<=600px") {
+      width: 100dvw;
+      max-width: unset;
+      min-width: unset;
+      border-radius: 20px;
+    }
 
     .list_header {
       display: flex;
@@ -38,17 +44,29 @@
       gap: 10px;
       padding: 1rem 0 1rem 0;
 
+      @include media(">=phone", "<=600px") {
+        padding: 0.5rem 0 0.5rem 0;
+      }
+
       .weather_widged {
         display: flex;
         align-items: center;
         justify-content: space-between;
         width: 80%;
+        @include media(">=phone", "<=600px") {
+          width: 100%;
+          justify-content: space-evenly;
+        }
 
         .weather_container {
           display: flex;
           justify-content: center;
           align-items: center;
           gap: 2rem;
+
+          @include media(">=phone", "<=600px") {
+            gap: 0.5rem;
+          }
 
           .meteo_metrics {
             display: flex;
@@ -62,6 +80,12 @@
               flex-direction: column;
               align-items: center;
               gap: 5px;
+
+              span {
+                @include media(">=phone", "<=600px") {
+                  font-size: 14px;
+                }
+              }
             }
           }
         }
