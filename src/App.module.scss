@@ -133,8 +133,8 @@
               transition: all 0.2s ease-in-out;
 
               @include media(">=phone", "<=600px") {
-                width: 10px;
-                height: 10px;
+                width: 12px;
+                height: 12px;
               }
             }
 
