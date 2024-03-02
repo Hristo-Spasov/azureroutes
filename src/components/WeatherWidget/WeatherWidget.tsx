@@ -23,10 +23,16 @@ const WeatherWidget = () => {
           <Wind width={20} height={20} />
           <Humidity width={20} height={20} />
         </div>
-        <div className={style.metrics}>
-          <span>{`${Math.floor(weather.current.temp_c)} C°`}</span>
-          <span>{`${Math.floor(weather.current.wind_kph)} km/h`}</span>
-          <span>{`${weather.current.humidity} %`}</span>
+        <div className={style.metrics_container}>
+          <span className={style.metrics}>{`${Math.floor(
+            weather.current.temp_c
+          )} C°`}</span>
+          <span className={style.metrics}>{`${Math.floor(
+            weather.current.wind_kph
+          )} km/h`}</span>
+          <span
+            className={style.metrics}
+          >{`${weather.current.humidity} %`}</span>
         </div>
       </div>
     </div>
