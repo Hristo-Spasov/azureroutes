@@ -30,7 +30,7 @@
       max-width: unset;
     }
     @include media(">=phone", "<=600px") {
-      width: 100dvw;
+      width: 95dvw;
       max-width: unset;
       min-width: unset;
       border-radius: 20px;
