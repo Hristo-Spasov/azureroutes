@@ -11,6 +11,7 @@ import { FetchContext } from "./context/fetch-context";
 import { ClockProvider } from "./context/clock-context";
 import { Toaster } from "react-hot-toast";
 import { FlightFetchContext } from "./context/flight-context";
+import useResize from "./hooks/useResize";
 
 function App() {
   const airportChecked = "search_airport";
@@ -35,7 +36,7 @@ function App() {
     useContext(FlightFetchContext);
 
   const [searchOption, setSearchOption] = useState(airportChecked);
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const isMobile = useResize(600);
 
   const handleArrivalClick = () => {
     if (arrivalData) {
@@ -58,18 +59,6 @@ function App() {
   const disableDiv: React.CSSProperties = {
     pointerEvents: arrivalDataLoading || departureDataLoading ? "none" : "auto",
   };
-
-  //Break points for mobile
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 600);
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   useEffect(() => {
     setSearch("");

@@ -1,4 +1,5 @@
 @import "../../veriables.scss";
+@import "include-media";
 
 .list_container {
   display: flex;
@@ -16,6 +17,11 @@
     user-select: none;
     margin-top: 10px;
     gap: 0.5rem;
+
+    @include media(">=phone", "<=600px") {
+      gap: 0.5rem;
+      margin-top: 0;
+    }
   }
 
   .page_wrapper {
@@ -24,6 +30,11 @@
     align-items: center;
     width: 2rem;
     height: 2rem;
+
+    @include media(">=phone", "<=600px") {
+      width: 1.3rem;
+      height: 1.3rem;
+    }
 
     &:hover {
       color: $base_main_color;
@@ -55,12 +66,20 @@
     align-items: center;
     width: 4rem;
     height: 4rem;
+    @include media(">=phone", "<=600px") {
+      width: 2rem;
+      height: 2rem;
+    }
     a {
       display: flex;
       justify-content: center;
       align-items: center;
       width: 4rem;
       height: 4rem;
+      @include media(">=phone", "<=600px") {
+        width: 2rem;
+        height: 2rem;
+      }
     }
   }
 
