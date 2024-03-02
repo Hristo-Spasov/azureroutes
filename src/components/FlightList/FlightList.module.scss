@@ -58,35 +58,10 @@
           justify-content: space-evenly;
         }
 
-        .weather_container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 2rem;
-
+        .data_time_container {
           @include media(">=phone", "<=600px") {
-            gap: 0.5rem;
-          }
-
-          .meteo_metrics {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-
-            .meteo_icons,
-            .metrics {
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              gap: 5px;
-
-              span {
-                @include media(">=phone", "<=600px") {
-                  font-size: 14px;
-                }
-              }
-            }
+            font-size: 12px;
+            letter-spacing: 1px;
           }
         }
       }

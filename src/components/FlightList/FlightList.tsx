@@ -71,7 +71,7 @@ const FlightList = ({
                 {/* Meteo info about the Airport */}
                 <div className={style.list_header}>
                   <div className={style.weather_widged}>
-                    <div>
+                    <div className={style.data_time_container}>
                       <span>{date && date.format(`DD.MM.YYYY HH:mm:ss`)}</span>
                     </div>
                     {/* Weather Widget */}
