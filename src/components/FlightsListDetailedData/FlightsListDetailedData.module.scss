@@ -47,7 +47,7 @@
 
       @include media(">=phone", "<=600px") {
         gap: 15px;
-        font-size: 14px;
+        font-size: 12px;
       }
 
       .inner_wrapper {
@@ -71,7 +71,7 @@
       justify-content: center;
       align-items: center;
       @include media(">=phone", "<=600px") {
-        font-size: 14px;
+        font-size: 12px;
       }
 
       .airport_operator_names {

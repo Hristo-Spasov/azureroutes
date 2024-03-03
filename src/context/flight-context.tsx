@@ -52,10 +52,13 @@ export const FlightProvider = ({ children }: FlightFetchProviderProps) => {
 
   ///  React Query
 
-  const { refetch: flightFetch, isLoading: flightDataLoading } = useQuery({
+  const {
+    data: cachedData,
+    refetch: flightFetch,
+    isLoading: flightDataLoading,
+  } = useQuery({
     queryKey: ["flightData", API_KEY, searchFormatted],
     queryFn: () => fetchFlightData(searchFormatted),
-    cacheTime: 0,
     enabled: false,
     onSuccess: (data) => setFlightData(data),
   });
@@ -75,8 +78,11 @@ export const FlightProvider = ({ children }: FlightFetchProviderProps) => {
       });
       return;
     }
-
-    await flightFetch();
+    if (!cachedData) {
+      await flightFetch();
+    } else {
+      setFlightData(cachedData);
+    }
 
     if (search.trim() !== "") {
       setSearch("");
@@ -96,7 +102,11 @@ export const FlightProvider = ({ children }: FlightFetchProviderProps) => {
         });
         return;
       }
-      await flightFetch();
+      if (!cachedData) {
+        await flightFetch();
+      } else {
+        setFlightData(cachedData);
+      }
 
       if (search.trim() !== "") {
         setSearch("");

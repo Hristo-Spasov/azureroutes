@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AirportType, WeatherType } from "../types/weather_types";
 import { FetchContext } from "../context/fetch-context";
 import { useQuery } from "react-query";
@@ -37,33 +37,52 @@ const useWeather = () => {
   const [airport, setAirport] = useState<AirportType>();
   const [weather, setWeather] = useState<WeatherType>();
 
-  const { isError: airportDataError } = useQuery({
+  const { data: cachedAirportData, isError: airportDataError } = useQuery({
     queryKey: ["airportData", departureData],
     queryFn: () => airportFetch(departureData!),
-    enabled: !!departureData,
+    enabled: !!departureData && !airport,
+    refetchOnWindowFocus: false,
     onError: (error: Error) =>
       toast.error(`Something went wrong: ${error.message}`),
-    cacheTime: 0,
     onSuccess: (data) => {
       setAirport(data);
     },
   });
 
+  useEffect(() => {
+    if (cachedAirportData) {
+      setAirport(cachedAirportData);
+    }
+  }, [cachedAirportData]);
+
   if (airportDataError) {
     console.error("Error fetching airport data", airportDataError);
   }
 
-  const { isLoading: weatherIsLoading, isError: weatherIsError } = useQuery({
-    queryKey: ["weatherData", airport],
-    queryFn: () => weatherFetch(airport!),
-    cacheTime: 0,
-    enabled: !!airport,
+  const {
+    data: cachedWeather,
+    isLoading: weatherIsLoading,
+    isError: weatherIsError,
+  } = useQuery({
+    queryKey: ["weatherData", airport, cachedAirportData],
+    queryFn: () =>
+      cachedAirportData
+        ? weatherFetch(cachedAirportData)
+        : weatherFetch(airport!),
+    enabled: (!!airport || !!cachedAirportData) && !weather,
+    refetchOnWindowFocus: false,
     onError: (error: Error) =>
       toast.error(`Something went wrong: ${error.message}`),
     onSuccess: (data) => {
       setWeather(data);
     },
   });
+
+  useEffect(() => {
+    if (cachedWeather) {
+      setWeather(cachedWeather);
+    }
+  }, [cachedWeather]);
 
   if (weatherIsError) {
     console.error("Error fetching weather data", weatherIsError);

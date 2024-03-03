@@ -98,7 +98,7 @@ export const mobileVariants = {
   },
   active: {
     backgroundColor: "rgba(31, 61, 96, 1)",
-    borderRadius: "80px 80px 0px 0px",
+    borderRadius: "20px 20px 0px 0px",
     color: "rgb(255,255,255)",
   },
   hover_active: {
