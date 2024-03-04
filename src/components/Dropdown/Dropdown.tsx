@@ -3,6 +3,7 @@ import InFlight from "../../assets/InFlight.svg?react";
 import style from "./Dropdown.module.scss";
 import { ArrDepType, FlightType } from "../../types/flight_types";
 import { motion } from "framer-motion";
+import useResize from "../../hooks/useResize";
 
 interface DropdownProps {
   arrival: ArrDepType;
@@ -14,6 +15,7 @@ interface DropdownProps {
 
 const Dropdown = (props: DropdownProps) => {
   const { arrival, departure, flight, flight_date, flight_status } = props;
+  const isMobile = useResize(600);
 
   const dateError = "No information available";
 
@@ -80,13 +82,14 @@ const Dropdown = (props: DropdownProps) => {
           </div>
           <span className={statusCheck(flight_status)}>{flight_status}</span>
         </div>
-        <div className={style.svg_container}>
-          {" "}
-          <InFlight />
-        </div>
+        {!isMobile && (
+          <div className={style.svg_container}>
+            <InFlight />
+          </div>
+        )}
 
-        {/* Arrival from airport */}
         <div className={style.arr_dep_container}>
+          {/* Arrival from airport */}
           <div className={style.dropdown_departure}>
             <div className={style.departure_sub_class}>
               <span>{departure.airport}</span>

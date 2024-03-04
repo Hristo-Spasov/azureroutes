@@ -257,6 +257,20 @@
           cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
         animation: buttons_hidden 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53)
           both;
+
+        &.arrival_btn,
+        .departure_btn,
+        .arrival_btn_active,
+        .departure_btn_active,
+        .arrival_btn:hover,
+        .departure_btn:hover {
+          cursor: unset;
+          pointer-events: none;
+          button {
+            cursor: unset;
+            pointer-events: none;
+          }
+        }
       }
 
       .arrival_btn,
