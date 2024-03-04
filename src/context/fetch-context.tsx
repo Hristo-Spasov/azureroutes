@@ -124,6 +124,8 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     }
     setArrivalActive(false);
     setDepartureActive(false);
+
+    //! Use cached data if such is present
     if (!cachedArrData && !cachedDepData) {
       await Promise.all([arrFetch(), depFetch()]);
     } else {
@@ -155,6 +157,8 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
       }
       setArrivalActive(false);
       setDepartureActive(false);
+
+      //! Use cached data if such is present
       if (!cachedArrData && !cachedDepData) {
         await Promise.all([arrFetch(), depFetch()]);
       } else {

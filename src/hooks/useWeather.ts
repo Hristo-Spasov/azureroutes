@@ -42,6 +42,7 @@ const useWeather = () => {
     queryFn: () => airportFetch(departureData!),
     enabled: !!departureData && !airport,
     refetchOnWindowFocus: false,
+    refetchOnMount: false,
     onError: (error: Error) =>
       toast.error(`Something went wrong: ${error.message}`),
     onSuccess: (data) => {
@@ -49,6 +50,7 @@ const useWeather = () => {
     },
   });
 
+  //Use cached data if such is present ,instead of fetching new one
   useEffect(() => {
     if (cachedAirportData) {
       setAirport(cachedAirportData);
@@ -71,6 +73,7 @@ const useWeather = () => {
         : weatherFetch(airport!),
     enabled: (!!airport || !!cachedAirportData) && !weather,
     refetchOnWindowFocus: false,
+    refetchOnMount: false,
     onError: (error: Error) =>
       toast.error(`Something went wrong: ${error.message}`),
     onSuccess: (data) => {
@@ -78,6 +81,7 @@ const useWeather = () => {
     },
   });
 
+  //Use cached data if such is present ,instead of fetching new one
   useEffect(() => {
     if (cachedWeather) {
       setWeather(cachedWeather);
