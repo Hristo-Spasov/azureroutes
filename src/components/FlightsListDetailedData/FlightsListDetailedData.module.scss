@@ -3,6 +3,9 @@
 
 .list_element_container {
   @include media(">=tablet", "<=820px") {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100dvw;
   }
   @include media(">=phone", "<=600px") {
