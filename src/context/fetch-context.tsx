@@ -78,7 +78,10 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     console.log("Departure:", departureData);
   }, [arrivalData, departureData]);
 
-  const searchFormatted = search.trim().replace(/[^\w ]/g, ""); //Removing special symbols if any in the search params.
+  const searchFormatted = search
+    .toUpperCase()
+    .trim()
+    .replace(/[^\w ]/g, ""); //Removing special symbols if any in the search params.
 
   ///  React Query
 
