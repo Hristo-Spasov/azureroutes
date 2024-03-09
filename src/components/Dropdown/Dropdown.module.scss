@@ -1,5 +1,5 @@
 @import "../src/veriables.scss";
-
+@import "include-media";
 .detailed_information {
   display: flex;
   align-items: center;
@@ -14,12 +14,29 @@
   border-radius: 0 0 80px 80px;
   padding: 3rem 0;
 
+  @include media(">=tablet", "<=820px") {
+    width: 80dvw;
+    max-width: unset;
+    min-width: unset;
+  }
+  @include media(">=phone", "<=600px") {
+    width: 100%;
+    max-width: unset;
+    min-width: unset;
+    border-radius: 0 0 20px 20px;
+    padding: 2rem 0;
+  }
+
   .status {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 1rem;
+
+    @include media(">=phone", "<=600px") {
+      font-size: 14px;
+    }
 
     .flight_number {
       display: flex;
@@ -73,6 +90,11 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+
+    @include media(">=phone", "<=600px") {
+      flex-direction: column;
+      font-size: 14px;
+    }
 
     .dropdown_departure,
     .dropdown_arrival {

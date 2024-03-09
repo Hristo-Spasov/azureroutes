@@ -1,4 +1,4 @@
-const variants = {
+export const variants = {
   parent_container: {
     scale: 1,
   },
@@ -85,4 +85,35 @@ const variants = {
   },
 };
 
-export default variants;
+export const mobileVariants = {
+  initial: {
+    backgroundColor: "rgb(255,255,255)",
+    borderRadius: "20px 20px 20px 20px",
+    color: "rgb(0, 0, 0)",
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+      delay: 0.5,
+    },
+  },
+  active: {
+    backgroundColor: "rgba(31, 61, 96, 1)",
+    borderRadius: "20px 20px 0px 0px",
+    color: "rgb(255,255,255)",
+  },
+  hover_active: {
+    outline: "2px solid rgba(31, 61, 96, 0)",
+    scale: 1,
+    transition: {
+      duration: 0.2,
+      ease: "easeInOut",
+    },
+  },
+  hover_inactive: {
+    outline: "2px solid rgba(31, 61, 96, 1)",
+    transition: {
+      duration: 0.1,
+      ease: "easeInOut",
+    },
+  },
+};

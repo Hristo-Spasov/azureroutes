@@ -5,7 +5,8 @@ import { useContext, useEffect, useState } from "react";
 import { FetchContext } from "../../context/fetch-context";
 import Dropdown from "../Dropdown/Dropdown";
 import { AnimatePresence, motion } from "framer-motion";
-import variants from "./framer_variants";
+import { variants, mobileVariants } from "./framer_variants";
+import useResize from "../../hooks/useResize";
 
 interface FlightsListDetailedDataProps {
   el: FlightDataType;
@@ -19,9 +20,19 @@ const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
   const [toggle, setToggle] = useState<boolean>(false);
   const { arrivalActive, departureActive, arrivalData, departureData } =
     useContext(FetchContext);
+  const isMobileView = useResize(600);
 
   const toggleDropdown = () => {
     setToggle((prev) => !prev);
+  };
+
+  //Takes a string and checks if the string length is bigger then the number param,if true - slicing the string and adding bread crumbs. To be used for longer text in mobile view
+  const longName = (string: string, number: number) => {
+    if (string.length > number) {
+      return string.slice(0, number) + "...";
+    }
+
+    return string;
   };
 
   //Closing the dropdown on page change or section change
@@ -39,15 +50,13 @@ const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
     <motion.div
       variants={variants}
       animate={"parent_container"}
-      whileHover={{ scale: 1.05 }}
-      // transition={{ duration: 0.3 }}
+      whileHover={isMobileView ? { scale: 1 } : { scale: 1.05 }}
       className={style.list_element_container}
     >
       <motion.li
         animate={toggle ? "active" : "initial"}
-        variants={variants}
+        variants={isMobileView ? mobileVariants : variants}
         whileHover={toggle ? "hover_active" : "hover_inactive"}
-        // transition={{ duration: 0.5, ease: "easeInOut" }}
         className={`${style.information_wrapper}`}
         onClick={toggleDropdown}
       >
@@ -80,7 +89,9 @@ const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
             animate={toggle ? "codeActive" : "codeInitial"}
             className={style.airport_operator_names}
           >
-            {departure.airport}
+            {!isMobileView
+              ? departure.airport
+              : longName(departure.airport, 18)}
           </motion.span>
         </div>
         <div className={style.airport_operator_container}>
@@ -90,7 +101,11 @@ const FlightsListDetailedData = (props: FlightsListDetailedDataProps) => {
             animate={toggle ? "codeActive" : "codeInitial"}
             className={style.airport_operator_names}
           >
-            {airline.name === "empty" ? "Private" : airline.name}
+            {airline.name === "empty"
+              ? "Private"
+              : isMobileView
+              ? longName(airline.name, 18)
+              : airline.name}
           </motion.span>
         </div>
 

@@ -32,6 +32,8 @@ interface FetchContextType<T> {
   setDepartureActive: React.Dispatch<React.SetStateAction<boolean>>;
   arrivalDataLoading: boolean;
   departureDataLoading: boolean;
+  cachedArrData: ApiResponse<T> | undefined;
+  cachedDepData: ApiResponse<T> | undefined;
 }
 
 export const FetchContext = createContext<FetchContextType<FlightDataType>>({
@@ -50,6 +52,8 @@ export const FetchContext = createContext<FetchContextType<FlightDataType>>({
   setDepartureActive: () => {},
   arrivalDataLoading: false,
   departureDataLoading: false,
+  cachedArrData: undefined,
+  cachedDepData: undefined,
 });
 
 interface FetchProviderProps {
@@ -74,20 +78,30 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     console.log("Departure:", departureData);
   }, [arrivalData, departureData]);
 
-  const searchFormatted = search.trim().replace(/[^\w ]/g, ""); //Removing special symbols if any in the search params.
+  const searchFormatted = search
+    .toUpperCase()
+    .trim()
+    .replace(/[^\w ]/g, ""); //Removing special symbols if any in the search params.
 
   ///  React Query
-  const { refetch: arrFetch, isLoading: arrivalDataLoading } = useQuery({
+
+  const {
+    data: cachedArrData,
+    refetch: arrFetch,
+    isLoading: arrivalDataLoading,
+  } = useQuery({
     queryKey: ["arrivalData", API_KEY, searchFormatted],
     queryFn: () => fetchArrivalData(searchFormatted),
-    cacheTime: 0,
     enabled: false,
     onSuccess: (data) => setArrivalData(data),
   });
-  const { refetch: depFetch, isLoading: departureDataLoading } = useQuery({
+  const {
+    data: cachedDepData,
+    refetch: depFetch,
+    isLoading: departureDataLoading,
+  } = useQuery({
     queryKey: ["departureData", API_KEY, searchFormatted],
     queryFn: () => fetchDepartureData(searchFormatted),
-    cacheTime: 0,
     enabled: false,
     onSuccess: (data) => setDepartureData(data),
   });
@@ -113,7 +127,14 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     }
     setArrivalActive(false);
     setDepartureActive(false);
-    await Promise.all([arrFetch(), depFetch()]);
+
+    //! Use cached data if such is present
+    if (!cachedArrData && !cachedDepData) {
+      await Promise.all([arrFetch(), depFetch()]);
+    } else {
+      setArrivalData(cachedArrData);
+      setDepartureData(cachedDepData);
+    }
 
     if (search.trim() !== "") {
       setSearch("");
@@ -139,7 +160,14 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
       }
       setArrivalActive(false);
       setDepartureActive(false);
-      await Promise.all([arrFetch(), depFetch()]);
+
+      //! Use cached data if such is present
+      if (!cachedArrData && !cachedDepData) {
+        await Promise.all([arrFetch(), depFetch()]);
+      } else {
+        setArrivalData(cachedArrData);
+        setDepartureData(cachedDepData);
+      }
 
       if (search.trim() !== "") {
         setSearch("");
@@ -164,6 +192,8 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     setDepartureActive,
     arrivalDataLoading,
     departureDataLoading,
+    cachedArrData,
+    cachedDepData,
   };
 
   return (

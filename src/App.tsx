@@ -11,6 +11,7 @@ import { FetchContext } from "./context/fetch-context";
 import { ClockProvider } from "./context/clock-context";
 import { Toaster } from "react-hot-toast";
 import { FlightFetchContext } from "./context/flight-context";
+import useResize from "./hooks/useResize";
 
 function App() {
   const airportChecked = "search_airport";
@@ -35,6 +36,7 @@ function App() {
     useContext(FlightFetchContext);
 
   const [searchOption, setSearchOption] = useState(airportChecked);
+  const isMobile = useResize(600);
 
   const handleArrivalClick = () => {
     if (arrivalData) {
@@ -80,9 +82,11 @@ function App() {
 
         <section className={style.sub_section}>
           <div className={`${style.search_container}`}>
-            <div className={style.clouds_container}>
-              <Clouds />
-            </div>
+            {!isMobile && (
+              <div className={style.clouds_container}>
+                <Clouds />
+              </div>
+            )}
             <form role="search" className={style.form}>
               {/* Radio buttons */}
               <div className={style.radio_container}>
@@ -129,16 +133,18 @@ function App() {
                     disabled={arrivalDataLoading || departureDataLoading}
                   />
                 </div>
-                <div
-                  className={style.search_btn_wrapper}
-                  onClick={
-                    searchOption === airportChecked
-                      ? clickHandler
-                      : flightClickHandler
-                  }
-                >
-                  <Search width={40} height={40} />
-                </div>
+                {!isMobile && (
+                  <div
+                    className={style.search_btn_wrapper}
+                    onClick={
+                      searchOption === airportChecked
+                        ? clickHandler
+                        : flightClickHandler
+                    }
+                  >
+                    <Search width={40} height={40} />
+                  </div>
+                )}
               </div>
             </form>
             <div

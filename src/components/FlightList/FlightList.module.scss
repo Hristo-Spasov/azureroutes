@@ -1,3 +1,5 @@
+@import "include-media";
+
 .cards_container {
   width: 80%;
   height: 100%;
@@ -23,6 +25,17 @@
     border-radius: 80px;
     overflow: hidden;
 
+    @include media(">=small desktop", "<=1280px") {
+      width: 60dvw;
+      max-width: unset;
+    }
+    @include media(">=phone", "<=600px") {
+      width: 95dvw;
+      max-width: unset;
+      min-width: unset;
+      border-radius: 20px;
+    }
+
     .list_header {
       display: flex;
       align-items: center;
@@ -31,31 +44,24 @@
       gap: 10px;
       padding: 1rem 0 1rem 0;
 
+      @include media(">=phone", "<=600px") {
+        padding: 0.5rem 0 0.5rem 0;
+      }
+
       .weather_widged {
         display: flex;
         align-items: center;
         justify-content: space-between;
         width: 80%;
+        @include media(">=phone", "<=600px") {
+          width: 100%;
+          justify-content: space-evenly;
+        }
 
-        .weather_container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 2rem;
-
-          .meteo_metrics {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-
-            .meteo_icons,
-            .metrics {
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              gap: 5px;
-            }
+        .data_time_container {
+          @include media(">=phone", "<=600px") {
+            font-size: 12px;
+            letter-spacing: 1px;
           }
         }
       }

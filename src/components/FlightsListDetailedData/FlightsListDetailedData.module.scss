@@ -1,6 +1,16 @@
-@import "../../veriables.scss";
+@use "../../veriables";
+@import "include-media";
 
 .list_element_container {
+  @include media(">=tablet", "<=820px") {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100dvw;
+  }
+  @include media(">=phone", "<=600px") {
+    width: 98dvw;
+  }
   .information_wrapper {
     width: 50dvw;
     max-width: 50dvw;
@@ -18,11 +28,30 @@
     position: relative;
     z-index: 5;
 
+    @include media(">=tablet", "<=820px") {
+      width: 80dvw;
+      max-width: unset;
+      min-width: unset;
+    }
+    @include media(">=phone", "<=600px") {
+      width: 100%;
+      max-width: unset;
+      min-width: unset;
+      padding: 1.7rem 2rem;
+      border-radius: 20px;
+      gap: 10px;
+    }
+
     .codes_container {
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 30px;
+
+      @include media(">=phone", "<=600px") {
+        gap: 15px;
+        font-size: 12px;
+      }
 
       .inner_wrapper {
         display: flex;
@@ -32,6 +61,9 @@
         .codes {
           font-weight: 400;
           color: white;
+          @include media(">=phone", "<=600px") {
+            font-weight: inherit;
+          }
         }
       }
     }
@@ -41,12 +73,18 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      @include media(">=phone", "<=600px") {
+        font-size: 12px;
+      }
 
       .airport_operator_names {
         white-space: break-spaces;
         text-align: center;
         word-wrap: break-word;
         font-weight: 400;
+        @include media(">=phone", "<=600px") {
+          font-weight: inherit;
+        }
       }
     }
 
@@ -61,11 +99,11 @@
       position: absolute;
 
       svg {
-        fill: $base_main_color;
+        fill: veriables.$base_main_color;
       }
 
       &.arrow_active {
-        background-color: $base_main_color;
+        background-color: veriables.$base_main_color;
 
         &:hover {
           outline: none;
