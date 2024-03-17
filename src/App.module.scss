@@ -1,6 +1,11 @@
 @use "veriables";
 @import "include-media";
 
+$breakpoints: (
+  "phone": 320px,
+  "tablet": 768px,
+  "small desktop": 980px,
+);
 .main_section {
   display: flex;
   width: 100%;
@@ -41,11 +46,11 @@
       z-index: -5;
       user-select: none;
 
-      @include media(">=1280px") {
-        min-width: 1400px;
+      @include media(">=1360px") {
+        min-width: 1350px;
       }
 
-      @include media(">=small desktop", "<=1280px") {
+      @include media(">=small desktop", "<=1370px") {
         top: -10%;
       }
 
@@ -80,7 +85,7 @@
         background-color: white;
         position: relative;
 
-        @include media(">=small desktop", "<=1280px") {
+        @include media(">=small desktop", "<=1370px") {
           height: inherit;
           padding: 25px;
           gap: 15px;
