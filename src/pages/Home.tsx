@@ -1,19 +1,19 @@
-import Header from "./components/Header/Header";
-import FlightList from "./components/FlightList/FlightList";
-import style from "./App.module.scss";
-import Search from "./assets/airplane-in-flight-fill.svg?react";
-import Landing from "./assets/airplane-landing-fill.svg?react";
-import TakeOff from "./assets/airplane-takeoff-fill.svg?react";
-import Clouds from "./assets/clouds-2-parts.svg?react";
-import hero from "./assets/hero.png";
+// import Header from "../components/Header/Header";
+import FlightList from "../components/FlightList/FlightList";
+import style from "./Home.module.scss";
+import Search from "../assets/airplane-in-flight-fill.svg?react";
+import Landing from "../assets/airplane-landing-fill.svg?react";
+import TakeOff from "../assets/airplane-takeoff-fill.svg?react";
+import Clouds from "../assets/clouds-2-parts.svg?react";
+import hero from "../assets/hero.png";
 import { useContext, useEffect, useState } from "react";
-import { FetchContext } from "./context/fetch-context";
-import { ClockProvider } from "./context/clock-context";
+import { FetchContext } from "../context/fetch-context";
+import { ClockProvider } from "../context/clock-context";
 import { Toaster } from "react-hot-toast";
-import { FlightFetchContext } from "./context/flight-context";
-import useResize from "./hooks/useResize";
+import { FlightFetchContext } from "../context/flight-context";
+import useResize from "../hooks/useResize";
 
-function App() {
+function Home() {
   const airportChecked = "search_airport";
   const flightChecked = "search_flight";
   const {
@@ -75,7 +75,7 @@ function App() {
       <div>
         <Toaster position="top-right" reverseOrder={false} />
       </div>
-      <Header />
+      {/* <Header /> */}
       {/* Main Page */}
       <main className={style.main_section}>
         <img src={hero} alt="hero" className={style.hero_image} />
@@ -198,4 +198,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
