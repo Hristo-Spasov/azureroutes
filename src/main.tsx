@@ -9,6 +9,7 @@ import { FlightProvider } from "./context/flight-context.tsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Root from "./pages/Root.tsx";
 import Home from "./pages/Home.tsx";
+import ErrorPage from "./pages/Error/ErrorPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
         </FetchProvider>
       </QueryClientProvider>
     ),
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,

@@ -1,0 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Climate+Crisis&family=Open+Sans:wght@300&display=swap");
+
+.container {
+  display: block;
+  margin: 200px auto;
+  text-align: center;
+
+  p {
+    margin: 0;
+    padding: 10px 0;
+  }
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  .code {
+    width: 100%;
+    padding: 0;
+    font-size: 10dvw;
+    font-family: "Climate Crisis", sans-serif;
+  }
+}
