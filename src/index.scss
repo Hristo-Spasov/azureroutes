@@ -8,6 +8,7 @@
   box-sizing: border-box;
 }
 
+html,
 body {
   padding: 0;
   margin: 0;
@@ -16,6 +17,9 @@ body {
   font-family: veriables.$main_font;
   font-weight: veriables.$base_weight;
   // height: 1000px; // TODO remove in the future
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 
   ul {
     list-style-type: none;
