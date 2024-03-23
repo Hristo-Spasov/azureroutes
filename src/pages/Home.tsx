@@ -12,6 +12,7 @@ import { ClockProvider } from "../context/clock-context";
 import { Toaster } from "react-hot-toast";
 import { FlightFetchContext } from "../context/flight-context";
 import useResize from "../hooks/useResize";
+import Introduction from "../components/Introduction/Introduction";
 
 function Home() {
   const airportChecked = "search_airport";
@@ -32,8 +33,12 @@ function Home() {
     departureDataLoading,
   } = useContext(FetchContext);
 
-  const { flightClickHandler, flightKeyHandler } =
-    useContext(FlightFetchContext);
+  const {
+    flightData,
+    flightDataLoading,
+    flightClickHandler,
+    flightKeyHandler,
+  } = useContext(FlightFetchContext);
 
   const [searchOption, setSearchOption] = useState(airportChecked);
   const isMobile = useResize(600);
@@ -193,6 +198,15 @@ function Home() {
             flightChecked={flightChecked}
           />
         </ClockProvider>
+        {/* Introduction */}
+        {searchOption === airportChecked &&
+          !arrivalData &&
+          !departureData &&
+          !arrivalDataLoading &&
+          !departureDataLoading && <Introduction />}
+        {searchOption === flightChecked &&
+          !flightData &&
+          !flightDataLoading && <Introduction />}
       </main>
     </>
   );
