@@ -1,39 +1,107 @@
 @use "../../veriables";
+@import "include-media";
 
+$breakpoints: (
+  "phone": 320px,
+  "tablet": 768px,
+  "small desktop": 980px,
+);
 .footer_container {
-  display: flex;
-  background-color: #ffffff;
-  grid-auto-flow: column;
-  justify-content: space-evenly;
-  align-items: center;
+  background-color: veriables.$base_main_color;
   padding: 20px;
   margin-top: 100px;
-  overflow: hidden;
   width: 100%;
+  display: flex;
+  gap: 3rem;
+  flex-direction: column;
+  z-index: 10;
 
-  .sitemap {
-    display: flex;
-    flex-direction: column;
+  p {
+    display: block;
+    margin: 0 auto;
     width: 50%;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
+    text-align: center;
+    color: white;
+
+    @include media(">=phone", "<=600px") {
+      font-size: 12px;
+    }
   }
 
-  .socials {
+  .content_wrapper {
     display: flex;
-    flex-direction: column;
-    width: 50%;
-    gap: 10px;
-    justify-content: center;
     align-items: center;
+    flex-direction: column;
+    gap: 1.5rem;
 
-    .icon_container {
+    .socials {
       display: flex;
-      gap: 10px;
+      gap: 1rem;
+      padding-top: 10px;
+      @include media(">=phone", "<=600px") {
+        justify-content: space-evenly;
+        width: 100%;
+      }
 
+      svg {
+        fill: white;
+      }
       svg:hover {
-        fill: veriables.$base_main_color;
+        fill: veriables.$base_background;
+      }
+    }
+
+    .footer_nav_container {
+      list-style-type: none;
+      color: white;
+
+      .footer_nav {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+
+        hr {
+          width: 50%;
+          margin: 0;
+          color: white;
+          border: unset;
+          border: 1px solid;
+        }
+
+        @include media(">=phone", "<=600px") {
+          flex-direction: column;
+          gap: 1.5rem;
+        }
+        a {
+          text-decoration: none;
+          color: white;
+          @include media(">=phone", "<=600px") {
+            font-size: 18px;
+          }
+        }
+
+        a:hover {
+          color: veriables.$base_background;
+        }
+        a:before {
+          content: "|";
+          margin-right: 1rem;
+        }
+        a:last-child::after {
+          content: "|";
+          margin-left: 1rem;
+        }
+
+        @include media(">=phone", "<=600px") {
+          a:last-child::after,
+          a:before {
+            content: "";
+            margin-left: 0;
+            margin-right: 0;
+          }
+        }
       }
     }
   }

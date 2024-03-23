@@ -44,7 +44,7 @@ $breakpoints: (
       justify-content: center;
       align-items: center;
       z-index: -5;
-      user-select: none;
+      pointer-events: none;
 
       @include media(">=1360px") {
         min-width: 1350px;
@@ -79,6 +79,7 @@ $breakpoints: (
         width: 50dvw;
         min-width: 600px;
         height: 12dvh;
+        min-height: 120px;
         max-height: 150px;
         padding: 10px;
         border-radius: 80px;
