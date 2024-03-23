@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 5px;
+  padding: 10px;
   width: 100%;
 
   background: $accent_color;
@@ -16,8 +16,13 @@
     font-size: $header_font_size;
   }
 
-  img {
+  .logo {
     width: 80px;
+    height: 80px;
+  }
+
+  .name {
+    width: 150px;
     height: 80px;
   }
 }
