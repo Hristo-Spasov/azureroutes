@@ -9,12 +9,16 @@ $breakpoints: (
 .footer_container {
   background-color: veriables.$base_main_color;
   padding: 1.5rem;
-  margin-top: 100px;
+  // margin-top: 100px;
   width: 100%;
   display: flex;
   gap: 3rem;
   flex-direction: column;
   z-index: 10;
+
+  &.marginTop {
+    margin-top: 100px;
+  }
 
   p {
     display: block;

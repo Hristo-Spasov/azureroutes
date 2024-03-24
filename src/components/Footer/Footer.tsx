@@ -5,10 +5,22 @@ import Instagram from "../../assets/socials/instagram.svg?react";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import useResize from "../../hooks/useResize";
+import { useContext } from "react";
+import { FlightFetchContext } from "../../context/flight-context";
+
 const Footer = () => {
+  const { flightData, flightDataLoading } = useContext(FlightFetchContext);
   const mobile = useResize(600);
+
+  //Conditionals
+  const addMargin = flightData || flightDataLoading;
+
   return (
-    <section className={styles.footer_container}>
+    <section
+      className={`${styles.footer_container} ${
+        addMargin ? styles.marginTop : ""
+      }`}
+    >
       <div className={styles.content_wrapper}>
         <span className={styles.socials}>
           <a

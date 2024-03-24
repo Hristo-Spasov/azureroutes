@@ -1,8 +1,6 @@
 @import "include-media";
 $breakpoints: (
   "phone": 320px,
-  "tablet": 768px,
-  "small desktop": 980px,
 );
 .container {
   background: url("../../assets/Error/404.png") no-repeat;
@@ -11,6 +9,12 @@ $breakpoints: (
   position: relative;
   width: 100%;
   height: 100dvh;
+
+  @include media(">=phone", "<=600px") {
+    background: url("../../assets/Error/404 small.png");
+    background-size: cover;
+    background-position: center;
+  }
 
   a {
     position: absolute;
@@ -21,6 +25,11 @@ $breakpoints: (
     top: 60%;
     transform: translate(-50%, -50%);
     border-bottom: 1px solid white;
+
+    @include media(">=phone", "<=600px") {
+      font-size: 16px;
+      top: 65%;
+    }
   }
   a:hover {
     color: #1390ce;

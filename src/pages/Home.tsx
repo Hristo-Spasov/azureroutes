@@ -1,4 +1,3 @@
-// import Header from "../components/Header/Header";
 import FlightList from "../components/FlightList/FlightList";
 import style from "./Home.module.scss";
 import Search from "../assets/airplane-in-flight-fill.svg?react";
