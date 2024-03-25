@@ -1,77 +1,183 @@
 import FlightList from "../components/FlightList/FlightList";
 import style from "./Home.module.scss";
-import Search from "../assets/airplane-in-flight-fill.svg?react";
-import Landing from "../assets/airplane-landing-fill.svg?react";
-import TakeOff from "../assets/airplane-takeoff-fill.svg?react";
 import Clouds from "../assets/clouds-2-parts.svg?react";
 import hero from "../assets/hero.png";
 import { useContext, useEffect, useState } from "react";
 import { FetchContext } from "../context/fetch-context";
 import { ClockProvider } from "../context/clock-context";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { FlightFetchContext } from "../context/flight-context";
-import useResize from "../hooks/useResize";
 import Introduction from "../components/Introduction/Introduction";
+import RadioButtons from "../components/RadioButtons/RadioButtons";
+import Searchbar from "../components/Searchbar/Searchbar";
+import useResize from "../hooks/useResize";
+import ArrDepButtons from "../components/ArrDepButtons/ArrDepButtons";
 
 function Home() {
   const airportChecked = "search_airport";
   const flightChecked = "search_flight";
   const {
     search,
+    searchFormatted,
     setSearch,
-    searchHandler,
-    clickHandler,
-    keyHandler,
     setArrivalActive,
     setDepartureActive,
-    arrivalActive,
-    departureActive,
     departureData,
     arrivalData,
     arrivalDataLoading,
     departureDataLoading,
+    arrFetch,
+    depFetch,
+    setArrivalData,
+    setDepartureData,
+    cachedArrData,
+    cachedDepData,
   } = useContext(FetchContext);
 
   const {
     flightData,
+    setFlightData,
     flightDataLoading,
-    flightClickHandler,
-    flightKeyHandler,
+    cachedData,
+    flightFetch,
   } = useContext(FlightFetchContext);
 
   const [searchOption, setSearchOption] = useState(airportChecked);
   const isMobile = useResize(600);
 
-  const handleArrivalClick = () => {
-    if (arrivalData) {
-      setArrivalActive(true);
+  //Fetching Handlers
+  let isEnterPressed = false; // Flag to track if Enter key is pressed
+
+  const airportHandlerConditions =
+    searchFormatted === "" ||
+    (searchFormatted.length !== 3 && searchFormatted.length !== 4);
+
+  const flightHandlerConditions =
+    searchFormatted === "" || searchFormatted.length < 3;
+
+  const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+  //!Combined Handlers
+  const airportCombinedHandler = async (
+    event?: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        isEnterPressed = true; // Set the flag if Enter key is pressed
+      } else {
+        isEnterPressed = false; // Reset the flag for other keys
+      }
+    }
+
+    if (!event || isEnterPressed) {
+      // Check if it's a click or Enter key press
+      if (airportHandlerConditions) {
+        toast.error(
+          "Search airport using iata (3 characters) or icao (4 characters) code",
+          {
+            id: "bad request",
+            position: "top-center",
+            style: {
+              marginTop: "5rem",
+            },
+          }
+        );
+        return;
+      }
+
+      setArrivalActive(false);
       setDepartureActive(false);
+
+      //! Use cached data if such is present
+      if (!cachedArrData && !cachedDepData) {
+        await Promise.all([arrFetch(), depFetch()]);
+      } else {
+        setArrivalData(cachedArrData);
+        setDepartureData(cachedDepData);
+      }
+
+      if (search.trim() !== "") {
+        setSearch("");
+        setArrivalActive(true);
+      }
     }
   };
 
-  const handleDepartureClick = () => {
-    if (departureData) {
-      setDepartureActive(true);
-      setArrivalActive(false);
+  const flightCombinedHandler = async (
+    event?: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        isEnterPressed = true; // Set the flag if Enter key is pressed
+      } else {
+        isEnterPressed = false; // Reset the flag for other keys
+      }
     }
+
+    if (!event || isEnterPressed) {
+      if (flightHandlerConditions) {
+        toast.error("Search for flight using the flight number", {
+          id: "bad request",
+          position: "top-center",
+          style: {
+            marginTop: "5rem",
+          },
+        });
+        return;
+      }
+      if (!cachedData) {
+        await flightFetch();
+      } else {
+        setFlightData(cachedData);
+      }
+
+      if (search.trim() !== "") {
+        setSearch("");
+      }
+    }
+  };
+
+  // Usage in click handler
+  const AirportClickHandler = async () => {
+    await airportCombinedHandler();
+  };
+  const flightClickHandler = async () => {
+    await flightCombinedHandler();
+  };
+
+  // Usage in key handler
+  const AirportKeyHandler = async (
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    await airportCombinedHandler(e);
+  };
+  const flightKeyHandler = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    await flightCombinedHandler(e);
   };
 
   const searchOptionHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchOption(e.target.value);
   };
 
-  const disableDiv: React.CSSProperties = {
-    pointerEvents: arrivalDataLoading || departureDataLoading ? "none" : "auto",
-  };
-
+  //searchbar reset
   useEffect(() => {
     setSearch("");
   }, [searchOption]);
 
-  const placeHolder: string =
-    searchOption === airportChecked
-      ? "Search for airport using IATA or ICAO code e.g. MAN"
-      : "Search for a flight using flight number e.g. FR1837";
+  //UI Conditionals
+  const shouldRenderIntroductionForAirport =
+    searchOption === airportChecked &&
+    !arrivalData &&
+    !departureData &&
+    !arrivalDataLoading &&
+    !departureDataLoading;
+
+  const shouldRenderIntroductionForFlight =
+    searchOption === flightChecked && !flightData && !flightDataLoading;
 
   return (
     <>
@@ -79,7 +185,6 @@ function Home() {
       <div>
         <Toaster position="top-right" reverseOrder={false} />
       </div>
-      {/* <Header /> */}
       {/* Main Page */}
       <main className={style.main_section}>
         <img src={hero} alt="hero" className={style.hero_image} />
@@ -93,100 +198,28 @@ function Home() {
             )}
             <form role="search" className={style.form}>
               {/* Radio buttons */}
-              <div className={style.radio_container}>
-                <label htmlFor={airportChecked}>
-                  <input
-                    type="radio"
-                    name="search_option"
-                    id={airportChecked}
-                    value={airportChecked}
-                    checked={searchOption === airportChecked}
-                    onChange={searchOptionHandler}
-                  />
-                  Search for Airport
-                </label>
-
-                <label htmlFor={flightChecked}>
-                  {" "}
-                  <input
-                    type="radio"
-                    name="search_option"
-                    id={flightChecked}
-                    value={flightChecked}
-                    checked={searchOption === flightChecked}
-                    onChange={searchOptionHandler}
-                  />
-                  Search for Flight
-                </label>
-              </div>
-
+              <RadioButtons
+                airportChecked={airportChecked}
+                searchOption={searchOption}
+                searchOptionHandler={searchOptionHandler}
+                flightChecked={flightChecked}
+              />
               {/* Search bar */}
-              <div className={style.search_bar_container}>
-                <div className={style.search_input_wrapper}>
-                  <input
-                    placeholder={placeHolder}
-                    type="search"
-                    className={style.search_bar}
-                    onChange={searchHandler}
-                    onKeyDown={
-                      searchOption === airportChecked
-                        ? keyHandler
-                        : flightKeyHandler
-                    }
-                    value={search.toUpperCase()}
-                    disabled={arrivalDataLoading || departureDataLoading}
-                  />
-                </div>
-                {!isMobile && (
-                  <div
-                    className={style.search_btn_wrapper}
-                    onClick={
-                      searchOption === airportChecked
-                        ? clickHandler
-                        : flightClickHandler
-                    }
-                  >
-                    <Search width={40} height={40} />
-                  </div>
-                )}
-              </div>
+              <Searchbar
+                searchHandler={searchHandler}
+                searchOption={searchOption}
+                airportChecked={airportChecked}
+                AirportKeyHandler={AirportKeyHandler}
+                flightKeyHandler={flightKeyHandler}
+                AirportClickHandler={AirportClickHandler}
+                flightClickHandler={flightClickHandler}
+              />
             </form>
-            <div
-              className={`  ${
-                searchOption === airportChecked
-                  ? style.arr_dep_container
-                  : style.buttons_hidden
-              } `}
-            >
-              {/* Arrival Button */}
-              <div
-                className={
-                  arrivalActive ? style.arrival_btn_active : style.arrival_btn
-                }
-                onClick={handleArrivalClick}
-                style={disableDiv}
-              >
-                <button>
-                  <Landing width={30} height={30} />
-                  Arrival
-                </button>
-              </div>
-              {/* Departure button */}
-              <div
-                className={
-                  departureActive
-                    ? style.departure_btn_active
-                    : style.departure_btn
-                }
-                onClick={handleDepartureClick}
-                style={disableDiv}
-              >
-                <button>
-                  Departure
-                  <TakeOff width={30} height={30} />
-                </button>
-              </div>
-            </div>
+            {/* ArrDepButtons */}
+            <ArrDepButtons
+              searchOption={searchOption}
+              airportChecked={airportChecked}
+            />
           </div>
         </section>
         {/* Clock */}
@@ -198,14 +231,8 @@ function Home() {
           />
         </ClockProvider>
         {/* Introduction */}
-        {searchOption === airportChecked &&
-          !arrivalData &&
-          !departureData &&
-          !arrivalDataLoading &&
-          !departureDataLoading && <Introduction />}
-        {searchOption === flightChecked &&
-          !flightData &&
-          !flightDataLoading && <Introduction />}
+        {shouldRenderIntroductionForAirport && <Introduction />}
+        {shouldRenderIntroductionForFlight && <Introduction />}
       </main>
     </>
   );

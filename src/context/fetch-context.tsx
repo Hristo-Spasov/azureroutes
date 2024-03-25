@@ -6,7 +6,6 @@ import {
   fetchArrivalData,
   fetchDepartureData,
 } from "../utils/fetchHelpers";
-import toast from "react-hot-toast";
 
 interface ApiResponse<T> {
   data: T[];
@@ -14,6 +13,7 @@ interface ApiResponse<T> {
 
 interface FetchContextType<T> {
   search: string;
+  searchFormatted: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
   arrivalData: ApiResponse<T> | undefined;
   setArrivalData: React.Dispatch<
@@ -23,9 +23,6 @@ interface FetchContextType<T> {
   setDepartureData: React.Dispatch<
     React.SetStateAction<ApiResponse<T> | undefined>
   >;
-  searchHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  clickHandler: () => void;
-  keyHandler: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   arrivalActive: boolean;
   setArrivalActive: React.Dispatch<React.SetStateAction<boolean>>;
   departureActive: boolean;
@@ -34,18 +31,18 @@ interface FetchContextType<T> {
   departureDataLoading: boolean;
   cachedArrData: ApiResponse<T> | undefined;
   cachedDepData: ApiResponse<T> | undefined;
+  arrFetch: () => void;
+  depFetch: () => void;
 }
 
 export const FetchContext = createContext<FetchContextType<FlightDataType>>({
   search: "",
+  searchFormatted: "",
   setSearch: () => {},
   arrivalData: undefined,
   setArrivalData: () => {},
   departureData: undefined,
   setDepartureData: () => {},
-  searchHandler: (_e) => {},
-  clickHandler: () => {},
-  keyHandler: (_e) => {},
   arrivalActive: false,
   setArrivalActive: () => {},
   departureActive: false,
@@ -54,6 +51,8 @@ export const FetchContext = createContext<FetchContextType<FlightDataType>>({
   departureDataLoading: false,
   cachedArrData: undefined,
   cachedDepData: undefined,
+  arrFetch: () => {},
+  depFetch: () => {},
 });
 
 interface FetchProviderProps {
@@ -67,10 +66,6 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
   const [arrivalData, setArrivalData] = useState<ApiResponse<FlightDataType>>();
   const [arrivalActive, setArrivalActive] = useState<boolean>(false);
   const [departureActive, setDepartureActive] = useState<boolean>(false);
-
-  const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  };
 
   //!To remove in the future
   useEffect(() => {
@@ -106,86 +101,14 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     onSuccess: (data) => setDepartureData(data),
   });
 
-  /// Handlers
-  const handlerConditions =
-    searchFormatted === "" ||
-    (searchFormatted.length !== 3 && searchFormatted.length !== 4);
-
-  const clickHandler = async () => {
-    if (handlerConditions) {
-      toast.error(
-        "Search airport using iata (3 characters) or icao (4 characters) code",
-        {
-          id: "bad request",
-          position: "top-center",
-          style: {
-            marginTop: "5rem",
-          },
-        }
-      );
-      return;
-    }
-    setArrivalActive(false);
-    setDepartureActive(false);
-
-    //! Use cached data if such is present
-    if (!cachedArrData && !cachedDepData) {
-      await Promise.all([arrFetch(), depFetch()]);
-    } else {
-      setArrivalData(cachedArrData);
-      setDepartureData(cachedDepData);
-    }
-
-    if (search.trim() !== "") {
-      setSearch("");
-      setArrivalActive(true);
-    }
-  };
-
-  const keyHandler = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      if (handlerConditions) {
-        toast.error(
-          "Search airport using iata (3 characters) or icao (4 characters) code",
-          {
-            id: "bad request",
-            position: "top-center",
-            style: {
-              marginTop: "5rem",
-            },
-          }
-        );
-        return;
-      }
-      setArrivalActive(false);
-      setDepartureActive(false);
-
-      //! Use cached data if such is present
-      if (!cachedArrData && !cachedDepData) {
-        await Promise.all([arrFetch(), depFetch()]);
-      } else {
-        setArrivalData(cachedArrData);
-        setDepartureData(cachedDepData);
-      }
-
-      if (search.trim() !== "") {
-        setSearch("");
-        setArrivalActive(true);
-      }
-    }
-  };
-
   const value = {
     search,
+    searchFormatted,
     setSearch,
     arrivalData,
     setArrivalData,
     departureData,
     setDepartureData,
-    searchHandler,
-    clickHandler,
-    keyHandler,
     arrivalActive,
     setArrivalActive,
     departureActive,
@@ -194,6 +117,8 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     departureDataLoading,
     cachedArrData,
     cachedDepData,
+    arrFetch,
+    depFetch,
   };
 
   return (
