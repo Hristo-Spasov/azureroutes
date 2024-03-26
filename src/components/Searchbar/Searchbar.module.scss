@@ -1,0 +1,89 @@
+@use "../../veriables";
+@import "include-media";
+
+$breakpoints: (
+  "phone": 320px,
+  "tablet": 768px,
+);
+
+.search_bar_container {
+  position: relative;
+
+  .search_input_wrapper {
+    display: flex;
+    width: 35dvw;
+    min-width: 400px;
+    padding: 1px;
+    border-radius: 50px;
+    overflow: hidden;
+    background: rgb(16, 38, 68);
+    background: linear-gradient(
+      90deg,
+      rgba(16, 38, 68, 1),
+      rgba(255, 255, 255, 1) 100%
+    );
+    padding: 2.5px;
+    border: 0;
+
+    @include media(">=phone", "<=600px") {
+      min-width: unset;
+      width: 90dvw;
+      border-radius: 80px;
+      background: rgb(16, 38, 68);
+      background: linear-gradient(
+        180deg,
+        rgba(16, 38, 68, 1),
+        rgba(255, 255, 255, 1) 150%
+      );
+    }
+
+    .search_bar {
+      width: 100%;
+      min-height: 2rem;
+      box-shadow: none;
+      padding-left: 10px;
+      outline: none;
+      border: none;
+      border-radius: 50px;
+
+      @include media(">=phone", "<=600px") {
+        border-radius: 80px;
+      }
+    }
+  }
+  .search_btn_wrapper {
+    position: absolute;
+    background-color: veriables.$base_main_color;
+    border-radius: 100%;
+    width: 4rem;
+    height: 4rem;
+    transition: transform 0.3s ease-in-out;
+    inset: 0 0 0 93%;
+    margin: auto;
+    cursor: pointer;
+    z-index: 5;
+
+    @include media(">=tablet", "<=1280px") {
+      width: 3.5rem;
+      height: 3.5rem;
+    }
+
+    svg {
+      position: absolute;
+      transition: transform 0.3s ease-in-out;
+      fill: white;
+      cursor: pointer;
+      inset: 0;
+      margin: auto;
+    }
+  }
+
+  .search_btn_wrapper:hover {
+    border: 2px solid veriables.$base_main_color;
+    background-color: white;
+    transform: scale(1.1);
+    svg {
+      fill: veriables.$base_main_color;
+    }
+  }
+}

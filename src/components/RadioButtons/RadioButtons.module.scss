@@ -1,0 +1,70 @@
+@use "../../veriables";
+@import "include-media";
+
+$breakpoints: (
+  "phone": 320px,
+);
+
+.radio_container {
+  display: flex;
+  gap: 3.5rem;
+  user-select: none;
+  @include media(">=phone", "<=600px") {
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    gap: 1rem;
+  }
+
+  label {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+
+    @include media(">=phone", "<=600px") {
+      font-size: 14px;
+    }
+
+    input {
+      margin: 0;
+      width: 12px;
+      height: 12px;
+      appearance: none;
+      -webkit-appearance: none;
+      border-radius: 100%;
+      background: white;
+      // border: 2px solid #fff;   << inner gap
+      /* The outline will be the outer circle */
+      outline: 2px solid veriables.$base_main_color;
+
+      @include media(">=phone", "<=600px") {
+        width: 10px;
+        height: 10px;
+      }
+    }
+
+    input:checked {
+      outline: 0;
+      background: veriables.$base_main_color;
+      transition: all 0.2s ease-in-out;
+
+      @include media(">=phone", "<=600px") {
+        width: 12px;
+        height: 12px;
+      }
+    }
+
+    input:hover {
+      border: 2px solid #fff;
+      background: veriables.$base_main_color;
+      opacity: 0.7;
+    }
+
+    input:checked:hover {
+      border: 0;
+      opacity: 1;
+      transform: scale(1.2);
+    }
+  }
+}

@@ -1,0 +1,106 @@
+@use "../veriables";
+@import "include-media";
+
+$breakpoints: (
+  "phone": 320px,
+  "tablet": 768px,
+  "small desktop": 980px,
+);
+.main_section {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  .hero_image {
+    width: 100%;
+    height: 40dvh;
+    object-fit: cover;
+    border-radius: 0 0 50px 50px;
+
+    @include media(">=phone", "<=600px") {
+      border-radius: unset;
+      object-position: 60%;
+      height: 35dvh;
+    }
+  }
+
+  .sub_section {
+    position: relative;
+    width: 100%;
+    display: flex;
+    height: 150px;
+    flex-direction: column;
+
+    .clouds_container {
+      position: absolute;
+      width: 100%;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: -5;
+      pointer-events: none;
+
+      @include media(">=1360px") {
+        min-width: 1350px;
+      }
+
+      @include media(">=small desktop", "<=1370px") {
+        top: -10%;
+      }
+
+      @include media(">tablet", "<=820px") {
+        top: 10px;
+      }
+    }
+
+    .search_container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2.5rem;
+      align-items: center;
+      width: 100%;
+      position: absolute;
+      left: 50%;
+      top: 15%;
+      transform: translate(-50%, -50%);
+
+      .form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+        width: 50dvw;
+        min-width: 600px;
+        height: 12dvh;
+        min-height: 120px;
+        max-height: 150px;
+        padding: 10px;
+        border-radius: 80px;
+        background-color: white;
+        position: relative;
+
+        @include media(">=small desktop", "<=1370px") {
+          height: inherit;
+          padding: 25px;
+          gap: 15px;
+        }
+
+        @include media(">=phone", "<=600px") {
+          min-width: unset;
+          width: 100%;
+          height: 120px;
+          justify-content: center;
+          border-radius: 4px;
+          gap: 20px;
+        }
+      }
+    }
+  }
+}

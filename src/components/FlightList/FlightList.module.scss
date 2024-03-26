@@ -1,5 +1,10 @@
 @import "include-media";
 
+$breakpoints: (
+  "phone": 320px,
+  "tablet": 768px,
+  "small desktop": 980px,
+);
 .cards_container {
   width: 80%;
   height: 100%;
