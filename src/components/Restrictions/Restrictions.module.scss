@@ -1,0 +1,57 @@
+@use "../../veriables";
+@import "include-media";
+
+$breakpoints: (
+  "phone": 320px,
+  "tablet": 768px,
+  "small desktop": 980px,
+);
+
+.tips_container {
+  margin-top: 50px;
+  width: 100%;
+  padding: 10px;
+  background-color: white;
+  color: black;
+  .inner_container {
+    width: 60%;
+    margin: 0 auto;
+    @include media(">=phone", "<=600px") {
+      width: 90%;
+    }
+
+    h2 {
+      text-align: center;
+      color: veriables.$base_main_color;
+    }
+    p {
+      padding: 0 2rem 0 2rem;
+
+      @include media(">=phone", "<=600px") {
+        font-size: 14px;
+        letter-spacing: 1px;
+      }
+    }
+
+    ol {
+      list-style: none;
+      counter-reset: item;
+
+      li {
+        padding: 10px 0 10px 0;
+        counter-increment: item;
+        margin-bottom: 5px;
+
+        &:before {
+          content: counter(item) ".";
+          color: veriables.$base_main_color;
+          font-weight: bold;
+        }
+
+        strong {
+          color: veriables.$base_main_color;
+        }
+      }
+    }
+  }
+}
