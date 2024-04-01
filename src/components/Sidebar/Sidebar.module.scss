@@ -1,0 +1,48 @@
+@use "../../veriables";
+@import "include-media";
+
+.menu_button > div {
+  z-index: 50;
+}
+
+.sidebar_container {
+  position: fixed;
+  width: 50%;
+  height: 100%;
+  top: 0%;
+  background-color: veriables.$base_main_color;
+  left: 50%;
+  z-index: 15;
+
+  .sidebar_inner {
+    display: flex;
+    width: 100%;
+
+    .list_container {
+      width: 100%;
+      margin-top: 100px;
+
+      .list_items {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 1px solid white;
+        margin-top: 20px;
+        .link_elements {
+          padding: 10px;
+          text-align: center;
+          width: 100%;
+          color: white;
+          text-decoration: none;
+        }
+        &:hover .link_elements {
+          color: veriables.$accent_color;
+        }
+      }
+      .list_items:hover {
+        border-bottom: 1px solid veriables.$accent_color;
+      }
+    }
+  }
+}

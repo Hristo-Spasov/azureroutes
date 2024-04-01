@@ -4,11 +4,13 @@ import { Outlet } from "react-router-dom";
 
 const Root = () => {
   return (
-    <>
+    <div id="outer-container" style={{ height: "100%" }}>
       <Header />
-      <Outlet />
+      <div id="page-wrap">
+        <Outlet />
+      </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

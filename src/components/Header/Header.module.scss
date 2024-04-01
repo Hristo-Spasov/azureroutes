@@ -1,4 +1,11 @@
 @import "../../veriables.scss";
+@import "include-media";
+
+$breakpoints: (
+  "phone": 320px,
+  "tablet": 768px,
+  "small desktop": 980px,
+);
 
 .header {
   display: flex;
@@ -7,7 +14,11 @@
   padding: 10px;
   width: 100%;
 
-  background: $accent_color;
+  background: $base_main_color;
+
+  @include media(">=phone", "<=tablet") {
+    justify-content: space-between;
+  }
 
   h1 {
     color: white;
@@ -16,13 +27,32 @@
     font-size: $header_font_size;
   }
 
-  .logo {
-    width: 80px;
-    height: 80px;
-  }
-
   .name {
     width: 200px;
     height: 60px;
+    @include media(">=phone", "<=600px") {
+      width: 150px;
+      height: 40px;
+    }
+  }
+
+  .nav_container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 4rem;
+    font-size: 20px;
+
+    a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      &.active {
+        color: $accent_color;
+      }
+    }
+    a:hover {
+      color: $accent_color;
+    }
   }
 }

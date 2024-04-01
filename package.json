@@ -17,6 +17,7 @@
     "hamburger-react": "^2.5.0",
     "include-media": "^2.0.0",
     "react": "^18.2.0",
+    "react-burger-menu": "^3.0.9",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-paginate": "^8.2.0",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
+    "@types/react-burger-menu": "^2.8.7",
     "@types/react-dom": "^18.2.15",
     "@types/react-paginate": "^7.1.4",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
