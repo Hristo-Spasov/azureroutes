@@ -10,6 +10,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Root from "./pages/Root.tsx";
 import Home from "./pages/Home.tsx";
 import ErrorPage from "./pages/Error/ErrorPage.tsx";
+import UnderConstruction from "./pages/UnderConstruction/UnderConstruction.tsx";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
         element: <Home />,
       },
     ],
+  },
+  {
+    path: "under-construction",
+    element: <UnderConstruction />,
   },
 ]);
 

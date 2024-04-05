@@ -1,0 +1,99 @@
+@import "include-media";
+$breakpoints: (
+  "phone": 320px,
+  "tablet": 768px,
+  "small desktop": 980px,
+);
+.container {
+  background: url("../../assets/Under_construction/Under\ Construction\ Page.png")
+    no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+
+  //   @include media(">tablet", "<=820px") {
+  //     background: url("../../assets/Under_construction/Under\ Construction\ Small\ Page.png");
+  //     background-size: 100% 100%;
+  //     background-position: center center;
+  //   }
+
+  @include media(">=phone", "<=820px") {
+    background: url("../../assets/Under_construction/Under\ Construction\ Small\ Page.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
+  .socials {
+    position: absolute;
+    text-decoration: none;
+    font-size: 24px;
+    display: flex;
+    gap: 15px;
+    color: white;
+    left: 75%;
+    top: 90%;
+    transform: translate(-75%, -90%);
+
+    @include media(">=phone", "<=820px") {
+      font-size: 16px;
+      top: 65%;
+      left: 50%;
+      transform: translate(-50%, -65%);
+
+      svg {
+        &:hover {
+          fill: #1d3e61;
+        }
+      }
+    }
+
+    svg {
+      fill: white;
+      &:hover {
+        fill: black;
+      }
+    }
+  }
+
+  .back_home {
+    position: absolute;
+    font-size: 20px;
+    color: white;
+    left: 75%;
+    top: 93%;
+    transform: translate(-75%, -93%);
+    border-bottom: 1px solid white;
+
+    &:hover {
+      border-bottom: 1px solid #1d3e61;
+    }
+
+    @include media(">=phone", "<=820px") {
+      font-size: 18px;
+
+      top: 70%;
+      left: 50%;
+      transform: translate(-50%, -70%);
+
+      &:hover {
+        border-bottom: 1px solid black;
+      }
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+      &:hover {
+        color: #1d3e61;
+
+        @include media(">=phone", "<=820px") {
+          color: black;
+        }
+      }
+    }
+  }
+}
