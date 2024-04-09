@@ -1,13 +1,13 @@
 import { useQuery } from "react-query";
 import style from "./News.module.scss";
 import { useEffect, useState } from "react";
-import NewsModal from "./NewsModal";
+// import NewsModal from "./NewsModal";
 import fetchNews from "../../utils/fetchNews";
 
 const News = () => {
   const [news, setNews] = useState<any>();
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedArticle, setSelectedArticle] = useState(null);
+  // const [isOpen, setIsOpen] = useState(false);
+  // const [selectedArticle, setSelectedArticle] = useState(null);
 
   const { data: cachedNews, refetch } = useQuery({
     queryKey: ["news"],
@@ -26,11 +26,11 @@ const News = () => {
     console.log(news);
   }, [news]);
 
-  const handleModal = (article: any) => {
-    setIsOpen(!isOpen);
-    setSelectedArticle(article);
-    console.log(isOpen);
-  };
+  // const handleModal = (article: any) => {
+  //   setIsOpen(!isOpen);
+  //   setSelectedArticle(article);
+  //   console.log(isOpen);
+  // };
 
   return (
     <section className={style.news_section}>
@@ -43,20 +43,28 @@ const News = () => {
             <div className={style.news_card} key={article.article_id}>
               <img src={article.image_url} alt="" />
               <h3>{article.title}</h3>
+              <p>{`${article.description.slice(0, 250)}...`}</p>
               <span className={style.lower_card}>
-                <button type="button" onClick={() => handleModal(article)}>
+                {/* <button type="button" onClick={() => handleModal(article)}>
                   Read more...
-                </button>
+                </button> */}
+                <a
+                  href={`${article.link}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Read more...
+                </a>
                 <p>{article.pubDate}</p>
               </span>
             </div>
           </>
         ))}
       </div>
-      <NewsModal hasCloseBtn={true} isOpen={isOpen} onClose={handleModal}>
+      {/* <NewsModal hasCloseBtn={true} isOpen={isOpen} onClose={handleModal}>
         <img src={selectedArticle?.image_url} alt="" />
         <h3>{selectedArticle?.title}</h3>
-      </NewsModal>
+      </NewsModal> */}
     </section>
   );
 };
