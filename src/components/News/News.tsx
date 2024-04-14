@@ -43,7 +43,11 @@ const News = () => {
             <div className={style.news_card} key={article.article_id}>
               <img src={article.image_url} alt="" />
               <h3>{article.title}</h3>
-              <p>{`${article.description.slice(0, 250)}...`}</p>
+              <p>{`${
+                article.description != null
+                  ? article.description.slice(0, 250)
+                  : ""
+              }...`}</p>
               <span className={style.lower_card}>
                 {/* <button type="button" onClick={() => handleModal(article)}>
                   Read more...

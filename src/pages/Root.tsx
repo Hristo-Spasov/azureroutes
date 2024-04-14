@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 
 const Root = () => {
   return (
-    <div id="outer-container" style={{ height: "100%" }}>
+    <div id="outer-container" style={{ height: "100%", overflowX: "hidden" }}>
       <Header />
       <div id="page-wrap">
         <Outlet />
