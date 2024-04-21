@@ -2,7 +2,7 @@ import { NewsDataType, NewsResponse } from "../types/news_types";
 import fetchData from "./fetchData";
 
 const BASE_URL = "https://newsdata.io/api/1/";
-const API_KEY = "pub_41527d6d0de206640fc1f63c5573def105003";
+const API_KEY = "pub_421527d5eb357887bf3e984cbb743d5898988";
 
 const fetchNews = async () => {
   const data = await fetchData<NewsResponse<NewsDataType>>({

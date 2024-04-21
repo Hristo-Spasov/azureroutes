@@ -7,6 +7,7 @@ import { NewsDataType, NewsResponse } from "../../types/news_types";
 
 const News = () => {
   const [news, setNews] = useState<NewsResponse<NewsDataType>>();
+  // const observeRef = useRef(null);
   // const [isOpen, setIsOpen] = useState(false);
   // const [selectedArticle, setSelectedArticle] = useState(null);
 
@@ -16,6 +17,28 @@ const News = () => {
     enabled: false,
     onSuccess: (data) => setNews(data),
   });
+
+  //! Intersection Observer provide the ref to the upmost div
+  // const options = {
+  //   root: null,
+  //   rootMargin: "0px",
+  //   threshold: 0.5,
+  // };
+
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver((entries) => {
+  //     entries.forEach((entry) => {
+  //       if (entry.isIntersecting) {
+  //         refetch(); // Refetch when element comes into view
+  //       }
+  //     });
+  //   }, options);
+  //   if (observeRef.current) observer.observe(observeRef.current);
+
+  //   return () => {
+  //     if (observeRef.current) observer.unobserve(observeRef.current);
+  //   };
+  // }, [observeRef, refetch]);
 
   useEffect(() => {
     if (cachedNews) {
@@ -46,9 +69,9 @@ const News = () => {
             <h3>{article.title}</h3>
             <p>{`${
               article.description != null
-                ? article.description.slice(0, 250)
+                ? article.description.slice(0, 250) + "..."
                 : ""
-            }...`}</p>
+            }`}</p>
             <span className={style.lower_card}>
               {/* <button type="button" onClick={() => handleModal(article)}>
                   Read more...
