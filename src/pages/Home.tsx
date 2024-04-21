@@ -13,6 +13,7 @@ import Searchbar from "../components/Searchbar/Searchbar";
 import useResize from "../hooks/useResize";
 import ArrDepButtons from "../components/ArrDepButtons/ArrDepButtons";
 import Restrictions from "../components/Restrictions/Restrictions";
+import News from "../components/News/News";
 
 function Home() {
   const airportChecked = "search_airport";
@@ -236,6 +237,7 @@ function Home() {
         {shouldRenderIntroductionForFlight && <Introduction />}
 
         <Restrictions />
+        <News />
       </main>
     </>
   );

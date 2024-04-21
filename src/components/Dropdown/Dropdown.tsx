@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import InFlight from "../../assets/InFlight.svg?react";
+import InFlightMobile from "../../assets/Planetrail.png";
 import style from "./Dropdown.module.scss";
 import { ArrDepType, FlightType } from "../../types/flight_types";
 import { motion } from "framer-motion";
@@ -82,6 +83,7 @@ const Dropdown = (props: DropdownProps) => {
           </div>
           <span className={statusCheck(flight_status)}>{flight_status}</span>
         </div>
+
         {!isMobile && (
           <div className={style.svg_container}>
             <InFlight />
@@ -129,6 +131,14 @@ const Dropdown = (props: DropdownProps) => {
               </span>
             </div>
           </div>
+
+          {isMobile && (
+            <img
+              src={InFlightMobile}
+              alt="flight divider"
+              className={style.plane_divider}
+            />
+          )}
 
           {/* Departure for airport */}
           <div className={style.dropdown_arrival}>

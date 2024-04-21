@@ -1,15 +1,48 @@
 import { motion } from "framer-motion";
 import style from "./Sidebar.module.scss";
 import { Squash as Hamburger } from "hamburger-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const [isOpen, setOpen] = useState(false);
-
+  const sidebarRef = useRef<HTMLDivElement>(null);
   const toggleMenu = () => {
     setOpen(!isOpen);
   };
+  // Closing the sidebar when clicked outside of the bar
+  useEffect(() => {
+    const handleOutsideClick: EventListener = (event) => {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("touchstart", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("touchstart", handleOutsideClick);
+    };
+  }, []);
+  //Prevent scrolling when sidebar is open
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isOpen) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "auto";
+      }
+    };
+
+    handleScroll();
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
 
   const variants = {
     open: {
@@ -37,6 +70,7 @@ const Sidebar = () => {
       </div>
 
       <motion.div
+        ref={sidebarRef}
         initial="closed"
         animate={isOpen ? "open" : "closed"}
         variants={variants}

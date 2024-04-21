@@ -27,3 +27,12 @@ body {
     padding: 0;
   }
 }
+//Prevents from scrolling the page when modal is open
+html {
+  // scrollbar-gutter: stable both-edges;
+  scrollbar-gutter: auto both-edges; //to be test might break
+
+  &:has(dialog[open].modal) {
+    overflow: hidden;
+  }
+}
