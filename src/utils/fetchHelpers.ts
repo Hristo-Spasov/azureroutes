@@ -6,7 +6,6 @@ import fetchData from "./fetchData";
 interface ApiResponse<T> {
   data: T[];
 }
-const BASE_URL = "http://api.aviationstack.com/v1/";
 export const API_KEY = import.meta.env.VITE_AVIATIONSTACK_KEY;
 
 export const fetchArrivalData = async (searchFormatted: string) => {
@@ -17,7 +16,7 @@ export const fetchArrivalData = async (searchFormatted: string) => {
       ? "arr_icao"
       : "";
   const data = await fetchData<ApiResponse<FlightDataType>>({
-    url: `${BASE_URL}flights?access_key=${API_KEY}&${codeCheck}=${searchFormatted}`,
+    url: `http://localhost:3000/api/v1/flights/arrivals?search=${searchFormatted}&code=${codeCheck}`,
   });
   return data;
 };
@@ -30,14 +29,14 @@ export const fetchDepartureData = async (searchFormatted: string) => {
       ? "dep_icao"
       : "";
   const data = await fetchData<ApiResponse<FlightDataType>>({
-    url: `${BASE_URL}flights?access_key=${API_KEY}&${codeCheck}=${searchFormatted}`,
+    url: `http://localhost:3000/api/v1/flights/departures?search=${searchFormatted}&code=${codeCheck}`,
   });
   return data;
 };
 
 export const fetchFlightData = async (searchFormatted: string) => {
   const data = await fetchData<ApiResponse<FlightDataType>>({
-    url: `${BASE_URL}flights?access_key=${API_KEY}&flight_iata=${searchFormatted}`,
+    url: `http://localhost:3000/api/v1/flights/flight?search=${searchFormatted}`,
   });
   return data;
 };
