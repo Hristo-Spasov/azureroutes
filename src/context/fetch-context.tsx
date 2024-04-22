@@ -6,6 +6,7 @@ import {
   fetchArrivalData,
   fetchDepartureData,
 } from "../utils/fetchHelpers";
+import { AutoSuggestionsType } from "../types/autosuggestion_types";
 
 interface ApiResponse<T> {
   data: T[];
@@ -22,6 +23,10 @@ interface FetchContextType<T> {
   departureData: ApiResponse<T> | undefined;
   setDepartureData: React.Dispatch<
     React.SetStateAction<ApiResponse<T> | undefined>
+  >;
+  suggestion: AutoSuggestionsType | undefined;
+  setSuggestion: React.Dispatch<
+    React.SetStateAction<AutoSuggestionsType | undefined>
   >;
   arrivalActive: boolean;
   setArrivalActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -53,6 +58,8 @@ export const FetchContext = createContext<FetchContextType<FlightDataType>>({
   cachedDepData: undefined,
   arrFetch: () => {},
   depFetch: () => {},
+  suggestion: undefined,
+  setSuggestion: () => {},
 });
 
 interface FetchProviderProps {
@@ -66,6 +73,9 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
   const [arrivalData, setArrivalData] = useState<ApiResponse<FlightDataType>>();
   const [arrivalActive, setArrivalActive] = useState<boolean>(false);
   const [departureActive, setDepartureActive] = useState<boolean>(false);
+  const [suggestion, setSuggestion] = useState<
+    AutoSuggestionsType | undefined
+  >();
 
   //!To remove in the future
   useEffect(() => {
@@ -73,10 +83,12 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     console.log("Departure:", departureData);
   }, [arrivalData, departureData]);
 
-  const searchFormatted = search
-    .toUpperCase()
-    .trim()
-    .replace(/[^\w ]/g, ""); //Removing special symbols if any in the search params.
+  const searchFormatted = suggestion?.iata
+    ? suggestion.iata
+        .toUpperCase()
+        .trim()
+        .replace(/[^\w ]/g, "")
+    : ""; // Use an empty string as a fallback if `suggestion` is `undefined`
 
   ///  React Query
 
@@ -119,6 +131,8 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     cachedDepData,
     arrFetch,
     depFetch,
+    suggestion,
+    setSuggestion,
   };
 
   return (

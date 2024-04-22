@@ -14,6 +14,9 @@ import useResize from "../hooks/useResize";
 import ArrDepButtons from "../components/ArrDepButtons/ArrDepButtons";
 import Restrictions from "../components/Restrictions/Restrictions";
 import News from "../components/News/News";
+import supabase from "../utils/supabase";
+import { useDebouncedCallback } from "use-debounce";
+import { AutoSuggestionsType } from "../types/autosuggestion_types";
 
 function Home() {
   const airportChecked = "search_airport";
@@ -34,6 +37,8 @@ function Home() {
     setDepartureData,
     cachedArrData,
     cachedDepData,
+    suggestion,
+    setSuggestion,
   } = useContext(FetchContext);
 
   const {
@@ -46,6 +51,17 @@ function Home() {
 
   const [searchOption, setSearchOption] = useState(airportChecked);
   const isMobile = useResize(600);
+  const [suggestionsArray, setSuggestionsArray] = useState<
+    AutoSuggestionsType[] | []
+  >([]);
+
+  const debouncedAutoSuggestion = useDebouncedCallback((query) => {
+    autoSuggestion(query);
+  }, 1000);
+
+  useEffect(() => {
+    console.log("Suggestion", suggestion);
+  }, [suggestion]);
 
   //Fetching Handlers
   let isEnterPressed = false; // Flag to track if Enter key is pressed
@@ -57,8 +73,34 @@ function Home() {
   const flightHandlerConditions =
     searchFormatted === "" || searchFormatted.length < 3;
 
+  //search handler
   const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+    const query = e.target.value;
+    setSearch(query);
+    debouncedAutoSuggestion(query);
+  };
+
+  //Querying for suggestions
+  const autoSuggestion = async (query: string) => {
+    try {
+      const { data, error } = await supabase
+        .from("airports")
+        .select()
+        .ilike("airport_name", `${query}%`)
+        .limit(10);
+
+      if (error) {
+        console.error("Error fetching suggestions:", error);
+        return;
+      }
+      console.log(data);
+      setSuggestionsArray(data);
+      if (query == "") {
+        setSuggestionsArray([]);
+      }
+    } catch (err) {
+      console.error("Error fetching suggestions:", err);
+    }
   };
 
   //!Combined Handlers
@@ -150,6 +192,11 @@ function Home() {
   const flightClickHandler = async () => {
     await flightCombinedHandler();
   };
+  const handleSuggestionClick = (suggestions: AutoSuggestionsType) => {
+    setSearch(`${suggestions.airport_name}, ${suggestions.location}`);
+    setSuggestion(suggestions);
+    setSuggestionsArray([]);
+  };
 
   // Usage in key handler
   const AirportKeyHandler = async (
@@ -216,6 +263,19 @@ function Home() {
                 AirportClickHandler={AirportClickHandler}
                 flightClickHandler={flightClickHandler}
               />
+
+              {suggestionsArray.length > 0 && (
+                <ul>
+                  {suggestionsArray.map((suggestion) => (
+                    <li
+                      key={suggestion.id}
+                      onClick={() => handleSuggestionClick(suggestion)}
+                    >
+                      {`${suggestion.airport_name}, ${suggestion.location}`}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </form>
             {/* ArrDepButtons */}
             <ArrDepButtons
