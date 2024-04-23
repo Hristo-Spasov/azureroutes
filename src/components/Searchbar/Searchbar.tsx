@@ -3,6 +3,7 @@ import Search from "../../assets/airplane-in-flight-fill.svg?react";
 import useResize from "../../hooks/useResize";
 import style from "./Searchbar.module.scss";
 import { FetchContext } from "../../context/fetch-context";
+import { FlightFetchContext } from "../../context/flight-context";
 
 interface SearchbarProps {
   searchOption: string;
@@ -17,8 +18,8 @@ interface SearchbarProps {
 }
 
 const Searchbar = (props: SearchbarProps) => {
-  const { search, arrivalDataLoading, departureDataLoading } =
-    useContext(FetchContext);
+  const { arrivalDataLoading, departureDataLoading } = useContext(FetchContext);
+  const { search } = useContext(FlightFetchContext);
   const isMobile = useResize(600);
   const {
     searchHandler,

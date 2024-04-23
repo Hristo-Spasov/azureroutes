@@ -8,35 +8,35 @@ interface ApiResponse<T> {
 }
 export const API_KEY = import.meta.env.VITE_AVIATIONSTACK_KEY;
 
-export const fetchArrivalData = async (searchFormatted: string) => {
+export const fetchArrivalData = async (searchAirportFormatted: string) => {
   const codeCheck =
-    searchFormatted.length === 3
+    searchAirportFormatted.length === 3
       ? "arr_iata"
-      : searchFormatted.length === 4
+      : searchAirportFormatted.length === 4
       ? "arr_icao"
       : "";
   const data = await fetchData<ApiResponse<FlightDataType>>({
-    url: `http://localhost:3000/api/v1/flights/arrivals?search=${searchFormatted}&code=${codeCheck}`,
+    url: `http://localhost:3000/api/v1/flights/arrivals?search=${searchAirportFormatted}&code=${codeCheck}`,
   });
   return data;
 };
 
-export const fetchDepartureData = async (searchFormatted: string) => {
+export const fetchDepartureData = async (searchAirportFormatted: string) => {
   const codeCheck =
-    searchFormatted.length === 3
+    searchAirportFormatted.length === 3
       ? "dep_iata"
-      : searchFormatted.length === 4
+      : searchAirportFormatted.length === 4
       ? "dep_icao"
       : "";
   const data = await fetchData<ApiResponse<FlightDataType>>({
-    url: `http://localhost:3000/api/v1/flights/departures?search=${searchFormatted}&code=${codeCheck}`,
+    url: `http://localhost:3000/api/v1/flights/departures?search=${searchAirportFormatted}&code=${codeCheck}`,
   });
   return data;
 };
 
-export const fetchFlightData = async (searchFormatted: string) => {
+export const fetchFlightData = async (searchFlightFormatted: string) => {
   const data = await fetchData<ApiResponse<FlightDataType>>({
-    url: `http://localhost:3000/api/v1/flights/flight?search=${searchFormatted}`,
+    url: `http://localhost:3000/api/v1/flights/flight?search=${searchFlightFormatted}`,
   });
   return data;
 };

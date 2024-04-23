@@ -13,9 +13,7 @@ interface ApiResponse<T> {
 }
 
 interface FetchContextType<T> {
-  search: string;
-  searchFormatted: string;
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
+  searchAirportFormatted: string;
   arrivalData: ApiResponse<T> | undefined;
   setArrivalData: React.Dispatch<
     React.SetStateAction<ApiResponse<T> | undefined>
@@ -41,9 +39,7 @@ interface FetchContextType<T> {
 }
 
 export const FetchContext = createContext<FetchContextType<FlightDataType>>({
-  search: "",
-  searchFormatted: "",
-  setSearch: () => {},
+  searchAirportFormatted: "",
   arrivalData: undefined,
   setArrivalData: () => {},
   departureData: undefined,
@@ -67,7 +63,6 @@ interface FetchProviderProps {
 }
 
 export const FetchProvider = ({ children }: FetchProviderProps) => {
-  const [search, setSearch] = useState<string>("");
   const [departureData, setDepartureData] =
     useState<ApiResponse<FlightDataType>>();
   const [arrivalData, setArrivalData] = useState<ApiResponse<FlightDataType>>();
@@ -83,7 +78,7 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     console.log("Departure:", departureData);
   }, [arrivalData, departureData]);
 
-  const searchFormatted = suggestion?.iata
+  const searchAirportFormatted = suggestion?.iata
     ? suggestion.iata
         .toUpperCase()
         .trim()
@@ -97,8 +92,8 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     refetch: arrFetch,
     isLoading: arrivalDataLoading,
   } = useQuery({
-    queryKey: ["arrivalData", API_KEY, searchFormatted],
-    queryFn: () => fetchArrivalData(searchFormatted),
+    queryKey: ["arrivalData", API_KEY, searchAirportFormatted],
+    queryFn: () => fetchArrivalData(searchAirportFormatted),
     enabled: false,
     onSuccess: (data) => setArrivalData(data),
   });
@@ -107,16 +102,14 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     refetch: depFetch,
     isLoading: departureDataLoading,
   } = useQuery({
-    queryKey: ["departureData", API_KEY, searchFormatted],
-    queryFn: () => fetchDepartureData(searchFormatted),
+    queryKey: ["departureData", API_KEY, searchAirportFormatted],
+    queryFn: () => fetchDepartureData(searchAirportFormatted),
     enabled: false,
     onSuccess: (data) => setDepartureData(data),
   });
 
   const value = {
-    search,
-    searchFormatted,
-    setSearch,
+    searchAirportFormatted,
     arrivalData,
     setArrivalData,
     departureData,

@@ -22,9 +22,7 @@ function Home() {
   const airportChecked = "search_airport";
   const flightChecked = "search_flight";
   const {
-    search,
-    searchFormatted,
-    setSearch,
+    searchAirportFormatted,
     setArrivalActive,
     setDepartureActive,
     departureData,
@@ -47,6 +45,9 @@ function Home() {
     flightDataLoading,
     cachedData,
     flightFetch,
+    search,
+    setSearch,
+    searchFlightFormatted,
   } = useContext(FlightFetchContext);
 
   const [searchOption, setSearchOption] = useState(airportChecked);
@@ -67,17 +68,20 @@ function Home() {
   let isEnterPressed = false; // Flag to track if Enter key is pressed
 
   const airportHandlerConditions =
-    searchFormatted === "" ||
-    (searchFormatted.length !== 3 && searchFormatted.length !== 4);
+    searchAirportFormatted === "" ||
+    (searchAirportFormatted.length !== 3 &&
+      searchAirportFormatted.length !== 4);
 
   const flightHandlerConditions =
-    searchFormatted === "" || searchFormatted.length < 3;
+    searchFlightFormatted === "" || searchFlightFormatted.length < 3;
 
   //search handler
   const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearch(query);
-    debouncedAutoSuggestion(query);
+    if (searchOption === airportChecked) {
+      debouncedAutoSuggestion(query);
+    }
   };
 
   //Querying for suggestions
@@ -86,7 +90,9 @@ function Home() {
       const { data, error } = await supabase
         .from("airports")
         .select()
-        .ilike("airport_name", `${query}%`)
+        .or(
+          `airport_name.ilike.${query}%,iata.ilike.${query}%,icao.ilike.${query}%`
+        )
         .limit(10);
 
       if (error) {
@@ -164,6 +170,7 @@ function Home() {
 
     if (!event || isEnterPressed) {
       if (flightHandlerConditions) {
+        console.log("flightHandlerConditions", flightHandlerConditions);
         toast.error("Search for flight using the flight number", {
           id: "bad request",
           position: "top-center",
