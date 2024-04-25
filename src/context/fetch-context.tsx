@@ -1,11 +1,7 @@
 import { useState, createContext, ReactNode, useEffect } from "react";
 import { FlightDataType } from "../types/flight_types";
 import { useQuery } from "react-query";
-import {
-  API_KEY,
-  fetchArrivalData,
-  fetchDepartureData,
-} from "../utils/fetchHelpers";
+import { fetchArrivalData, fetchDepartureData } from "../utils/fetchHelpers";
 import { AutoSuggestionsType } from "../types/autosuggestion_types";
 
 interface ApiResponse<T> {
@@ -77,6 +73,9 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     console.log("Arrival:", arrivalData);
     console.log("Departure:", departureData);
   }, [arrivalData, departureData]);
+  useEffect(() => {
+    console.log("searchAirportFormatted:", searchAirportFormatted);
+  }, [suggestion]);
 
   const searchAirportFormatted = suggestion?.iata
     ? suggestion.iata
@@ -92,7 +91,7 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     refetch: arrFetch,
     isLoading: arrivalDataLoading,
   } = useQuery({
-    queryKey: ["arrivalData", API_KEY, searchAirportFormatted],
+    queryKey: ["arrivalData", searchAirportFormatted],
     queryFn: () => fetchArrivalData(searchAirportFormatted),
     enabled: false,
     onSuccess: (data) => setArrivalData(data),
@@ -102,7 +101,7 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     refetch: depFetch,
     isLoading: departureDataLoading,
   } = useQuery({
-    queryKey: ["departureData", API_KEY, searchAirportFormatted],
+    queryKey: ["departureData", searchAirportFormatted],
     queryFn: () => fetchDepartureData(searchAirportFormatted),
     enabled: false,
     onSuccess: (data) => setDepartureData(data),

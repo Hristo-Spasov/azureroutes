@@ -58,7 +58,7 @@ function Home() {
 
   const debouncedAutoSuggestion = useDebouncedCallback((query) => {
     autoSuggestion(query);
-  }, 1000);
+  }, 100);
 
   useEffect(() => {
     console.log("Suggestion", suggestion);
@@ -67,10 +67,7 @@ function Home() {
   //Fetching Handlers
   let isEnterPressed = false; // Flag to track if Enter key is pressed
 
-  const airportHandlerConditions =
-    searchAirportFormatted === "" ||
-    (searchAirportFormatted.length !== 3 &&
-      searchAirportFormatted.length !== 4);
+  const airportHandlerConditions = search === "" || search.length < 3;
 
   const flightHandlerConditions =
     searchFlightFormatted === "" || searchFlightFormatted.length < 3;
@@ -79,6 +76,7 @@ function Home() {
   const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearch(query);
+    setSuggestion(suggestionsArray[0]);
     if (searchOption === airportChecked) {
       debouncedAutoSuggestion(query);
     }
@@ -101,6 +99,8 @@ function Home() {
       }
       console.log(data);
       setSuggestionsArray(data);
+      setSuggestion(data[0]);
+
       if (query == "") {
         setSuggestionsArray([]);
       }
@@ -109,10 +109,23 @@ function Home() {
     }
   };
 
+  useEffect(() => {
+    console.log(search);
+  }, [suggestion]);
+  useEffect(() => {
+    console.log(search);
+  }, [search]);
+
+  console.log("isEnterPressed", isEnterPressed);
+  console.log("searchAirportFormatted", searchAirportFormatted);
+
+  //TODO need to add focus back to the input when autosuggest is clicked
+  //TODO Find why formatted string variable is not updating MAJOR BUG
   //!Combined Handlers
   const airportCombinedHandler = async (
     event?: React.KeyboardEvent<HTMLInputElement>
   ) => {
+    // Check if an event is provided and whether Enter key is pressed
     if (event) {
       if (event.key === "Enter") {
         event.preventDefault();
@@ -122,11 +135,12 @@ function Home() {
       }
     }
 
+    // Check if it's a click or Enter key press
     if (!event || isEnterPressed) {
-      // Check if it's a click or Enter key press
+      // Show error message if conditions are met
       if (airportHandlerConditions) {
         toast.error(
-          "Search airport using iata (3 characters) or icao (4 characters) code",
+          "Search airport using IATA (3 characters) or ICAO (4 characters) code",
           {
             id: "bad request",
             position: "top-center",
@@ -138,10 +152,16 @@ function Home() {
         return;
       }
 
+      setSearch(
+        `${suggestionsArray[0].airport_name}, ${suggestionsArray[0].location}`
+      );
+      setSuggestionsArray([]);
+
+      // Set the state of active arrival and departure
       setArrivalActive(false);
       setDepartureActive(false);
 
-      //! Use cached data if such is present
+      // Use cached data if available
       if (!cachedArrData && !cachedDepData) {
         await Promise.all([arrFetch(), depFetch()]);
       } else {
@@ -149,6 +169,7 @@ function Home() {
         setDepartureData(cachedDepData);
       }
 
+      // Reset search and set arrival active
       if (search.trim() !== "") {
         setSearch("");
         setArrivalActive(true);
@@ -202,7 +223,18 @@ function Home() {
   const handleSuggestionClick = (suggestions: AutoSuggestionsType) => {
     setSearch(`${suggestions.airport_name}, ${suggestions.location}`);
     setSuggestion(suggestions);
-    setSuggestionsArray([]);
+  };
+
+  const handleSuggestionKeyClick = (
+    suggestions: AutoSuggestionsType,
+    e: React.KeyboardEvent<HTMLLIElement>
+  ) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      setSearch(`${suggestions.airport_name}, ${suggestions.location}`);
+      setSuggestion(suggestions);
+      setSuggestionsArray([]);
+    }
   };
 
   // Usage in key handler
@@ -222,6 +254,7 @@ function Home() {
   //searchbar reset
   useEffect(() => {
     setSearch("");
+    setSuggestionsArray([]);
   }, [searchOption]);
 
   //UI Conditionals
@@ -276,6 +309,7 @@ function Home() {
                   {suggestionsArray.map((suggestion) => (
                     <li
                       key={suggestion.id}
+                      onKeyDown={(e) => handleSuggestionKeyClick(suggestion, e)}
                       onClick={() => handleSuggestionClick(suggestion)}
                     >
                       {`${suggestion.airport_name}, ${suggestion.location}`}

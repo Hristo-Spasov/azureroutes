@@ -9,6 +9,7 @@ interface ApiResponse<T> {
 export const API_KEY = import.meta.env.VITE_AVIATIONSTACK_KEY;
 
 export const fetchArrivalData = async (searchAirportFormatted: string) => {
+  console.log("fetching arr", searchAirportFormatted);
   const codeCheck =
     searchAirportFormatted.length === 3
       ? "arr_iata"
@@ -22,6 +23,7 @@ export const fetchArrivalData = async (searchAirportFormatted: string) => {
 };
 
 export const fetchDepartureData = async (searchAirportFormatted: string) => {
+  console.log("fetching dep", searchAirportFormatted);
   const codeCheck =
     searchAirportFormatted.length === 3
       ? "dep_iata"

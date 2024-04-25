@@ -33,7 +33,7 @@ const Searchbar = (props: SearchbarProps) => {
 
   const placeHolder: string =
     searchOption === airportChecked
-      ? "Search for airport using IATA or ICAO code e.g. MAN"
+      ? "Search for airport using Airport name"
       : "Search for a flight using flight number e.g. FR1837";
 
   return (
