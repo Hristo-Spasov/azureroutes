@@ -22,7 +22,6 @@ function Home() {
   const airportChecked = "search_airport";
   const flightChecked = "search_flight";
   const {
-    searchAirportFormatted,
     setArrivalActive,
     setDepartureActive,
     departureData,
@@ -35,7 +34,6 @@ function Home() {
     setDepartureData,
     cachedArrData,
     cachedDepData,
-    suggestion,
     setSuggestion,
   } = useContext(FetchContext);
 
@@ -59,10 +57,6 @@ function Home() {
   const debouncedAutoSuggestion = useDebouncedCallback((query) => {
     autoSuggestion(query);
   }, 100);
-
-  useEffect(() => {
-    console.log("Suggestion", suggestion);
-  }, [suggestion]);
 
   //Fetching Handlers
   let isEnterPressed = false; // Flag to track if Enter key is pressed
@@ -97,7 +91,7 @@ function Home() {
         console.error("Error fetching suggestions:", error);
         return;
       }
-      console.log(data);
+      // console.log(data);
       setSuggestionsArray(data);
       setSuggestion(data[0]);
 
@@ -109,15 +103,19 @@ function Home() {
     }
   };
 
-  useEffect(() => {
-    console.log(search);
-  }, [suggestion]);
-  useEffect(() => {
-    console.log(search);
-  }, [search]);
+  // useEffect(() => {
+  //   console.log(search);
+  // }, [suggestion]);
+  // useEffect(() => {
+  //   console.log(search);
+  // }, [search]);
 
-  console.log("isEnterPressed", isEnterPressed);
-  console.log("searchAirportFormatted", searchAirportFormatted);
+  // useEffect(() => {
+  //   console.log("Suggestion", suggestion);
+  // }, [suggestion]);
+
+  // console.log("isEnterPressed", isEnterPressed);
+  // console.log("searchAirportFormatted", searchAirportFormatted);
 
   //TODO need to add focus back to the input when autosuggest is clicked
   //TODO Find why formatted string variable is not updating MAJOR BUG

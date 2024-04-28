@@ -1,5 +1,5 @@
 import { FlightDataType } from "../types/flight_types";
-import { AirportType, WeatherType } from "../types/weather_types";
+import { WeatherType } from "../types/weather_types";
 import fetchData from "./fetchData";
 
 /// Flights fetching functions
@@ -9,7 +9,7 @@ interface ApiResponse<T> {
 export const API_KEY = import.meta.env.VITE_AVIATIONSTACK_KEY;
 
 export const fetchArrivalData = async (searchAirportFormatted: string) => {
-  console.log("fetching arr", searchAirportFormatted);
+  // console.log("fetching arr", searchAirportFormatted);
   const codeCheck =
     searchAirportFormatted.length === 3
       ? "arr_iata"
@@ -23,7 +23,7 @@ export const fetchArrivalData = async (searchAirportFormatted: string) => {
 };
 
 export const fetchDepartureData = async (searchAirportFormatted: string) => {
-  console.log("fetching dep", searchAirportFormatted);
+  // console.log("fetching dep", searchAirportFormatted);
   const codeCheck =
     searchAirportFormatted.length === 3
       ? "dep_iata"
@@ -45,31 +45,31 @@ export const fetchFlightData = async (searchFlightFormatted: string) => {
 
 /// Weather fetching functions
 
-const options = {
-  method: "GET",
-  headers: {
-    "X-RapidAPI-Key": import.meta.env.VITE_RAPID_API,
-    "X-RapidAPI-Host": "aerodatabox.p.rapidapi.com",
-  },
-};
+// const options = {
+//   method: "GET",
+//   headers: {
+//     "X-RapidAPI-Key": import.meta.env.VITE_RAPID_API,
+//     "X-RapidAPI-Host": "aerodatabox.p.rapidapi.com",
+//   },
+// };
 
-export const airportFetch = async (
-  departureData: ApiResponse<FlightDataType>
-) => {
-  if (departureData && departureData.data.length !== 0) {
-    const data = await fetchData<AirportType>({
-      url: `https://aerodatabox.p.rapidapi.com/airports/iata/${departureData.data[0].departure.iata}`,
-      options,
-    });
-    return data;
-  }
-};
+// export const airportFetch = async (
+//   departureData: ApiResponse<FlightDataType>
+// ) => {
+//   if (departureData && departureData.data.length !== 0) {
+//     const data = await fetchData<AirportType>({
+//       url: `https://aerodatabox.p.rapidapi.com/airports/iata/${departureData.data[0].departure.iata}`,
+//       options,
+//     });
+//     return data;
+//   }
+// };
 
-export const weatherFetch = async (airport: AirportType) => {
+export const weatherFetch = async (location: string) => {
   const data = await fetchData<WeatherType>({
-    url: `https://api.weatherapi.com/v1/current.json?key=${
-      import.meta.env.VITE_WEATHER_API
-    }&q=${airport?.location.lat},${airport?.location.lon}`,
+    url: `http://localhost:3000/api/v1/weather/?location=${location}`,
   });
+
+  console.log("weather data", data);
   return data;
 };
