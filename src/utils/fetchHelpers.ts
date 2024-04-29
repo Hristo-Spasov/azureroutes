@@ -1,74 +1,75 @@
 import { FlightDataType } from "../types/flight_types";
-import { AirportType, WeatherType } from "../types/weather_types";
+import { WeatherType } from "../types/weather_types";
 import fetchData from "./fetchData";
 
 /// Flights fetching functions
 interface ApiResponse<T> {
   data: T[];
 }
-const BASE_URL = "http://api.aviationstack.com/v1/";
 export const API_KEY = import.meta.env.VITE_AVIATIONSTACK_KEY;
 
-export const fetchArrivalData = async (searchFormatted: string) => {
+export const fetchArrivalData = async (searchAirportFormatted: string) => {
+  // console.log("fetching arr", searchAirportFormatted);
   const codeCheck =
-    searchFormatted.length === 3
+    searchAirportFormatted.length === 3
       ? "arr_iata"
-      : searchFormatted.length === 4
+      : searchAirportFormatted.length === 4
       ? "arr_icao"
       : "";
   const data = await fetchData<ApiResponse<FlightDataType>>({
-    url: `${BASE_URL}flights?access_key=${API_KEY}&${codeCheck}=${searchFormatted}`,
+    url: `http://localhost:3000/api/v1/flights/arrivals?search=${searchAirportFormatted}&code=${codeCheck}`,
   });
   return data;
 };
 
-export const fetchDepartureData = async (searchFormatted: string) => {
+export const fetchDepartureData = async (searchAirportFormatted: string) => {
+  // console.log("fetching dep", searchAirportFormatted);
   const codeCheck =
-    searchFormatted.length === 3
+    searchAirportFormatted.length === 3
       ? "dep_iata"
-      : searchFormatted.length === 4
+      : searchAirportFormatted.length === 4
       ? "dep_icao"
       : "";
   const data = await fetchData<ApiResponse<FlightDataType>>({
-    url: `${BASE_URL}flights?access_key=${API_KEY}&${codeCheck}=${searchFormatted}`,
+    url: `http://localhost:3000/api/v1/flights/departures?search=${searchAirportFormatted}&code=${codeCheck}`,
   });
   return data;
 };
 
-export const fetchFlightData = async (searchFormatted: string) => {
+export const fetchFlightData = async (searchFlightFormatted: string) => {
   const data = await fetchData<ApiResponse<FlightDataType>>({
-    url: `${BASE_URL}flights?access_key=${API_KEY}&flight_iata=${searchFormatted}`,
+    url: `http://localhost:3000/api/v1/flights/flight?search=${searchFlightFormatted}`,
   });
   return data;
 };
 
 /// Weather fetching functions
 
-const options = {
-  method: "GET",
-  headers: {
-    "X-RapidAPI-Key": import.meta.env.VITE_RAPID_API,
-    "X-RapidAPI-Host": "aerodatabox.p.rapidapi.com",
-  },
-};
+// const options = {
+//   method: "GET",
+//   headers: {
+//     "X-RapidAPI-Key": import.meta.env.VITE_RAPID_API,
+//     "X-RapidAPI-Host": "aerodatabox.p.rapidapi.com",
+//   },
+// };
 
-export const airportFetch = async (
-  departureData: ApiResponse<FlightDataType>
-) => {
-  if (departureData && departureData.data.length !== 0) {
-    const data = await fetchData<AirportType>({
-      url: `https://aerodatabox.p.rapidapi.com/airports/iata/${departureData.data[0].departure.iata}`,
-      options,
-    });
-    return data;
-  }
-};
+// export const airportFetch = async (
+//   departureData: ApiResponse<FlightDataType>
+// ) => {
+//   if (departureData && departureData.data.length !== 0) {
+//     const data = await fetchData<AirportType>({
+//       url: `https://aerodatabox.p.rapidapi.com/airports/iata/${departureData.data[0].departure.iata}`,
+//       options,
+//     });
+//     return data;
+//   }
+// };
 
-export const weatherFetch = async (airport: AirportType) => {
+export const weatherFetch = async (location: string) => {
   const data = await fetchData<WeatherType>({
-    url: `https://api.weatherapi.com/v1/current.json?key=${
-      import.meta.env.VITE_WEATHER_API
-    }&q=${airport?.location.lat},${airport?.location.lon}`,
+    url: `http://localhost:3000/api/v1/weather/?location=${location}`,
   });
+
+  console.log("weather data", data);
   return data;
 };

@@ -13,7 +13,15 @@ const fetchData = async <T>({
   options,
 }: FetchDataProps): Promise<T | undefined> => {
   try {
-    const response: AxiosResponse<T> = await axios.get<T>(url, options);
+    const method = options?.method || "GET";
+
+    const response: AxiosResponse<T> = await axios.request<T>({
+      url,
+      method,
+      headers: options?.headers,
+      ...options,
+    });
+
     const responeseData: T = response.data;
 
     return responeseData;

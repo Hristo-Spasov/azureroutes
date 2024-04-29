@@ -1,8 +1,8 @@
 import { useState, useContext, useEffect } from "react";
-import { AirportType, WeatherType } from "../types/weather_types";
+import { WeatherType } from "../types/weather_types";
 import { FetchContext } from "../context/fetch-context";
 import { useQuery } from "react-query";
-import { airportFetch, weatherFetch } from "../utils/fetchHelpers";
+import { weatherFetch } from "../utils/fetchHelpers";
 import toast from "react-hot-toast";
 
 /**
@@ -33,56 +33,34 @@ import toast from "react-hot-toast";
  */
 
 const useWeather = () => {
-  const { departureData } = useContext(FetchContext);
-  const [airport, setAirport] = useState<AirportType>();
   const [weather, setWeather] = useState<WeatherType>();
-
-  const { data: cachedAirportData, isError: airportDataError } = useQuery({
-    queryKey: ["airportData", departureData],
-    queryFn: () => airportFetch(departureData!),
-    enabled: !!departureData && !airport,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    onError: (error: Error) =>
-      toast.error(`Something went wrong: ${error.message}`),
-    onSuccess: (data) => {
-      setAirport(data);
-    },
-  });
-
-  //Use cached data if such is present ,instead of fetching new one
-  useEffect(() => {
-    if (cachedAirportData) {
-      setAirport(cachedAirportData);
-    }
-  }, [cachedAirportData]);
-
-  if (airportDataError) {
-    console.error("Error fetching airport data", airportDataError);
-  }
+  const { suggestion, departureData } = useContext(FetchContext);
+  const location = suggestion?.location || "";
 
   const {
     data: cachedWeather,
     isLoading: weatherIsLoading,
     isError: weatherIsError,
   } = useQuery({
-    queryKey: ["weatherData", airport, cachedAirportData],
-    queryFn: () =>
-      cachedAirportData
-        ? weatherFetch(cachedAirportData)
-        : weatherFetch(airport!),
-    enabled: (!!airport || !!cachedAirportData) && !weather,
+    queryKey: ["weatherData", location, departureData],
+    queryFn: () => weatherFetch(location),
+    enabled: !!departureData && !!location && !weather,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     onError: (error: Error) =>
       toast.error(`Something went wrong: ${error.message}`),
     onSuccess: (data) => {
+      // console.log("onSuccess data:", data);
       setWeather(data);
     },
   });
 
+  // useEffect(() => {
+  //   console.log("Weather state", weather);
+  // }, [weather]);
   //Use cached data if such is present ,instead of fetching new one
   useEffect(() => {
+    console.log("cachedWeather:", cachedWeather);
     if (cachedWeather) {
       setWeather(cachedWeather);
     }

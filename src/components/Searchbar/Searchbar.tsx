@@ -3,8 +3,10 @@ import Search from "../../assets/airplane-in-flight-fill.svg?react";
 import useResize from "../../hooks/useResize";
 import style from "./Searchbar.module.scss";
 import { FetchContext } from "../../context/fetch-context";
+import { FlightFetchContext } from "../../context/flight-context";
 
 interface SearchbarProps {
+  searchbarRef: React.LegacyRef<HTMLInputElement>;
   searchOption: string;
   airportChecked: string;
 
@@ -17,10 +19,11 @@ interface SearchbarProps {
 }
 
 const Searchbar = (props: SearchbarProps) => {
-  const { search, arrivalDataLoading, departureDataLoading } =
-    useContext(FetchContext);
+  const { arrivalDataLoading, departureDataLoading } = useContext(FetchContext);
+  const { search } = useContext(FlightFetchContext);
   const isMobile = useResize(600);
   const {
+    searchbarRef,
     searchHandler,
     searchOption,
     airportChecked,
@@ -32,13 +35,14 @@ const Searchbar = (props: SearchbarProps) => {
 
   const placeHolder: string =
     searchOption === airportChecked
-      ? "Search for airport using IATA or ICAO code e.g. MAN"
+      ? "Search for airport using Airport name"
       : "Search for a flight using flight number e.g. FR1837";
 
   return (
     <div className={style.search_bar_container}>
       <div className={style.search_input_wrapper}>
         <input
+          ref={searchbarRef}
           placeholder={placeHolder}
           type="search"
           className={style.search_bar}

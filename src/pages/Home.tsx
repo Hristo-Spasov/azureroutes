@@ -2,7 +2,7 @@ import FlightList from "../components/FlightList/FlightList";
 import style from "./Home.module.scss";
 import Clouds from "../assets/clouds-2-parts.svg?react";
 import hero from "../assets/hero.png";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FetchContext } from "../context/fetch-context";
 import { ClockProvider } from "../context/clock-context";
 import toast, { Toaster } from "react-hot-toast";
@@ -14,14 +14,15 @@ import useResize from "../hooks/useResize";
 import ArrDepButtons from "../components/ArrDepButtons/ArrDepButtons";
 import Restrictions from "../components/Restrictions/Restrictions";
 import News from "../components/News/News";
+import supabase from "../utils/supabase";
+import { useDebouncedCallback } from "use-debounce";
+import { AutoSuggestionsType } from "../types/autosuggestion_types";
+import SuggestionsDropdown from "../components/SuggestionsDropdown/SuggestionsDropdown";
 
 function Home() {
   const airportChecked = "search_airport";
   const flightChecked = "search_flight";
   const {
-    search,
-    searchFormatted,
-    setSearch,
     setArrivalActive,
     setDepartureActive,
     departureData,
@@ -34,6 +35,7 @@ function Home() {
     setDepartureData,
     cachedArrData,
     cachedDepData,
+    setSuggestion,
   } = useContext(FetchContext);
 
   const {
@@ -42,29 +44,88 @@ function Home() {
     flightDataLoading,
     cachedData,
     flightFetch,
+    search,
+    setSearch,
+    searchFlightFormatted,
   } = useContext(FlightFetchContext);
 
   const [searchOption, setSearchOption] = useState(airportChecked);
   const isMobile = useResize(600);
+  const [suggestionsArray, setSuggestionsArray] = useState<
+    AutoSuggestionsType[] | []
+  >([]);
+  const searchbarRef = useRef<HTMLInputElement | null>(null);
+
+  const debouncedAutoSuggestion = useDebouncedCallback((query) => {
+    autoSuggestion(query);
+  }, 100);
 
   //Fetching Handlers
   let isEnterPressed = false; // Flag to track if Enter key is pressed
 
-  const airportHandlerConditions =
-    searchFormatted === "" ||
-    (searchFormatted.length !== 3 && searchFormatted.length !== 4);
+  const airportHandlerConditions = search === "" || search.length < 3;
 
   const flightHandlerConditions =
-    searchFormatted === "" || searchFormatted.length < 3;
+    searchFlightFormatted === "" || searchFlightFormatted.length < 3;
 
+  //search handler
   const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+    const query = e.target.value;
+    setSearch(query);
+    setSuggestion(suggestionsArray[0]);
+    if (searchOption === airportChecked) {
+      debouncedAutoSuggestion(query);
+    }
   };
 
+  //Querying for suggestions
+  const autoSuggestion = async (query: string) => {
+    try {
+      const { data, error } = await supabase
+        .from("airports")
+        .select()
+        .or(
+          `airport_name.ilike.${query}%,iata.ilike.${query}%,icao.ilike.${query}%`
+        )
+        .limit(10);
+
+      if (error) {
+        console.error("Error fetching suggestions:", error);
+        return;
+      }
+      // console.log(data);
+      setSuggestionsArray(data);
+      setSuggestion(data[0]);
+
+      if (query == "") {
+        setSuggestionsArray([]);
+      }
+    } catch (err) {
+      console.error("Error fetching suggestions:", err);
+    }
+  };
+
+  // useEffect(() => {
+  //   console.log(search);
+  // }, [suggestion]);
+  // useEffect(() => {
+  //   console.log(search);
+  // }, [search]);
+
+  // useEffect(() => {
+  //   console.log("Suggestion", suggestion);
+  // }, [suggestion]);
+
+  // console.log("isEnterPressed", isEnterPressed);
+  // console.log("searchAirportFormatted", searchAirportFormatted);
+
+  //TODO need to add focus back to the input when autosuggest is clicked
+  //TODO Find why formatted string variable is not updating MAJOR BUG
   //!Combined Handlers
   const airportCombinedHandler = async (
     event?: React.KeyboardEvent<HTMLInputElement>
   ) => {
+    // Check if an event is provided and whether Enter key is pressed
     if (event) {
       if (event.key === "Enter") {
         event.preventDefault();
@@ -74,11 +135,12 @@ function Home() {
       }
     }
 
+    // Check if it's a click or Enter key press
     if (!event || isEnterPressed) {
-      // Check if it's a click or Enter key press
+      // Show error message if conditions are met
       if (airportHandlerConditions) {
         toast.error(
-          "Search airport using iata (3 characters) or icao (4 characters) code",
+          "Search airport using IATA (3 characters) or ICAO (4 characters) code",
           {
             id: "bad request",
             position: "top-center",
@@ -90,10 +152,16 @@ function Home() {
         return;
       }
 
+      setSearch(
+        `${suggestionsArray[0].airport_name}, ${suggestionsArray[0].location}`
+      );
+      setSuggestionsArray([]);
+
+      // Set the state of active arrival and departure
       setArrivalActive(false);
       setDepartureActive(false);
 
-      //! Use cached data if such is present
+      // Use cached data if available
       if (!cachedArrData && !cachedDepData) {
         await Promise.all([arrFetch(), depFetch()]);
       } else {
@@ -101,6 +169,7 @@ function Home() {
         setDepartureData(cachedDepData);
       }
 
+      // Reset search and set arrival active
       if (search.trim() !== "") {
         setSearch("");
         setArrivalActive(true);
@@ -122,6 +191,7 @@ function Home() {
 
     if (!event || isEnterPressed) {
       if (flightHandlerConditions) {
+        console.log("flightHandlerConditions", flightHandlerConditions);
         toast.error("Search for flight using the flight number", {
           id: "bad request",
           position: "top-center",
@@ -150,6 +220,13 @@ function Home() {
   const flightClickHandler = async () => {
     await flightCombinedHandler();
   };
+  const handleSuggestionClick = (suggestions: AutoSuggestionsType) => {
+    if (searchbarRef.current) {
+      searchbarRef.current.focus();
+    }
+    setSearch(`${suggestions.airport_name}, ${suggestions.location}`);
+    setSuggestion(suggestions);
+  };
 
   // Usage in key handler
   const AirportKeyHandler = async (
@@ -161,6 +238,19 @@ function Home() {
     await flightCombinedHandler(e);
   };
 
+  // const handleSuggestionKeyClick = (
+  //   suggestions: AutoSuggestionsType,
+  //   e: React.KeyboardEvent<HTMLLIElement>
+  // ) => {
+  //   if (e.key === "Enter") {
+  //     e.preventDefault();
+  //     setSearch(`${suggestions.airport_name}, ${suggestions.location}`);
+  //     setSuggestion(suggestions);
+  //     setSuggestionsArray([]);
+  //   }
+  // };
+
+  // Radio buttons handler
   const searchOptionHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchOption(e.target.value);
   };
@@ -168,6 +258,7 @@ function Home() {
   //searchbar reset
   useEffect(() => {
     setSearch("");
+    setSuggestionsArray([]);
   }, [searchOption]);
 
   //UI Conditionals
@@ -208,6 +299,7 @@ function Home() {
               />
               {/* Search bar */}
               <Searchbar
+                searchbarRef={searchbarRef}
                 searchHandler={searchHandler}
                 searchOption={searchOption}
                 airportChecked={airportChecked}
@@ -215,6 +307,11 @@ function Home() {
                 flightKeyHandler={flightKeyHandler}
                 AirportClickHandler={AirportClickHandler}
                 flightClickHandler={flightClickHandler}
+              />
+              <SuggestionsDropdown
+                suggestionsArray={suggestionsArray}
+                // handleSuggestionKeyClick={handleSuggestionKeyClick}
+                handleSuggestionClick={handleSuggestionClick}
               />
             </form>
             {/* ArrDepButtons */}
