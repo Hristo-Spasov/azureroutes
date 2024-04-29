@@ -2,7 +2,7 @@ import FlightList from "../components/FlightList/FlightList";
 import style from "./Home.module.scss";
 import Clouds from "../assets/clouds-2-parts.svg?react";
 import hero from "../assets/hero.png";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FetchContext } from "../context/fetch-context";
 import { ClockProvider } from "../context/clock-context";
 import toast, { Toaster } from "react-hot-toast";
@@ -17,6 +17,7 @@ import News from "../components/News/News";
 import supabase from "../utils/supabase";
 import { useDebouncedCallback } from "use-debounce";
 import { AutoSuggestionsType } from "../types/autosuggestion_types";
+import SuggestionsDropdown from "../components/SuggestionsDropdown/SuggestionsDropdown";
 
 function Home() {
   const airportChecked = "search_airport";
@@ -53,6 +54,7 @@ function Home() {
   const [suggestionsArray, setSuggestionsArray] = useState<
     AutoSuggestionsType[] | []
   >([]);
+  const searchbarRef = useRef<HTMLInputElement | null>(null);
 
   const debouncedAutoSuggestion = useDebouncedCallback((query) => {
     autoSuggestion(query);
@@ -219,20 +221,11 @@ function Home() {
     await flightCombinedHandler();
   };
   const handleSuggestionClick = (suggestions: AutoSuggestionsType) => {
+    if (searchbarRef.current) {
+      searchbarRef.current.focus();
+    }
     setSearch(`${suggestions.airport_name}, ${suggestions.location}`);
     setSuggestion(suggestions);
-  };
-
-  const handleSuggestionKeyClick = (
-    suggestions: AutoSuggestionsType,
-    e: React.KeyboardEvent<HTMLLIElement>
-  ) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      setSearch(`${suggestions.airport_name}, ${suggestions.location}`);
-      setSuggestion(suggestions);
-      setSuggestionsArray([]);
-    }
   };
 
   // Usage in key handler
@@ -245,6 +238,19 @@ function Home() {
     await flightCombinedHandler(e);
   };
 
+  // const handleSuggestionKeyClick = (
+  //   suggestions: AutoSuggestionsType,
+  //   e: React.KeyboardEvent<HTMLLIElement>
+  // ) => {
+  //   if (e.key === "Enter") {
+  //     e.preventDefault();
+  //     setSearch(`${suggestions.airport_name}, ${suggestions.location}`);
+  //     setSuggestion(suggestions);
+  //     setSuggestionsArray([]);
+  //   }
+  // };
+
+  // Radio buttons handler
   const searchOptionHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchOption(e.target.value);
   };
@@ -293,6 +299,7 @@ function Home() {
               />
               {/* Search bar */}
               <Searchbar
+                searchbarRef={searchbarRef}
                 searchHandler={searchHandler}
                 searchOption={searchOption}
                 airportChecked={airportChecked}
@@ -301,20 +308,11 @@ function Home() {
                 AirportClickHandler={AirportClickHandler}
                 flightClickHandler={flightClickHandler}
               />
-
-              {suggestionsArray.length > 0 && (
-                <ul>
-                  {suggestionsArray.map((suggestion) => (
-                    <li
-                      key={suggestion.id}
-                      onKeyDown={(e) => handleSuggestionKeyClick(suggestion, e)}
-                      onClick={() => handleSuggestionClick(suggestion)}
-                    >
-                      {`${suggestion.airport_name}, ${suggestion.location}`}
-                    </li>
-                  ))}
-                </ul>
-              )}
+              <SuggestionsDropdown
+                suggestionsArray={suggestionsArray}
+                // handleSuggestionKeyClick={handleSuggestionKeyClick}
+                handleSuggestionClick={handleSuggestionClick}
+              />
             </form>
             {/* ArrDepButtons */}
             <ArrDepButtons

@@ -6,6 +6,7 @@ import { FetchContext } from "../../context/fetch-context";
 import { FlightFetchContext } from "../../context/flight-context";
 
 interface SearchbarProps {
+  searchbarRef: React.LegacyRef<HTMLInputElement>;
   searchOption: string;
   airportChecked: string;
 
@@ -22,6 +23,7 @@ const Searchbar = (props: SearchbarProps) => {
   const { search } = useContext(FlightFetchContext);
   const isMobile = useResize(600);
   const {
+    searchbarRef,
     searchHandler,
     searchOption,
     airportChecked,
@@ -40,6 +42,7 @@ const Searchbar = (props: SearchbarProps) => {
     <div className={style.search_bar_container}>
       <div className={style.search_input_wrapper}>
         <input
+          ref={searchbarRef}
           placeholder={placeHolder}
           type="search"
           className={style.search_bar}
