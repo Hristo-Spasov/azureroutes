@@ -26,6 +26,15 @@ $breakpoints: (
     width: 90%;
     height: 90%;
     background-color: white;
+    border-radius: 10px;
+
+    @include media(">=phone", "<=600px") {
+      grid-template-columns: repeat(1, 1fr);
+    }
+
+    @include media(">600px", "<=900px") {
+      grid-template-columns: repeat(2, 1fr);
+    }
 
     .news_card {
       display: flex;
