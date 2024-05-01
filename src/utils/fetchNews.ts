@@ -1,12 +1,20 @@
 import { NewsDataType, NewsResponse } from "../types/news_types";
 import fetchData from "./fetchData";
 
-const BASE_URL = "https://newsdata.io/api/1/";
-const API_KEY = "pub_421527d5eb357887bf3e984cbb743d5898988";
+const apiKey = import.meta.env.VITE_SERVER_KEY;
+
+const options = {
+  method: "GET",
+  headers: {
+    "Content-Type": "application/json",
+    "api-key": apiKey,
+  },
+};
 
 const fetchNews = async () => {
   const data = await fetchData<NewsResponse<NewsDataType>>({
-    url: `${BASE_URL}news?apikey=${API_KEY}&language=en&category=tourism`,
+    url: `http://localhost:3000/api/v1/news/`,
+    options: options,
   });
   return data;
 };
