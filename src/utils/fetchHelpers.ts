@@ -6,8 +6,16 @@ import fetchData from "./fetchData";
 interface ApiResponse<T> {
   data: T[];
 }
-export const API_KEY = import.meta.env.VITE_AVIATIONSTACK_KEY;
 
+const apiKey = import.meta.env.VITE_SERVER_KEY;
+
+const flightOptions = {
+  method: "GET",
+  headers: {
+    "Content-Type": "application/json",
+    "api-key": apiKey,
+  },
+};
 export const fetchArrivalData = async (searchAirportFormatted: string) => {
   // console.log("fetching arr", searchAirportFormatted);
   const codeCheck =
@@ -18,6 +26,7 @@ export const fetchArrivalData = async (searchAirportFormatted: string) => {
       : "";
   const data = await fetchData<ApiResponse<FlightDataType>>({
     url: `http://localhost:3000/api/v1/flights/arrivals?search=${searchAirportFormatted}&code=${codeCheck}`,
+    options: flightOptions,
   });
   return data;
 };
@@ -32,6 +41,7 @@ export const fetchDepartureData = async (searchAirportFormatted: string) => {
       : "";
   const data = await fetchData<ApiResponse<FlightDataType>>({
     url: `http://localhost:3000/api/v1/flights/departures?search=${searchAirportFormatted}&code=${codeCheck}`,
+    options: flightOptions,
   });
   return data;
 };
@@ -39,6 +49,7 @@ export const fetchDepartureData = async (searchAirportFormatted: string) => {
 export const fetchFlightData = async (searchFlightFormatted: string) => {
   const data = await fetchData<ApiResponse<FlightDataType>>({
     url: `http://localhost:3000/api/v1/flights/flight?search=${searchFlightFormatted}`,
+    options: flightOptions,
   });
   return data;
 };
@@ -68,6 +79,7 @@ export const fetchFlightData = async (searchFlightFormatted: string) => {
 export const weatherFetch = async (location: string) => {
   const data = await fetchData<WeatherType>({
     url: `http://localhost:3000/api/v1/weather/?location=${location}`,
+    options: flightOptions,
   });
 
   console.log("weather data", data);
