@@ -9,8 +9,19 @@
   padding: 20px;
   border-radius: 10px;
   border: 1px solid veriables.$base_main_color;
-  overflow-y: scroll;
+  overflow-y: auto;
   min-height: 13rem;
+
+  @include media(">=tablet", "<=1280px") {
+    position: absolute;
+    top: 85%;
+    height: 200px;
+  }
+  @include media(">=phone", "<=600px") {
+    position: absolute;
+    top: 85%;
+    height: 200px;
+  }
   li {
     padding: 10px;
     cursor: pointer;

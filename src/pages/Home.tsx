@@ -308,6 +308,7 @@ function Home() {
                 AirportClickHandler={AirportClickHandler}
                 flightClickHandler={flightClickHandler}
               />
+
               <SuggestionsDropdown
                 suggestionsArray={suggestionsArray}
                 // handleSuggestionKeyClick={handleSuggestionKeyClick}

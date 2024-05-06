@@ -7,12 +7,21 @@ import { Link } from "react-router-dom";
 const Sidebar = () => {
   const [isOpen, setOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const hamburgerRef = useRef<HTMLDivElement>(null);
   const toggleMenu = () => {
     setOpen(!isOpen);
   };
   // Closing the sidebar when clicked outside of the bar
   useEffect(() => {
     const handleOutsideClick: EventListener = (event) => {
+      // Exclude clicks on the hamburger button
+      if (
+        hamburgerRef.current &&
+        hamburgerRef.current.contains(event.target as Node)
+      ) {
+        return;
+      }
+      // Close the sidebar if the click is outside the sidebar
       if (
         sidebarRef.current &&
         !sidebarRef.current.contains(event.target as Node)
@@ -65,7 +74,7 @@ const Sidebar = () => {
 
   return (
     <>
-      <div className={style.menu_button}>
+      <div className={style.menu_button} ref={hamburgerRef}>
         <Hamburger toggled={isOpen} toggle={toggleMenu} color="#fff" rounded />
       </div>
 
@@ -85,17 +94,17 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className={style.list_items}>
-              <Link to="/" className={style.link_elements}>
+              <Link to="under-construction" className={style.link_elements}>
                 Tickets
               </Link>
             </li>
             <li className={style.list_items}>
-              <Link to="/" className={style.link_elements}>
+              <Link to="under-construction" className={style.link_elements}>
                 Hotels
               </Link>
             </li>
             <li className={style.list_items}>
-              <Link to="/" className={style.link_elements}>
+              <Link to="under-construction" className={style.link_elements}>
                 Rent A Car
               </Link>
             </li>
