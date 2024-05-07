@@ -136,7 +136,7 @@ function Home() {
     }
 
     // Check if it's a click or Enter key press
-    if (!event || isEnterPressed) {
+    if ((!event && !isEnterPressed) || isEnterPressed) {
       // Show error message if conditions are met
       if (airportHandlerConditions) {
         toast.error(
