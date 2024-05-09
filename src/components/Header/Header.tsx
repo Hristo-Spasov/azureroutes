@@ -22,7 +22,7 @@ const Header = (): JSX.Element => {
             Home
           </NavLink>
           <NavLink
-            to="/under-construction"
+            to="under-construction"
             className={({ isActive, isPending }) =>
               isPending ? "pending" : isActive ? "active" : ""
             }
@@ -30,7 +30,7 @@ const Header = (): JSX.Element => {
             Tickets
           </NavLink>
           <NavLink
-            to="/under-construction"
+            to="under-construction"
             className={({ isActive, isPending }) =>
               isPending ? "pending" : isActive ? "active" : ""
             }
@@ -38,7 +38,7 @@ const Header = (): JSX.Element => {
             Hotels
           </NavLink>
           <NavLink
-            to="/under-construction"
+            to="under-construction"
             className={({ isActive, isPending }) =>
               isPending ? "pending" : isActive ? "active" : ""
             }
