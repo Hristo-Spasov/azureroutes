@@ -35,7 +35,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "under-construction",
+    path: "/under-construction",
     element: <UnderConstruction />,
   },
 ]);
