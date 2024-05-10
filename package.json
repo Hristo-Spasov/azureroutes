@@ -2,7 +2,7 @@
   "name": "azureroutes",
   "version": "0.0.0",
   "type": "module",
-  "homepage": "",
+  "homepage": ".",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
