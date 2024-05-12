@@ -75,7 +75,13 @@ const Sidebar = () => {
   return (
     <>
       <div className={style.menu_button} ref={hamburgerRef}>
-        <Hamburger toggled={isOpen} toggle={toggleMenu} color="#fff" rounded />
+        <Hamburger
+          toggled={isOpen}
+          toggle={toggleMenu}
+          label="Sidebar button"
+          color="#fff"
+          rounded
+        />
       </div>
 
       <motion.div
@@ -88,26 +94,28 @@ const Sidebar = () => {
       >
         <div className={style.sidebar_inner}>
           <nav className={style.list_container}>
-            <li className={style.list_items}>
-              <Link to="/" className={style.link_elements}>
-                Home
-              </Link>
-            </li>
-            <li className={style.list_items}>
-              <Link to="under-construction" className={style.link_elements}>
-                Tickets
-              </Link>
-            </li>
-            <li className={style.list_items}>
-              <Link to="under-construction" className={style.link_elements}>
-                Hotels
-              </Link>
-            </li>
-            <li className={style.list_items}>
-              <Link to="under-construction" className={style.link_elements}>
-                Rent A Car
-              </Link>
-            </li>
+            <ul>
+              <li className={style.list_items}>
+                <Link to="/" className={style.link_elements}>
+                  Home
+                </Link>
+              </li>
+              <li className={style.list_items}>
+                <Link to="under-construction" className={style.link_elements}>
+                  Tickets
+                </Link>
+              </li>
+              <li className={style.list_items}>
+                <Link to="under-construction" className={style.link_elements}>
+                  Hotels
+                </Link>
+              </li>
+              <li className={style.list_items}>
+                <Link to="under-construction" className={style.link_elements}>
+                  Rent A Car
+                </Link>
+              </li>
+            </ul>
           </nav>
         </div>
       </motion.div>

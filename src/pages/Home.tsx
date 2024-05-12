@@ -2,6 +2,7 @@ import FlightList from "../components/FlightList/FlightList";
 import style from "./Home.module.scss";
 import Clouds from "../assets/clouds-2-parts.svg?react";
 import hero from "../assets/hero.png";
+import hero_mobile from "../assets/hero_mobile.png";
 import { useContext, useEffect, useRef, useState } from "react";
 import { FetchContext } from "../context/fetch-context";
 import { ClockProvider } from "../context/clock-context";
@@ -280,7 +281,11 @@ function Home() {
       </div>
       {/* Main Page */}
       <main className={style.main_section}>
-        <img src={hero} alt="hero" className={style.hero_image} />
+        <img
+          src={!isMobile ? hero : hero_mobile}
+          alt="hero image"
+          className={style.hero_image}
+        />
 
         <section className={style.sub_section}>
           <div className={`${style.search_container}`}>

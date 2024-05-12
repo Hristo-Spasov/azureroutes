@@ -27,6 +27,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             href="https://github.com/Hristo-Spasov/azureroutes"
             target="_blank"
+            aria-label="Check our github page"
           >
             <Github width={40} height={40} />
           </a>
@@ -34,6 +35,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             href="http://facebook.com"
             target="_blank"
+            aria-label="Check our facebook page"
           >
             <Facebook width={40} height={40} />
           </a>
@@ -41,6 +43,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             href="http://instagram.com"
             target="_blank"
+            aria-label="Check our Instagram page"
           >
             <Instagram width={40} height={40} />
           </a>
@@ -49,11 +52,11 @@ const Footer = () => {
           <nav className={styles.footer_nav}>
             <Link to="/">Home</Link>
             {mobile && <hr />}
-            <Link to="/">Tickets</Link>
+            <Link to="under-construction">Tickets</Link>
             {mobile && <hr />}
-            <Link to="/">Hotels</Link>
+            <Link to="under-construction">Hotels</Link>
             {mobile && <hr />}
-            <Link to="/">Rent A Car</Link>
+            <Link to="under-construction">Rent A Car</Link>
             {mobile && <hr />}
           </nav>
         </span>

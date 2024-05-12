@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /under-construction
+Disallow: under-construction
+Crawl-delay: 20
