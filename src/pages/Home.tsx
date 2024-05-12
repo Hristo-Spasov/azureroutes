@@ -19,7 +19,6 @@ import supabase from "../utils/supabase";
 import { useDebouncedCallback } from "use-debounce";
 import { AutoSuggestionsType } from "../types/autosuggestion_types";
 import SuggestionsDropdown from "../components/SuggestionsDropdown/SuggestionsDropdown";
-import { Helmet } from "react-helmet";
 
 function Home() {
   const airportChecked = "search_airport";
@@ -287,14 +286,6 @@ function Home() {
           alt="hero image"
           className={style.hero_image}
         />
-
-        <Helmet>
-          <script
-            async
-            src="https://tp.media/content?campaign_id=200&promo_id=7293&secondary=%23F1EDFC&light=%23FFFFFF&dark=%230C131D&primary=%230C131D&powered_by=true&Checkbox_9=false&locale=en_us&shmarker=546163&trs=320952"
-            charSet="utf-8"
-          ></script>
-        </Helmet>
         <section className={style.sub_section}>
           <div className={`${style.search_container}`}>
             {!isMobile && (

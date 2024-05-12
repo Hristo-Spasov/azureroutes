@@ -12,6 +12,7 @@ import Home from "./pages/Home.tsx";
 import ErrorPage from "./pages/Error/ErrorPage.tsx";
 import UnderConstruction from "./pages/UnderConstruction/UnderConstruction.tsx";
 import Tickets from "./pages/Tickets/Tickets.tsx";
+import { HelmetProvider } from "react-helmet-async";
 
 const queryClient = new QueryClient();
 
@@ -19,13 +20,15 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <QueryClientProvider client={queryClient}>
-        <FetchProvider>
-          <FlightProvider>
-            <Root />
-          </FlightProvider>
-        </FetchProvider>
-      </QueryClientProvider>
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+          <FetchProvider>
+            <FlightProvider>
+              <Root />
+            </FlightProvider>
+          </FetchProvider>
+        </QueryClientProvider>
+      </HelmetProvider>
     ),
     errorElement: <ErrorPage />,
     children: [
