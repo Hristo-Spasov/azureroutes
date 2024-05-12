@@ -11,6 +11,7 @@ import Root from "./pages/Root.tsx";
 import Home from "./pages/Home.tsx";
 import ErrorPage from "./pages/Error/ErrorPage.tsx";
 import UnderConstruction from "./pages/UnderConstruction/UnderConstruction.tsx";
+import Tickets from "./pages/Tickets/Tickets.tsx";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "tickets",
+        element: <Tickets />,
       },
     ],
   },

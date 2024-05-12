@@ -22,7 +22,7 @@ const Header = (): JSX.Element => {
             Home
           </NavLink>
           <NavLink
-            to="under-construction"
+            to="tickets"
             className={({ isActive, isPending }) =>
               isPending ? "pending" : isActive ? "active" : ""
             }
