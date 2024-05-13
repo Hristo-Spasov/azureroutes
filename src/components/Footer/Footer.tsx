@@ -52,7 +52,7 @@ const Footer = () => {
           <nav className={styles.footer_nav}>
             <Link to="/">Home</Link>
             {mobile && <hr />}
-            <Link to="under-construction">Tickets</Link>
+            <Link to="tickets">Tickets</Link>
             {mobile && <hr />}
             <Link to="under-construction">Hotels</Link>
             {mobile && <hr />}

@@ -101,7 +101,7 @@ const Sidebar = () => {
                 </Link>
               </li>
               <li className={style.list_items}>
-                <Link to="under-construction" className={style.link_elements}>
+                <Link to="tickets" className={style.link_elements}>
                   Tickets
                 </Link>
               </li>
