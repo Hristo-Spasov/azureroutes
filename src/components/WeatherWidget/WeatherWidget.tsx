@@ -8,11 +8,13 @@ import { useEffect } from "react";
 const WeatherWidget = () => {
   const { weather } = useWeather();
 
-  useEffect(() => {
-    if (weather) {
-      console.log("Widget console", weather);
-    }
-  }, [weather]);
+  if (import.meta.env.VITE_STATUS === "development") {
+    useEffect(() => {
+      if (weather) {
+        console.log("Widget console", weather);
+      }
+    }, [weather]);
+  }
 
   if (!weather) return <></>;
 

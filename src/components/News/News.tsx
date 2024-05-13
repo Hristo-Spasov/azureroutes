@@ -51,9 +51,11 @@ const News = () => {
   }, [cachedNews]);
 
   //! Console log
-  // useEffect(() => {
-  //   console.log(news);
-  // }, [news]);
+  // if (import.meta.env.VITE_STATUS === "development") {
+  //   useEffect(() => {
+  //     console.log(news);
+  //   }, [news]);
+  // }
 
   // const handleModal = (article: any) => {
   //   setIsOpen(!isOpen);
