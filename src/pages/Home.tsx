@@ -106,6 +106,8 @@ function Home() {
     }
   };
 
+  //DEBUG LOGS
+
   // useEffect(() => {
   //   console.log(search);
   // }, [suggestion]);
@@ -120,8 +122,6 @@ function Home() {
   // console.log("isEnterPressed", isEnterPressed);
   // console.log("searchAirportFormatted", searchAirportFormatted);
 
-  //TODO need to add focus back to the input when autosuggest is clicked
-  //TODO Find why formatted string variable is not updating MAJOR BUG
   //!Combined Handlers
   const airportCombinedHandler = async (
     event?: React.KeyboardEvent<HTMLInputElement>
