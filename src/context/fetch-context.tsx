@@ -69,14 +69,15 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
   >();
 
   //!To remove in the future
-  useEffect(() => {
-    console.log("Arrival:", arrivalData);
-    console.log("Departure:", departureData);
-  }, [arrivalData, departureData]);
-  useEffect(() => {
-    console.log("searchAirportFormatted:", searchAirportFormatted);
-  }, [suggestion]);
-
+  if (import.meta.env.VITE_STATUS === "development") {
+    useEffect(() => {
+      console.log("Arrival:", arrivalData);
+      console.log("Departure:", departureData);
+    }, [arrivalData, departureData]);
+    useEffect(() => {
+      console.log("searchAirportFormatted:", searchAirportFormatted);
+    }, [suggestion]);
+  }
   const searchAirportFormatted = suggestion?.iata
     ? suggestion.iata
         .toUpperCase()

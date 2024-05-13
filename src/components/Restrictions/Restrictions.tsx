@@ -51,8 +51,18 @@ const Restrictions = () => {
           </li>
         </ol>
         <p>
-          So, there you have it! Follow these tips, breeze through security, and
-          get ready for a smooth takeoff. Happy travels!
+          Oops,We almost forgot you might want to get yourself a travel{" "}
+          <a
+            href="https://ektatraveling.tp.st/AyDoQYZe"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Insurance"
+          >
+            insurance
+          </a>
+          ,you know just in case.So, there you have it! Follow these tips,
+          breeze through security, and get ready for a smooth takeoff. Happy
+          travels!
         </p>
       </div>
     </section>

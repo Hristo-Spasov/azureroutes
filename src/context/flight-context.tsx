@@ -42,10 +42,12 @@ export const FlightProvider = ({ children }: FlightFetchProviderProps) => {
   const [flightData, setFlightData] = useState<ApiResponse<FlightDataType>>();
 
   //!To remove in the future
-  useEffect(() => {
-    console.log("flightData:", flightData);
-    console.log("searchFlightFormatted:", searchFlightFormatted);
-  }, [flightData, search]);
+  if (import.meta.env.VITE_STATUS === "development") {
+    useEffect(() => {
+      console.log("flightData:", flightData);
+      console.log("searchFlightFormatted:", searchFlightFormatted);
+    }, [flightData, search]);
+  }
 
   const searchFlightFormatted = search.trim().replace(/[^\w ]/g, ""); //Removing special symbols if any in the search params.
 

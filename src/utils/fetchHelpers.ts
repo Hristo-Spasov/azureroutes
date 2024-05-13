@@ -83,6 +83,8 @@ export const weatherFetch = async (location: string) => {
     options: flightOptions,
   });
 
-  console.log("weather data", data);
+  if (import.meta.env.VITE_STATUS === "development") {
+    console.log("weather data", data);
+  }
   return data;
 };

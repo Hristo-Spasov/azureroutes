@@ -55,9 +55,11 @@ const useWeather = () => {
     },
   });
 
-  // useEffect(() => {
-  //   console.log("Weather state", weather);
-  // }, [weather]);
+  if (import.meta.env.VITE_STATUS === "development") {
+    useEffect(() => {
+      console.log("Weather state", weather);
+    }, [weather]);
+  }
   //Use cached data if such is present ,instead of fetching new one
   useEffect(() => {
     console.log("cachedWeather:", cachedWeather);
