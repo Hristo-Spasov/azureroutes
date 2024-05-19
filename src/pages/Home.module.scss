@@ -23,7 +23,7 @@ $breakpoints: (
     @include media(">=phone", "<=600px") {
       border-radius: unset;
       object-position: 60%;
-      height: 35dvh;
+      height: 15rem;
     }
   }
 
