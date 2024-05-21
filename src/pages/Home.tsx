@@ -59,7 +59,7 @@ function Home() {
 
   const debouncedAutoSuggestion = useDebouncedCallback((query) => {
     autoSuggestion(query);
-  }, 100);
+  }, 80);
 
   //Fetching Handlers
   let isEnterPressed = false; // Flag to track if Enter key is pressed
