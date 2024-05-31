@@ -24,7 +24,6 @@ const Tickets = () => {
           content="Explore top-flight deals with ease on Azure Routes. Enjoy hassle-free booking, competitive prices, and a wide range of destinations. Your next adventure is just a click away"
         />
       </Helmet>
-      ;
       <div className={style.header}>
         <h1>Where will your travel take you ?</h1>
         <p>Search for your next travel adventure.</p>
