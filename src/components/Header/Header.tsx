@@ -38,12 +38,12 @@ const Header = (): JSX.Element => {
             Hotels
           </NavLink>
           <NavLink
-            to="under-construction"
+            to="transportation"
             className={({ isActive, isPending }) =>
               isPending ? "pending" : isActive ? "active" : ""
             }
           >
-            Rent A Car
+            Transportation
           </NavLink>
         </div>
       ) : (

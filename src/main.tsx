@@ -13,6 +13,7 @@ import ErrorPage from "./pages/Error/ErrorPage.tsx";
 import UnderConstruction from "./pages/UnderConstruction/UnderConstruction.tsx";
 import Tickets from "./pages/Tickets/Tickets.tsx";
 import { HelmetProvider } from "react-helmet-async";
+import Transportation from "./pages/Transportation/Transportation.tsx";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: "tickets",
         element: <Tickets />,
+      },
+      {
+        path: "transportation",
+        element: <Transportation />,
       },
     ],
   },

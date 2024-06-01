@@ -16,7 +16,8 @@ const Tickets = () => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>
-          Elevate Your Journey: Seamless Flight Booking on Azure Routes
+          Azure Routes - Elevate Your Journey: Seamless Flight Booking on Azure
+          Routes
         </title>
         <link rel="canonical" href="https://www.azureroutes.com/tickets" />
         <meta

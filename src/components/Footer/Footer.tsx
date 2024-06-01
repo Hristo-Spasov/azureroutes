@@ -56,7 +56,7 @@ const Footer = () => {
             {mobile && <hr />}
             <Link to="under-construction">Hotels</Link>
             {mobile && <hr />}
-            <Link to="under-construction">Rent A Car</Link>
+            <Link to="transportation">Transportation</Link>
             {mobile && <hr />}
           </nav>
         </span>
