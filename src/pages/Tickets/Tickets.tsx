@@ -14,7 +14,6 @@ const Tickets = () => {
   return (
     <>
       <Helmet>
-        <meta charSet="utf-8" />
         <title>
           Azure Routes - Elevate Your Journey: Seamless Flight Booking on Azure
           Routes

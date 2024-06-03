@@ -19,6 +19,7 @@ import supabase from "../utils/supabase";
 import { useDebouncedCallback } from "use-debounce";
 import { AutoSuggestionsType } from "../types/autosuggestion_types";
 import SuggestionsDropdown from "../components/SuggestionsDropdown/SuggestionsDropdown";
+import { Helmet } from "react-helmet-async";
 
 function Home() {
   const airportChecked = "search_airport";
@@ -275,6 +276,14 @@ function Home() {
 
   return (
     <>
+      <Helmet>
+        <title>Azure Routes - Daily airport and flight schedules</title>
+        <link rel="canonical" href="https://www.azureroutes.com/" />
+        <meta
+          name="description"
+          content="Daily flight and airport schedules.Ease your traveling adventures with Azure Routes with daily airport schedules."
+        />
+      </Helmet>
       {/* Alerts */}
       <div>
         <Toaster position="top-right" reverseOrder={false} />

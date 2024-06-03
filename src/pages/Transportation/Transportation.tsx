@@ -6,7 +6,6 @@ const Transportation = () => {
   return (
     <>
       <Helmet>
-        <meta charSet="utf-8" />
         <title>Azure Routes - Airport transfers and renta a car options</title>
         <link
           rel="canonical"
