@@ -38,6 +38,7 @@ function Home() {
     cachedArrData,
     cachedDepData,
     setSuggestion,
+    suggestion,
   } = useContext(FetchContext);
 
   const {
@@ -97,6 +98,8 @@ function Home() {
       }
       // console.log(data);
       setSuggestionsArray(data);
+
+      // suggestion at first is aways the first item of the array if no other airport is picked from the suggestions array
       setSuggestion(data[0]);
 
       if (query == "") {
@@ -154,9 +157,7 @@ function Home() {
         return;
       }
 
-      setSearch(
-        `${suggestionsArray[0].airport_name}, ${suggestionsArray[0].location}`
-      );
+      setSearch(`${suggestion?.airport_name}, ${suggestion?.location}`);
       setSuggestionsArray([]);
 
       // Set the state of active arrival and departure
