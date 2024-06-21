@@ -35,14 +35,18 @@ import toast from "react-hot-toast";
 const useWeather = () => {
   const [weather, setWeather] = useState<WeatherType>();
   const { suggestion, departureData } = useContext(FetchContext);
-  const location = suggestion?.location || "";
+  const [location, setLocation] = useState(suggestion?.location || "");
+
+  useEffect(() => {
+    setLocation(suggestion?.location || "");
+  }, [suggestion?.location]);
 
   const {
     data: cachedWeather,
     isLoading: weatherIsLoading,
     isError: weatherIsError,
   } = useQuery({
-    queryKey: ["weatherData", location, departureData],
+    queryKey: ["weatherData", departureData],
     queryFn: () => weatherFetch(location),
     enabled: !!departureData && !!location && !weather,
     refetchOnWindowFocus: false,
@@ -68,9 +72,11 @@ const useWeather = () => {
     }
   }, [cachedWeather]);
 
-  if (weatherIsError) {
-    console.error("Error fetching weather data", weatherIsError);
-  }
+  useEffect(() => {
+    if (weatherIsError) {
+      console.error("Error fetching weather data", weatherIsError);
+    }
+  }, [weatherIsError]);
 
   return {
     weather,

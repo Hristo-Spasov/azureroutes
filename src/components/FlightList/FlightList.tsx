@@ -32,11 +32,11 @@ const FlightList = ({
   const { flightData, flightDataLoading } = useContext(FlightFetchContext);
 
   //TODO Remove in the Future
-  useEffect(() => {
-    if (weather) {
-      console.log(weather);
-    }
-  }, [weather]);
+  // useEffect(() => {
+  //   if (weather) {
+  //     console.log(weather);
+  //   }
+  // }, [weather]);
 
   // Render Conditions
   const weatherIsAvailable = (departureData?.data.length || 0) > 0;

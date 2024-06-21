@@ -194,7 +194,7 @@ function Home() {
 
     if (!event || isEnterPressed) {
       if (flightHandlerConditions) {
-        console.log("flightHandlerConditions", flightHandlerConditions);
+        // console.log("flightHandlerConditions", flightHandlerConditions);
         toast.error("Search for flight using the flight number", {
           id: "bad request",
           position: "top-center",
