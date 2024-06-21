@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import FlightGeneralInfo from "../FlightGeneralInfo/FlightGeneralInfo";
 import { FetchContext } from "../../context/fetch-context";
 import { ClockContext } from "../../context/clock-context";
