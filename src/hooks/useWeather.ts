@@ -66,7 +66,7 @@ const useWeather = () => {
   }
   //Use cached data if such is present ,instead of fetching new one
   useEffect(() => {
-    console.log("cachedWeather:", cachedWeather);
+    // console.log("cachedWeather:", cachedWeather);
     if (cachedWeather) {
       setWeather(cachedWeather);
     }
