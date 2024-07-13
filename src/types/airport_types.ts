@@ -1,8 +1,4 @@
-export type AirportData = {
-  airportData: Airport[];
-};
-
-interface Airport {
+export interface Airport {
   pluginData: PluginData;
 }
 
@@ -96,14 +92,15 @@ interface Author {
 }
 
 interface Schedule {
-  scheduleData: scheduleData;
+  arrivals?: FlightSchedule;
+  departures?: FlightSchedule;
 }
 
-interface scheduleData {
-  dailyFlights?: DailyFlights;
+interface FlightSchedule {
+  item?: DailyFlights;
   page?: Page;
   timestamp: number;
-  flightInformationArray: FlightInformation[];
+  data: FlightInformation[];
 }
 
 interface DailyFlights {

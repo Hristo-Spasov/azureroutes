@@ -39,12 +39,12 @@ const FlightList = ({
   }, [weather]);
 
   // Render Conditions
-  const weatherIsAvailable = (departureData?.data.length || 0) > 0;
+  const weatherIsAvailable = (departureData?.length || 0) > 0;
 
-  const arrivalIsNotAvailable = arrivalActive && arrivalData?.data.length === 0;
+  const arrivalIsNotAvailable = arrivalActive && arrivalData?.length === 0;
 
   const departureIsNotAvailable =
-    departureActive && departureData?.data.length === 0;
+    departureActive && departureData?.length === 0;
 
   const flightDataIsNotAvailable = flightData?.data.length === 0;
 

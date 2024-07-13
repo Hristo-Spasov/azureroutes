@@ -2,19 +2,21 @@ import { useState, createContext, ReactNode, useEffect } from "react";
 import { useQuery } from "react-query";
 import { fetchArrivalData, fetchDepartureData } from "../utils/fetchHelpers";
 import { AutoSuggestionsType } from "../types/autosuggestion_types";
-import { AirportData } from "../types/airport_types";
+import { Airport } from "../types/airport_types";
 
 interface ApiResponse {
-  data: AirportData;
+  airport: Airport;
 }
 
 interface FetchContextType {
   searchAirportFormatted: string;
-  arrivalData: ApiResponse | undefined;
-  setArrivalData: React.Dispatch<React.SetStateAction<ApiResponse | undefined>>;
-  departureData: ApiResponse | undefined;
+  arrivalData: ApiResponse[] | [] | undefined;
+  setArrivalData: React.Dispatch<
+    React.SetStateAction<ApiResponse[] | [] | undefined>
+  >;
+  departureData: ApiResponse[] | [] | undefined;
   setDepartureData: React.Dispatch<
-    React.SetStateAction<ApiResponse | undefined>
+    React.SetStateAction<ApiResponse[] | [] | undefined>
   >;
   suggestion: AutoSuggestionsType | undefined;
   setSuggestion: React.Dispatch<
@@ -26,17 +28,17 @@ interface FetchContextType {
   setDepartureActive: React.Dispatch<React.SetStateAction<boolean>>;
   arrivalDataLoading: boolean;
   departureDataLoading: boolean;
-  cachedArrData: ApiResponse | undefined;
-  cachedDepData: ApiResponse | undefined;
+  cachedArrData: ApiResponse[] | [] | undefined;
+  cachedDepData: ApiResponse[] | [] | undefined;
   arrFetch: () => void;
   depFetch: () => void;
 }
 
 export const FetchContext = createContext<FetchContextType>({
   searchAirportFormatted: "",
-  arrivalData: undefined,
+  arrivalData: [],
   setArrivalData: () => {},
-  departureData: undefined,
+  departureData: [],
   setDepartureData: () => {},
   arrivalActive: false,
   setArrivalActive: () => {},
@@ -44,8 +46,8 @@ export const FetchContext = createContext<FetchContextType>({
   setDepartureActive: () => {},
   arrivalDataLoading: false,
   departureDataLoading: false,
-  cachedArrData: undefined,
-  cachedDepData: undefined,
+  cachedArrData: [],
+  cachedDepData: [],
   arrFetch: () => {},
   depFetch: () => {},
   suggestion: undefined,
@@ -57,8 +59,10 @@ interface FetchProviderProps {
 }
 
 export const FetchProvider = ({ children }: FetchProviderProps) => {
-  const [departureData, setDepartureData] = useState<ApiResponse>();
-  const [arrivalData, setArrivalData] = useState<ApiResponse>();
+  const [departureData, setDepartureData] = useState<ApiResponse[] | undefined>(
+    []
+  );
+  const [arrivalData, setArrivalData] = useState<ApiResponse[] | undefined>([]);
   const [arrivalActive, setArrivalActive] = useState<boolean>(false);
   const [departureActive, setDepartureActive] = useState<boolean>(false);
   const [suggestion, setSuggestion] = useState<
@@ -92,7 +96,9 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     queryKey: ["arrivalData", searchAirportFormatted],
     queryFn: () => fetchArrivalData(searchAirportFormatted),
     enabled: false,
-    onSuccess: (data) => setArrivalData(data),
+    onSuccess: (airport) => {
+      if (airport) setArrivalData(airport);
+    },
   });
   const {
     data: cachedDepData,
@@ -102,7 +108,9 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     queryKey: ["departureData", searchAirportFormatted],
     queryFn: () => fetchDepartureData(searchAirportFormatted),
     enabled: false,
-    onSuccess: (data) => setDepartureData(data),
+    onSuccess: (airport) => {
+      if (airport) setDepartureData(airport);
+    },
   });
 
   const value = {
