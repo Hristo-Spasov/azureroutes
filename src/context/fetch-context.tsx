@@ -1,22 +1,20 @@
 import { useState, createContext, ReactNode, useEffect } from "react";
-import { FlightDataType } from "../types/flight_types";
 import { useQuery } from "react-query";
 import { fetchArrivalData, fetchDepartureData } from "../utils/fetchHelpers";
 import { AutoSuggestionsType } from "../types/autosuggestion_types";
+import { AirportData } from "../types/airport_types";
 
-interface ApiResponse<T> {
-  data: T[];
+interface ApiResponse {
+  data: AirportData;
 }
 
-interface FetchContextType<T> {
+interface FetchContextType {
   searchAirportFormatted: string;
-  arrivalData: ApiResponse<T> | undefined;
-  setArrivalData: React.Dispatch<
-    React.SetStateAction<ApiResponse<T> | undefined>
-  >;
-  departureData: ApiResponse<T> | undefined;
+  arrivalData: ApiResponse | undefined;
+  setArrivalData: React.Dispatch<React.SetStateAction<ApiResponse | undefined>>;
+  departureData: ApiResponse | undefined;
   setDepartureData: React.Dispatch<
-    React.SetStateAction<ApiResponse<T> | undefined>
+    React.SetStateAction<ApiResponse | undefined>
   >;
   suggestion: AutoSuggestionsType | undefined;
   setSuggestion: React.Dispatch<
@@ -28,13 +26,13 @@ interface FetchContextType<T> {
   setDepartureActive: React.Dispatch<React.SetStateAction<boolean>>;
   arrivalDataLoading: boolean;
   departureDataLoading: boolean;
-  cachedArrData: ApiResponse<T> | undefined;
-  cachedDepData: ApiResponse<T> | undefined;
+  cachedArrData: ApiResponse | undefined;
+  cachedDepData: ApiResponse | undefined;
   arrFetch: () => void;
   depFetch: () => void;
 }
 
-export const FetchContext = createContext<FetchContextType<FlightDataType>>({
+export const FetchContext = createContext<FetchContextType>({
   searchAirportFormatted: "",
   arrivalData: undefined,
   setArrivalData: () => {},
@@ -59,9 +57,8 @@ interface FetchProviderProps {
 }
 
 export const FetchProvider = ({ children }: FetchProviderProps) => {
-  const [departureData, setDepartureData] =
-    useState<ApiResponse<FlightDataType>>();
-  const [arrivalData, setArrivalData] = useState<ApiResponse<FlightDataType>>();
+  const [departureData, setDepartureData] = useState<ApiResponse>();
+  const [arrivalData, setArrivalData] = useState<ApiResponse>();
   const [arrivalActive, setArrivalActive] = useState<boolean>(false);
   const [departureActive, setDepartureActive] = useState<boolean>(false);
   const [suggestion, setSuggestion] = useState<

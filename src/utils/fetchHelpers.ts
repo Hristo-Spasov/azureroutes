@@ -1,10 +1,10 @@
-import { FlightDataType } from "../types/flight_types";
+import { AirportData } from "../types/airport_types";
 import { WeatherType } from "../types/weather_types";
 import fetchData from "./fetchData";
 
 /// Flights fetching functions
-interface ApiResponse<T> {
-  data: T[];
+interface ApiResponse {
+  data: AirportData;
 }
 
 const apiKey = import.meta.env.VITE_SERVER_KEY;
@@ -25,7 +25,7 @@ export const fetchArrivalData = async (searchAirportFormatted: string) => {
       : searchAirportFormatted.length === 4
       ? "arr_icao"
       : "";
-  const data = await fetchData<ApiResponse<FlightDataType>>({
+  const data = await fetchData<ApiResponse>({
     url: `${BASE_URL}/api/v1/flights/arrivals?search=${searchAirportFormatted}&code=${codeCheck}`,
     options: flightOptions,
   });
@@ -40,7 +40,7 @@ export const fetchDepartureData = async (searchAirportFormatted: string) => {
       : searchAirportFormatted.length === 4
       ? "dep_icao"
       : "";
-  const data = await fetchData<ApiResponse<FlightDataType>>({
+  const data = await fetchData<ApiResponse>({
     url: `${BASE_URL}/api/v1/flights/departures?search=${searchAirportFormatted}&code=${codeCheck}`,
     options: flightOptions,
   });
@@ -48,7 +48,7 @@ export const fetchDepartureData = async (searchAirportFormatted: string) => {
 };
 
 export const fetchFlightData = async (searchFlightFormatted: string) => {
-  const data = await fetchData<ApiResponse<FlightDataType>>({
+  const data = await fetchData<ApiResponse>({
     url: `${BASE_URL}/api/v1/flights/flight?search=${searchFlightFormatted}`,
     options: flightOptions,
   });
