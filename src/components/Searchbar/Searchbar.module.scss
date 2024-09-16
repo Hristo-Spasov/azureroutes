@@ -45,6 +45,7 @@ $breakpoints: (
       outline: none;
       border: none;
       border-radius: 50px;
+      text-transform: capitalize;
 
       @include media(">=phone", "<=600px") {
         border-radius: 80px;

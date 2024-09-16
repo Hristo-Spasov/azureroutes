@@ -52,7 +52,7 @@ const Searchbar = (props: SearchbarProps) => {
               ? AirportKeyHandler
               : flightKeyHandler
           }
-          value={search.toUpperCase()}
+          value={search}
           disabled={arrivalDataLoading || departureDataLoading}
         />
       </div>
