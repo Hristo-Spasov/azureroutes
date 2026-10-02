@@ -66,10 +66,17 @@ function Home() {
   //Fetching Handlers
   let isEnterPressed = false; // Flag to track if Enter key is pressed
 
+  // Flight number formats: IATA = 2-char code + digits (FR1837, W6123),
+  // ICAO = 3-char code + digits (THY1837). 
+  const FLIGHT_IATA_PATTERN = /^[A-Z0-9]{2}\d{1,4}[A-Z]?$/i;
+  const FLIGHT_ICAO_PATTERN = /^[A-Z]{3}\d{1,4}$/i;
+
   const airportHandlerConditions = search === "" || search.length < 3;
 
   const flightHandlerConditions =
-    searchFlightFormatted === "" || searchFlightFormatted.length < 3;
+    searchFlightFormatted === "" ||
+    !(FLIGHT_IATA_PATTERN.test(searchFlightFormatted) ||
+      FLIGHT_ICAO_PATTERN.test(searchFlightFormatted));
 
   //search handler
   const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -186,22 +193,24 @@ function Home() {
     if (event) {
       if (event.key === "Enter") {
         event.preventDefault();
-        isEnterPressed = true; // Set the flag if Enter key is pressed
+        isEnterPressed = true; 
       } else {
-        isEnterPressed = false; // Reset the flag for other keys
+        isEnterPressed = false;
       }
     }
 
     if (!event || isEnterPressed) {
       if (flightHandlerConditions) {
-        // console.log("flightHandlerConditions", flightHandlerConditions);
-        toast.error("Search for flight using the flight number", {
-          id: "bad request",
-          position: "top-center",
-          style: {
-            marginTop: "5rem",
-          },
-        });
+        toast.error(
+          "Invalid flight number - use IATA (e.g. FR1837) or ICAO (e.g. THY1837) format",
+          {
+            id: "bad request",
+            position: "top-center",
+            style: {
+              marginTop: "5rem",
+            },
+          }
+        );
         return;
       }
       if (!cachedData) {
@@ -262,7 +271,7 @@ function Home() {
   useEffect(() => {
     setSearch("");
     setSuggestionsArray([]);
-  }, [searchOption]);
+  }, [searchOption, setSearch]);
 
   //UI Conditionals
   const shouldRenderIntroductionForAirport =
