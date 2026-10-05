@@ -1,5 +1,5 @@
-@import "../../veriables.scss";
-@import "include-media";
+﻿@use "../../veriables" as *;
+@use "include-media" as *;
 
 $breakpoints: (
   "phone": 320px,

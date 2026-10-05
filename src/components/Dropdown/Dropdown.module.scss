@@ -1,5 +1,5 @@
-@import "../src/veriables.scss";
-@import "include-media";
+﻿@use "../../veriables" as *;
+@use "include-media" as *;
 
 .detailed_information {
   display: flex;

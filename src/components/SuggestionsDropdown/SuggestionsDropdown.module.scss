@@ -1,5 +1,5 @@
-@use "../../veriables";
-@import "include-media";
+﻿@use "../../veriables";
+@use "include-media" as *;
 
 .dropdown_container {
   display: flex;

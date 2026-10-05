@@ -1,4 +1,4 @@
-@import "include-media";
+﻿@use "include-media" as *;
 $breakpoints: (
   "phone": 320px,
 );
