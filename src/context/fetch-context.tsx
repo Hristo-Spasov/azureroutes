@@ -1,4 +1,10 @@
-import { useState, createContext, ReactNode, useEffect } from "react";
+import {
+  useState,
+  createContext,
+  ReactNode,
+  useEffect,
+  useCallback,
+} from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { FlightDataType } from "../types/flight_types";
 import { fetchArrivalData, fetchDepartureData } from "../utils/fetchHelpers";
@@ -28,6 +34,11 @@ interface FetchContextType<T> {
   setDepartureActive: React.Dispatch<React.SetStateAction<boolean>>;
   // True while an airport search (arrivals+departures) is in flight.
   boardsLoading: boolean;
+  // Set when a board fetch fails (dead backend, CORS) - pages render a retry UI.
+  boardsError: string | null;
+  // Search mode shared between SearchForm and the board components.
+  searchOption: string;
+  setSearchOption: React.Dispatch<React.SetStateAction<string>>;
   searchAirport: (code: string) => Promise<void>;
 }
 
@@ -42,6 +53,9 @@ export const FetchContext = createContext<FetchContextType<FlightDataType>>({
   departureActive: false,
   setDepartureActive: () => {},
   boardsLoading: false,
+  boardsError: null,
+  searchOption: "search_airport",
+  setSearchOption: () => {},
   searchAirport: async () => {},
   suggestion: undefined,
   setSuggestion: () => {},
@@ -61,6 +75,8 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     AutoSuggestionsType | undefined
   >();
   const [boardsLoading, setBoardsLoading] = useState<boolean>(false);
+  const [boardsError, setBoardsError] = useState<string | null>(null);
+  const [searchOption, setSearchOption] = useState<string>("search_airport");
   const queryClient = useQueryClient();
 
   const searchAirportFormatted = suggestion?.iata
@@ -83,26 +99,37 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
   }, [searchAirportFormatted, isDev]);
 
 
-  const searchAirport = async (code: string) => {
-    if (!code) return;
-    setBoardsLoading(true);
-    try {
-      const [arr, dep] = await Promise.all([
-        queryClient.query({
-          queryKey: ["arrivalData", code],
-          queryFn: () => fetchArrivalData(code),
-        }),
-        queryClient.query({
-          queryKey: ["departureData", code],
-          queryFn: () => fetchDepartureData(code),
-        }),
-      ]);
-      if (arr) setArrivalData(arr);
-      if (dep) setDepartureData(dep);
-    } finally {
-      setBoardsLoading(false);
-    }
-  };
+  // useCallback: stable identity across renders - AirportPage's effect depends
+  // on this; an inline function would re-trigger the fetch loop every render.
+  const searchAirport = useCallback(
+    async (code: string) => {
+      if (!code) return;
+      setBoardsError(null);
+      setBoardsLoading(true);
+      try {
+        const [arr, dep] = await Promise.all([
+          queryClient.query({
+            queryKey: ["arrivalData", code],
+            queryFn: () => fetchArrivalData(code),
+          }),
+          queryClient.query({
+            queryKey: ["departureData", code],
+            queryFn: () => fetchDepartureData(code),
+          }),
+        ]);
+        if (arr) setArrivalData(arr);
+        if (dep) setDepartureData(dep);
+      } catch (error) {
+        // Surface failures instead of failing silently (dead backend, CORS).
+        setBoardsError(
+          error instanceof Error ? error.message : "Failed to load flights"
+        );
+      } finally {
+        setBoardsLoading(false);
+      }
+    },
+    [queryClient]
+  );
 
   const value = {
     searchAirportFormatted,
@@ -115,6 +142,9 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     departureActive,
     setDepartureActive,
     boardsLoading,
+    boardsError,
+    searchOption,
+    setSearchOption,
     searchAirport,
     suggestion,
     setSuggestion,

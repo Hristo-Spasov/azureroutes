@@ -1,0 +1,48 @@
+﻿@use "../../veriables" as *;
+
+// Mirrors Home's .main_section - the flex-centering column that all board
+// components (cards, buttons) are designed to live inside.
+.main_section {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.general_section {
+  width: 100%;
+  max-width: 800px;
+  margin: 1.5rem auto;
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 12px;
+
+  h1 {
+    font-family: $main_font;
+    font-size: $header_font_size;
+    color: $base_main_color;
+    margin: 0 0 0.5rem 0;
+
+    span {
+      font-size: 0.6em;
+      color: $accent_color;
+    }
+  }
+
+  p {
+    font-family: $main_font;
+    font-size: $base_font_size;
+    color: $text_color;
+    margin: 0;
+  }
+
+  .link {
+    color: $accent_color;
+    text-decoration: underline;
+
+    &:hover {
+      color: $dark_blue;
+    }
+  }
+}

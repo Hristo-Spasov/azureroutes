@@ -1,4 +1,3 @@
-User-agent: *
-Disallow: /under-construction
-Disallow: under-construction
-Crawl-delay: 20
+﻿User-agent: *
+Allow: /
+Sitemap: https://www.azureroutes.com/sitemap.xml

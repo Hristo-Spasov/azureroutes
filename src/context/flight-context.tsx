@@ -1,4 +1,4 @@
-import { useState, createContext, ReactNode, useEffect } from "react";
+import { useState, createContext, ReactNode, useEffect, useCallback } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { FlightDataType } from "../types/flight_types";
 import { fetchFlightData } from "../utils/fetchHelpers";
@@ -55,19 +55,22 @@ export const FlightProvider = ({ children }: FlightFetchProviderProps) => {
   }, [flightData, searchFlightFormatted, isDev]);
 
 
-  const searchFlight = async (flightNumber: string) => {
-    if (!flightNumber) return;
-    setFlightDataLoading(true);
-    try {
-      const result = await queryClient.query({
-        queryKey: ["flightData", flightNumber],
-        queryFn: () => fetchFlightData(flightNumber),
-      });
-      if (result) setFlightData(result);
-    } finally {
-      setFlightDataLoading(false);
-    }
-  };
+  const searchFlight = useCallback(
+    async (flightNumber: string) => {
+      if (!flightNumber) return;
+      setFlightDataLoading(true);
+      try {
+        const result = await queryClient.query({
+          queryKey: ["flightData", flightNumber],
+          queryFn: () => fetchFlightData(flightNumber),
+        });
+        if (result) setFlightData(result);
+      } finally {
+        setFlightDataLoading(false);
+      }
+    },
+    [queryClient]
+  );
 
   const value = {
     flightData,

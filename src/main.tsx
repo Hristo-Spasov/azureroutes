@@ -13,6 +13,7 @@ import ErrorPage from "./pages/Error/ErrorPage.tsx";
 import UnderConstruction from "./pages/UnderConstruction/UnderConstruction.tsx";
 import Tickets from "./pages/Tickets/Tickets.tsx";
 import Transportation from "./pages/Transportation/Transportation.tsx";
+import AirportPage from "./pages/Airport/AirportPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "transportation",
         element: <Transportation />,
+      },
+      {
+        path: "airport/:code",
+        element: <AirportPage />,
       },
     ],
   },
