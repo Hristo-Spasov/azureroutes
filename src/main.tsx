@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import "./index.scss";
 
 import { FetchProvider } from "./context/fetch-context.tsx";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FlightProvider } from "./context/flight-context.tsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Root from "./pages/Root.tsx";
@@ -12,7 +12,6 @@ import Home from "./pages/Home.tsx";
 import ErrorPage from "./pages/Error/ErrorPage.tsx";
 import UnderConstruction from "./pages/UnderConstruction/UnderConstruction.tsx";
 import Tickets from "./pages/Tickets/Tickets.tsx";
-import { HelmetProvider } from "react-helmet-async";
 import Transportation from "./pages/Transportation/Transportation.tsx";
 
 const queryClient = new QueryClient();
@@ -21,15 +20,13 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <HelmetProvider>
-        <QueryClientProvider client={queryClient}>
-          <FetchProvider>
-            <FlightProvider>
-              <Root />
-            </FlightProvider>
-          </FetchProvider>
-        </QueryClientProvider>
-      </HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <FetchProvider>
+          <FlightProvider>
+            <Root />
+          </FlightProvider>
+        </FetchProvider>
+      </QueryClientProvider>
     ),
     errorElement: <ErrorPage />,
     children: [
