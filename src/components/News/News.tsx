@@ -21,7 +21,6 @@ const News = () => {
     staleTime: 0,
   });
 
-  // v5 removed onSuccess - sync query results into component state via effect.
   useEffect(() => {
     if (cachedNews) {
       setNews(cachedNews);

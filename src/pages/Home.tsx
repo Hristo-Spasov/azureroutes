@@ -164,9 +164,7 @@ function Home() {
       setArrivalActive(false);
       setDepartureActive(false);
 
-      // Explicit orchestration: fetchQuery resolves the airport code at call
-      // time (no race with the just-clicked suggestion) and refetches stale
-      // cached data automatically.
+
       await searchAirport(searchAirportFormatted);
 
       // Reset search and set arrival active

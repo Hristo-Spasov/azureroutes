@@ -6,7 +6,7 @@ import { FetchContext } from "../../context/fetch-context";
 import { FlightFetchContext } from "../../context/flight-context";
 
 interface SearchbarProps {
-  searchbarRef: React.LegacyRef<HTMLInputElement>;
+  searchbarRef: React.RefAttributes<HTMLInputElement>['ref'];
   searchOption: string;
   airportChecked: string;
 

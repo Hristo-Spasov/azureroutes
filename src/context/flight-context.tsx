@@ -54,12 +54,12 @@ export const FlightProvider = ({ children }: FlightFetchProviderProps) => {
     }
   }, [flightData, searchFlightFormatted, isDev]);
 
-  ///  React Query - explicit orchestration
+
   const searchFlight = async (flightNumber: string) => {
     if (!flightNumber) return;
     setFlightDataLoading(true);
     try {
-      const result = await queryClient.fetchQuery({
+      const result = await queryClient.query({
         queryKey: ["flightData", flightNumber],
         queryFn: () => fetchFlightData(flightNumber),
       });

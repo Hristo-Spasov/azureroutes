@@ -28,8 +28,6 @@ interface FetchContextType<T> {
   setDepartureActive: React.Dispatch<React.SetStateAction<boolean>>;
   // True while an airport search (arrivals+departures) is in flight.
   boardsLoading: boolean;
-  // Explicit search action: fetches BOTH boards for the given airport code.
-  // Resolves the key at call time - safe against suggestion-click races.
   searchAirport: (code: string) => Promise<void>;
 }
 
@@ -84,20 +82,17 @@ export const FetchProvider = ({ children }: FetchProviderProps) => {
     if (isDev) console.log("searchAirportFormatted:", searchAirportFormatted);
   }, [searchAirportFormatted, isDev]);
 
-  ///  React Query - explicit orchestration
-  // queryClient.fetchQuery always resolves the key passed at CALL time (no
-  // stale closures from a just-clicked suggestion) and hits the network when
-  // cached data is stale. The server holds a 5-min TTL cache, so this is cheap.
+
   const searchAirport = async (code: string) => {
     if (!code) return;
     setBoardsLoading(true);
     try {
       const [arr, dep] = await Promise.all([
-        queryClient.fetchQuery({
+        queryClient.query({
           queryKey: ["arrivalData", code],
           queryFn: () => fetchArrivalData(code),
         }),
-        queryClient.fetchQuery({
+        queryClient.query({
           queryKey: ["departureData", code],
           queryFn: () => fetchDepartureData(code),
         }),
