@@ -1,6 +1,6 @@
 import style from "../FlightGeneralInfo/FlightGeneralInfo.module.scss";
 import FlightsListDetailedData from "../FlightsListDetailedData/FlightsListDetailedData";
-import React, { useContext } from "react";
+import React, { useContext, type JSX } from "react";
 
 import { FlightFetchContext } from "../../context/flight-context";
 

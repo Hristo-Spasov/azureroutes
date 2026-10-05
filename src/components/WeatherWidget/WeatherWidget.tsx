@@ -3,18 +3,9 @@ import Temp from "../../assets/weather_icons/temp.svg?react";
 import Humidity from "../../assets/weather_icons/humidity.svg?react";
 import Wind from "../../assets/weather_icons/wind.svg?react";
 import useWeather from "../../hooks/useWeather";
-import { useEffect } from "react";
 
 const WeatherWidget = () => {
   const { weather } = useWeather();
-
-  if (import.meta.env.VITE_STATUS === "development") {
-    useEffect(() => {
-      if (weather) {
-        console.log("Widget console", weather);
-      }
-    }, [weather]);
-  }
 
   if (!weather) return <></>;
 

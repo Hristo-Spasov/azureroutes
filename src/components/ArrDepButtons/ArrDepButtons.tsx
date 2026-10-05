@@ -20,8 +20,7 @@ const ArrDepButtons = ({
     departureActive,
     departureData,
     arrivalData,
-    arrivalDataLoading,
-    departureDataLoading,
+    boardsLoading,
   } = useContext(FetchContext);
 
   const handleArrivalClick = () => {
@@ -39,7 +38,7 @@ const ArrDepButtons = ({
   };
 
   const disableDiv: React.CSSProperties = {
-    pointerEvents: arrivalDataLoading || departureDataLoading ? "none" : "auto",
+    pointerEvents: boardsLoading ? "none" : "auto",
   };
 
   return (

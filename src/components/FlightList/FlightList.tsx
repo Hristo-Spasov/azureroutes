@@ -25,8 +25,7 @@ const FlightList = ({
     departureData,
     arrivalActive,
     departureActive,
-    arrivalDataLoading,
-    departureDataLoading,
+    boardsLoading,
   } = useContext(FetchContext);
   const { date } = useContext(ClockContext);
   const { flightData, flightDataLoading } = useContext(FlightFetchContext);
@@ -57,7 +56,7 @@ const FlightList = ({
 
   return (
     <>
-      {arrivalDataLoading || departureDataLoading || flightDataLoading ? (
+      {boardsLoading || flightDataLoading ? (
         <Spinner />
       ) : (
         <>

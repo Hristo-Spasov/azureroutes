@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import style from "./News.module.scss";
 import { useEffect, useRef, useState } from "react";
 // import NewsModal from "./NewsModal";
@@ -17,19 +17,26 @@ const News = () => {
     queryKey: ["news"],
     queryFn: () => fetchNews(),
     enabled: false,
-    cacheTime: 0,
+    gcTime: 0,
     staleTime: 0,
-    onSuccess: (data) => setNews(data),
   });
 
+  // v5 removed onSuccess - sync query results into component state via effect.
+  useEffect(() => {
+    if (cachedNews) {
+      setNews(cachedNews);
+    }
+  }, [cachedNews]);
+
   //! Intersection Observer provide the ref to the upmost div
-  const options = {
-    root: null,
-    rootMargin: "0px",
-    threshold: 0.5,
-  };
+  // (its options are created inside the effect below)
 
   useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.5,
+    };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -37,10 +44,12 @@ const News = () => {
         }
       });
     }, options);
-    if (observeRef.current) observer.observe(observeRef.current);
+    // Capture the node at effect time - the ref may point elsewhere by cleanup.
+    const observed = observeRef.current;
+    if (observed) observer.observe(observed);
 
     return () => {
-      if (observeRef.current) observer.unobserve(observeRef.current);
+      if (observed) observer.unobserve(observed);
     };
   }, [observeRef, refetch]);
 

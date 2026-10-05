@@ -3,6 +3,7 @@ import name from "../../assets/azure routes.png";
 import { Link, NavLink } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
 import useResize from "../../hooks/useResize";
+import type { JSX } from "react";
 
 const Header = (): JSX.Element => {
   const isMobile = useResize(768);

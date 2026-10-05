@@ -1,11 +1,8 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
 interface FetchDataProps {
   url: string;
-  options?: {
-    method?: string;
-    headers?: any;
-  };
+  options?: AxiosRequestConfig;
 }
 
 const fetchData = async <T>({

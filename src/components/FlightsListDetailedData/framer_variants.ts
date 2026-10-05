@@ -1,4 +1,6 @@
-export const variants = {
+import type { Variants } from "framer-motion";
+
+export const variants: Variants = {
   parent_container: {
     scale: 1,
   },
@@ -85,7 +87,7 @@ export const variants = {
   },
 };
 
-export const mobileVariants = {
+export const mobileVariants: Variants = {
   initial: {
     backgroundColor: "rgb(255,255,255)",
     borderRadius: "20px 20px 20px 20px",

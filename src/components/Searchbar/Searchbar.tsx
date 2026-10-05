@@ -19,7 +19,7 @@ interface SearchbarProps {
 }
 
 const Searchbar = (props: SearchbarProps) => {
-  const { arrivalDataLoading, departureDataLoading } = useContext(FetchContext);
+  const { boardsLoading } = useContext(FetchContext);
   const { search } = useContext(FlightFetchContext);
   const isMobile = useResize(600);
   const {
@@ -53,7 +53,7 @@ const Searchbar = (props: SearchbarProps) => {
               : flightKeyHandler
           }
           value={search}
-          disabled={arrivalDataLoading || departureDataLoading}
+          disabled={boardsLoading}
         />
       </div>
       {!isMobile && (

@@ -19,7 +19,7 @@ import supabase from "../utils/supabase";
 import { useDebouncedCallback } from "use-debounce";
 import { AutoSuggestionsType } from "../types/autosuggestion_types";
 import SuggestionsDropdown from "../components/SuggestionsDropdown/SuggestionsDropdown";
-import { Helmet } from "react-helmet-async";
+
 
 function Home() {
   const airportChecked = "search_airport";
@@ -29,24 +29,17 @@ function Home() {
     setDepartureActive,
     departureData,
     arrivalData,
-    arrivalDataLoading,
-    departureDataLoading,
-    arrFetch,
-    depFetch,
-    setArrivalData,
-    setDepartureData,
-    cachedArrData,
-    cachedDepData,
+    boardsLoading,
+    searchAirport,
+    searchAirportFormatted,
     setSuggestion,
     suggestion,
   } = useContext(FetchContext);
 
   const {
     flightData,
-    setFlightData,
     flightDataLoading,
-    cachedData,
-    flightFetch,
+    searchFlight,
     search,
     setSearch,
     searchFlightFormatted,
@@ -171,13 +164,10 @@ function Home() {
       setArrivalActive(false);
       setDepartureActive(false);
 
-      // Use cached data if available
-      if (!cachedArrData && !cachedDepData) {
-        await Promise.all([arrFetch(), depFetch()]);
-      } else {
-        setArrivalData(cachedArrData);
-        setDepartureData(cachedDepData);
-      }
+      // Explicit orchestration: fetchQuery resolves the airport code at call
+      // time (no race with the just-clicked suggestion) and refetches stale
+      // cached data automatically.
+      await searchAirport(searchAirportFormatted);
 
       // Reset search and set arrival active
       if (search.trim() !== "") {
@@ -213,11 +203,7 @@ function Home() {
         );
         return;
       }
-      if (!cachedData) {
-        await flightFetch();
-      } else {
-        setFlightData(cachedData);
-      }
+      await searchFlight(searchFlightFormatted);
 
       if (search.trim() !== "") {
         setSearch("");
@@ -278,22 +264,19 @@ function Home() {
     searchOption === airportChecked &&
     !arrivalData &&
     !departureData &&
-    !arrivalDataLoading &&
-    !departureDataLoading;
+    !boardsLoading;
 
   const shouldRenderIntroductionForFlight =
     searchOption === flightChecked && !flightData && !flightDataLoading;
 
   return (
     <>
-      <Helmet>
-        <title>Azure Routes - Daily airport and flight schedules</title>
-        <link rel="canonical" href="https://www.azureroutes.com/" />
-        <meta
-          name="description"
-          content="Daily flight and airport schedules.Ease your traveling adventures with Azure Routes with daily airport schedules."
-        />
-      </Helmet>
+      <title>Azure Routes - Daily airport and flight schedules</title>
+      <link rel="canonical" href="https://www.azureroutes.com/" />
+      <meta
+        name="description"
+        content="Daily flight and airport schedules.Ease your traveling adventures with Azure Routes with daily airport schedules."
+      />
       {/* Alerts */}
       <div>
         <Toaster position="top-right" reverseOrder={false} />

@@ -27,7 +27,7 @@ const useResize = (number: number) => {
     handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [number]);
 
   return inView;
 };

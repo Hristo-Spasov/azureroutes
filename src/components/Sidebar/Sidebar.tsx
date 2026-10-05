@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import style from "./Sidebar.module.scss";
 import { Squash as Hamburger } from "hamburger-react";
 import { useEffect, useRef, useState } from "react";
@@ -53,13 +53,14 @@ const Sidebar = () => {
     };
   }, [isOpen]);
 
-  const variants = {
+  // ease arrays are cubic-bezier tuples - typed as such for framer-motion v12.
+  const variants: Variants = {
     open: {
       opacity: 1,
       x: 0,
       transition: {
         duration: 0.5,
-        ease: [0.25, 0.46, 0.45, 0.94],
+        ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
       },
     },
     closed: {
@@ -67,7 +68,7 @@ const Sidebar = () => {
       x: "100%",
       transition: {
         duration: 0.5,
-        ease: [0.55, 0.085, 0.68, 0.53],
+        ease: [0.55, 0.085, 0.68, 0.53] as [number, number, number, number],
       },
     },
   };

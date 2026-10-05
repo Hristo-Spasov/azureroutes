@@ -1,21 +1,23 @@
 import { useEffect } from "react";
 
-export const useScriptLoader = (
+export const useScriptLoader = <T extends HTMLElement>(
   url: string,
-  ref: React.RefObject<HTMLElement>
+  ref: React.RefObject<T | null>
 ) => {
   useEffect(() => {
     const script = document.createElement("script");
     script.src = url;
     script.async = true;
 
-    if (ref.current) {
-      ref.current.appendChild(script);
+    const container = ref.current;
+
+    if (container) {
+      container.appendChild(script);
     }
 
     return () => {
-      if (ref.current) {
-        ref.current.removeChild(script);
+      if (container) {
+        container.removeChild(script);
       }
     };
   }, [url, ref]);

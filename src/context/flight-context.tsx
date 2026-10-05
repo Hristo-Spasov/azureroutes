@@ -1,6 +1,6 @@
 import { useState, createContext, ReactNode, useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { FlightDataType } from "../types/flight_types";
-import { useQuery } from "react-query";
 import { fetchFlightData } from "../utils/fetchHelpers";
 
 interface ApiResponse<T> {
@@ -9,12 +9,13 @@ interface ApiResponse<T> {
 
 interface FlightFetchContextType<T> {
   flightData: ApiResponse<T> | undefined;
-  cachedData: ApiResponse<T> | undefined;
   setFlightData: React.Dispatch<
     React.SetStateAction<ApiResponse<T> | undefined>
   >;
   flightDataLoading: boolean;
-  flightFetch: () => void;
+  // Explicit search action: fetches the flight for the given number.
+  // Resolves the key at call time - no stale-closure races.
+  searchFlight: (flightNumber: string) => Promise<void>;
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
   searchFlightFormatted: string;
@@ -24,8 +25,7 @@ export const FlightFetchContext = createContext<
   FlightFetchContextType<FlightDataType>
 >({
   flightData: undefined,
-  cachedData: undefined,
-  flightFetch: () => {},
+  searchFlight: async () => {},
   flightDataLoading: false,
   setFlightData: () => {},
   search: "",
@@ -40,34 +40,38 @@ interface FlightFetchProviderProps {
 export const FlightProvider = ({ children }: FlightFetchProviderProps) => {
   const [search, setSearch] = useState<string>("");
   const [flightData, setFlightData] = useState<ApiResponse<FlightDataType>>();
-
-  //!To remove in the future
-  if (import.meta.env.VITE_STATUS === "development") {
-    useEffect(() => {
-      console.log("flightData:", flightData);
-      console.log("searchFlightFormatted:", searchFlightFormatted);
-    }, [flightData, search]);
-  }
+  const [flightDataLoading, setFlightDataLoading] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   const searchFlightFormatted = search.trim().replace(/[^\w ]/g, ""); //Removing special symbols if any in the search params.
 
-  ///  React Query
+  //!To remove in the future
+  const isDev = import.meta.env.VITE_STATUS === "development";
+  useEffect(() => {
+    if (isDev) {
+      console.log("flightData:", flightData);
+      console.log("searchFlightFormatted:", searchFlightFormatted);
+    }
+  }, [flightData, searchFlightFormatted, isDev]);
 
-  const {
-    data: cachedData,
-    refetch: flightFetch,
-    isLoading: flightDataLoading,
-  } = useQuery({
-    queryKey: ["flightData", searchFlightFormatted],
-    queryFn: () => fetchFlightData(searchFlightFormatted),
-    enabled: false,
-    onSuccess: (data) => setFlightData(data),
-  });
+  ///  React Query - explicit orchestration
+  const searchFlight = async (flightNumber: string) => {
+    if (!flightNumber) return;
+    setFlightDataLoading(true);
+    try {
+      const result = await queryClient.fetchQuery({
+        queryKey: ["flightData", flightNumber],
+        queryFn: () => fetchFlightData(flightNumber),
+      });
+      if (result) setFlightData(result);
+    } finally {
+      setFlightDataLoading(false);
+    }
+  };
 
   const value = {
     flightData,
-    cachedData,
-    flightFetch,
+    searchFlight,
     setFlightData,
     flightDataLoading,
     search,

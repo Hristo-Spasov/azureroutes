@@ -1,6 +1,6 @@
 import style from "./FlightGeneralInfo.module.scss";
 import FlightsListDetailedData from "../FlightsListDetailedData/FlightsListDetailedData";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, type JSX } from "react";
 import { FetchContext } from "../../context/fetch-context";
 import ReactPaginate from "react-paginate";
 import { FlightDataType } from "../../types/flight_types";
